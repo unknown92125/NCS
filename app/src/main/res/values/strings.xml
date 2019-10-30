@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">NCS</string>
+
+    <string name="kakao_app_key">9605646964010fce1ec857cacb46d08b</string>
+    <string name="kakao_rest_key">0f1893776abf2a59938fbb2df9c478c2</string>
+
+    //////////////////////////////////////////
+    <string name="map_title">주소</string>
+    <string name="address_title">주소</string>
+    <string name="calendar_title">날짜</string>
+    <string name="space_title">평수</string>
+
+    <string name="enter">확인</string>
+
+    <string name="reservation">청소 예약하기</string>
+
+    <string name="address_search">주소를 검색하세요</string>
+    <string name="address_detail">상세주소를 입력하세요</string>
+
+    ////////////////////////////////////////
+    <string name="home_1_1">이사 청소</string>
+    <string name="home_1_2">평당 10,600원 부터</string>
+    <string name="home_2_1">입주 청소</string>
+    <string name="home_2_2">평당 10,600원 부터</string>
+    <string name="home_3_1">계단 청소</string>
+    <string name="home_3_2">무료 견적</string>
+    <string name="home_4_1">사무실 청소</string>
+    <string name="home_4_2">무료 견적</string>
+
+    //////////housecleaning//////////
+    <string name="service_guide">서비스 안내</string>
+
+    <string name="home_first_title">진행안내(텍스트뷰>이미지로 변경예정)</string>
+    <string name="home_first_text">방/거실\n
+        탈거 가능한 전등 커버 탈거 후 내부세척\n
+        소방감지기, 환풍구, 동체감지기 오염 제거\n
+        몰딩 도배 풀 및 오염 제거\n
+        천장을 포함한 모든 벽지 먼지 제거\n
+        탈거 가능한 서랍 및 선반 탈거 후 오염 제거\n
+        스위치, 콘센트, 무선인터폰 등 오염 제거\n
+        마루/타일/장판 각 전용세제로 세척\n\n
+
+        주방\n
+        후드 및 가스레인지 기름기 및 오염 제거\n
+        탈거 가능한 서랍 및 선반 탈거 후 오염 제거\n
+        장 하부 먼지 및 이물질 제거\n
+        싱크대 배수구 오염 제거 후 소독\n\n
+
+        화장실\n
+        환풍구 제거 후 커버 및 내부 청소\n
+        천장 및 벽 전체 전용세제로 세척\n
+        탈거 가능한 서랍 및 선반 탈거 후 오염 제거\n
+        욕조, 샤워기, 세면대, 변기 오염 제거\n
+        배수구 내부 분해세척 및 소독\n\n
+
+        베란다/다용도실\n
+        천장 및 벽 전체 먼지, 거미줄 제거\n
+        전용세제로 바닥 세척\n
+        배수구 내부 분해세척 및 소독\n\n
+
+        창문/창틀\n
+        내부 유리 전면 전용 세제 세척\n
+        창틀 전면 먼지 및 오염 제거\n
+</string>
+
+    <string name="home_first_title2">추가 작업(텍스트뷰>이미지로 변경예정)</string>
+    <string name="home_first_text2">화장실 및 벽지 곰팡이 제거 작업\n
+        유리/타일 벽면 스티커 제거 작업\n
+        외부 유리 전용 세체 세척 작업\n
+        악취 및 누진 제거 작업\n
+        소독 및 방역 시공\n\n
+        (※추가 작업은 추가비용이 발생하며 출장가신 팀장이 직접 안내해 드립니다.)\n</string>
+
+    ////////////reservation////////////////
+    <string name="reservation_hint_calender">날짜를 선택해 주세요.</string>
+    <string name="reservation_hint_location">주소를 입력해 주세요.</string>
+    <string name="reservation_hint_cleaner">클리너를 선택해 주세요.</string>
+    <string name="title_activity_map">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

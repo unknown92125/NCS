@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="@string/map_title"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_title"
+        android:layout_alignBottom="@id/tv_title"
+        android:clickable="true"
+        android:onClick="back"
+        android:paddingHorizontal="16dp"
+        android:src="@drawable/arrow_left" />
+
+    <LinearLayout
+        android:id="@+id/layout_address_search"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/tv_title"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:padding="8dp"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/et_address_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:background="@color/transparent"
+            android:hint="@string/address_search"
+            android:imeOptions="actionSearch"
+            android:maxLength="20"
+            android:inputType="text"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_fragments_map"
+        android:layout_width="match_parent"
+        android:layout_below="@id/layout_address_search"
+        android:layout_height="match_parent" />
+
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:id="@+id/map_view"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_next"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="56dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:background="@color/gray5"-->
+<!--        android:clickable="true"-->
+<!--        android:foreground="?android:attr/selectableItemBackground"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="8dp"-->
+<!--        android:text="@string/enter"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textStyle="bold" />-->
+
+
+</RelativeLayout>

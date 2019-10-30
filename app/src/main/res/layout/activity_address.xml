@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white2"
+    android:orientation="vertical"
+    tools:context=".AddressActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="@string/map_title"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_title"
+        android:layout_alignBottom="@id/tv_title"
+        android:clickable="true"
+        android:onClick="back"
+        android:paddingHorizontal="16dp"
+        android:src="@drawable/arrow_left" />
+
+    <RelativeLayout
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_below="@id/tv_title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_below="@id/tv_title">
+
+        <ImageView
+            android:id="@+id/iv_location"
+            android:layout_width="40dp"
+            android:layout_height="68dp"
+            android:layout_centerInParent="true"
+            android:paddingBottom="28dp"
+            android:src="@drawable/ic_location" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_address1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/map_view"
+        android:padding="16dp"
+        android:text="주소1"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/et_address2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_address1"
+        android:hint="상세 주소를 입력하세요"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:maxLength="20"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray5"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:onClick="next"
+        android:padding="8dp"
+        android:text="@string/enter"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</RelativeLayout>
