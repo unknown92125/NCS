@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment {
     Double x;
     Double y;
 
-    public SearchFragment() {
+    public SearchFragment() {//////////////////////////
     }
 
     @Nullable
