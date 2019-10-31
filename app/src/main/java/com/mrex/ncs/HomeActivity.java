@@ -1,26 +1,21 @@
 package com.mrex.ncs;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
+import android.Manifest;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import net.daum.mf.map.api.MapView;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import static com.kakao.util.maps.helper.Utility.getPackageInfo;
-
 public class HomeActivity extends AppCompatActivity {
+
+    static Boolean isLocationPermissionGranted;
+    final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 10;
 
 
     @Override
@@ -33,12 +28,38 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.layout_fragments, new HomeFragment());
         fragmentTransaction.commit();
 
-
+        getLocationPermission();
 
 
     }
 
+    private void getLocationPermission() {
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                isLocationPermissionGranted = true;
+
+            } else {
+                isLocationPermissionGranted = false;
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    isLocationPermissionGranted = true;
+                    Toast.makeText(this, "위치정보제공에 동의하셨습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
 
 
     @Override

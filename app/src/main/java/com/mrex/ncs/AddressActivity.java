@@ -96,6 +96,7 @@ public class AddressActivity extends AppCompatActivity {
         map = new MapView(this);
         mapViewContainer.addView(map);
         map.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(lat, lng)));
+        Log.e("TAG", lat + "   "+lng);
         map.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

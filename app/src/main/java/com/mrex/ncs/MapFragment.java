@@ -24,14 +24,16 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
+import static com.mrex.ncs.HomeActivity.isLocationPermissionGranted;
+
 public class MapFragment extends Fragment implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
-    final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 10;
-    final int DEFAULT_ZOOM = 15;
-//    final LatLng DEFAULT_LOCATION = new LatLng(37.56647, 126.977963);
+    private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 10;
+    private final double SEOUL_LAT = 37.566357;
+    private final double SEOUL_LNG = 126.977951;
 
     private MapView map;
-    private Boolean isLocationPermissionGranted;
+    //    private Boolean isLocationPermissionGranted;
     private MapPoint.GeoCoordinate currentLocation;
     private MapReverseGeoCoder mapReverseGeoCoder;
     private TextView tvAddress1;
@@ -40,9 +42,9 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
     private String selectedPlaceName = "";
     private String selectedAddress;
-    private Double selectedLng;
-    private Double selectedLat;
 
+    private Double selectedLat = SEOUL_LAT;
+    private Double selectedLng = SEOUL_LNG;
 
     public MapFragment() {
     }
@@ -80,15 +82,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
             }
         });
 
-//        bundle = getArguments();
-//        if (bundle != null) {
-//            selectedPlaceName = bundle.getString("placeName", "");
-//            selectedAddress = bundle.getString("address", "");
-//            selectedX = bundle.getDouble("x");
-//            selectedY = bundle.getDouble("y");
-////            selectedMapPoint = MapPoint.mapPointWithGeoCoord(bundle.getDouble("x"), bundle.getDouble("y"));
-//            Log.e("TAG", selectedPlaceName + selectedAddress + selectedX + "   " + selectedY);
-//        }
+        getLocationPermission();
 
         return view;
     }
@@ -96,18 +90,26 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("TAG","MF onResume");
+        Log.e("TAG", "MF onResume");
         map = new MapView(getActivity());
         mapViewContainer.addView(map);
 
         map.setMapViewEventListener(mapEventListener);
         map.setCurrentLocationEventListener(this);
+        map.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(selectedLat, selectedLng)));
+        if (isLocationPermissionGranted) {
+            map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+            map.setShowCurrentLocationMarker(false);
+        }
     }
 
     @Override
     public void onPause() {
-        Log.e("TAG","MF onPause");
+        Log.e("TAG", "MF onPause");
         super.onPause();
+        if (isLocationPermissionGranted) {
+            map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+        }
         mapViewContainer.removeView(map);
         map = null;
     }
@@ -115,7 +117,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     private void getLocationPermission() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 isLocationPermissionGranted = true;
 
             } else {
@@ -140,19 +142,23 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         }
     }
 
-    public void myLocation() {
+    private void myLocation() {
         getLocationPermission();
-        if (isLocationPermissionGranted) {
+        if (isLocationPermissionGranted && currentLocation != null) {
             map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+            map.animateCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(currentLocation.latitude, currentLocation.longitude)));
         }
     }
 
-    MapEventListener mapEventListener = new MapEventListener() {
+    public void checkDistance() {
+
+    }
+
+    private MapEventListener mapEventListener = new MapEventListener() {
         @Override
         public void onMapViewInitialized(MapView mapView) {
             super.onMapViewInitialized(mapView);
             Log.e("TAG                    ", "onMapViewInitialized");
-
             mapReverseGeoCoder = new MapReverseGeoCoder(getString(R.string.kakao_app_key), mapView.getMapCenterPoint(), MapFragment.this, getActivity());
             mapReverseGeoCoder.startFindingAddress();
 
@@ -185,7 +191,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
 
         currentLocation = mapPoint.getMapPointGeoCoord();
-        map.animateCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(currentLocation.latitude, currentLocation.longitude)));
+        Log.e("TAG", currentLocation.latitude + "   " + currentLocation.longitude);
         map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
         map.setShowCurrentLocationMarker(false);
     }
