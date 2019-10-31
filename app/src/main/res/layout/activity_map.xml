@@ -32,6 +32,7 @@
         android:layout_height="48dp"
         android:layout_below="@id/tv_title"
         android:orientation="horizontal"
+        android:background="@color/white"
         android:weightSum="10">
 
         <ImageView

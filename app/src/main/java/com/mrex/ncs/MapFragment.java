@@ -34,7 +34,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
     private MapView map;
     //    private Boolean isLocationPermissionGranted;
-    private MapPoint.GeoCoordinate currentLocation;
+    static MapPoint.GeoCoordinate currentLocation;
     private MapReverseGeoCoder mapReverseGeoCoder;
     private TextView tvAddress1;
     private TextView tvNext;
@@ -58,6 +58,8 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         mapViewContainer = view.findViewById(R.id.map_view);
+
+        currentLocation=new MapPoint.GeoCoordinate(SEOUL_LAT,SEOUL_LNG);
 
         tvNext = view.findViewById(R.id.tv_next);
         tvNext.setOnClickListener(new View.OnClickListener() {

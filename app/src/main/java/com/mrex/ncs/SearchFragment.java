@@ -3,6 +3,7 @@ package com.mrex.ncs;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -37,8 +38,11 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.mrex.ncs.MapFragment.currentLocation;
 
 public class SearchFragment extends Fragment {
 
@@ -69,10 +73,10 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        FragmentManager fragmentManager=getFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
 
         recyclerView = view.findViewById(R.id.rv_search);
-        searchRecyclerAdapter = new SearchRecyclerAdapter(arrListData, getActivity(),fragmentManager);
+        searchRecyclerAdapter = new SearchRecyclerAdapter(arrListData, getActivity(), fragmentManager);
         recyclerView.setAdapter(searchRecyclerAdapter);
 
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -181,12 +185,12 @@ public class SearchFragment extends Fragment {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = jsonArray.getJSONObject(i);
-                addressName = jsonObject.getString("address_name")+" ";
+                addressName = jsonObject.getString("address_name") + " ";
                 placeName = "";
-                x=jsonObject.getDouble("x");
-                y=jsonObject.getDouble("y");
+                x = jsonObject.getDouble("x");
+                y = jsonObject.getDouble("y");
 
-                arrListData.add(new AddressData(addressName, placeName,y,x));
+                arrListData.add(new AddressData(addressName, placeName, y, x));
             }
 
             searchKeyword();
@@ -204,12 +208,12 @@ public class SearchFragment extends Fragment {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = jsonArray.getJSONObject(i);
-                addressName = jsonObject.getString("address_name")+" ";
+                addressName = jsonObject.getString("address_name") + " ";
                 placeName = jsonObject.getString("place_name");
-                x=jsonObject.getDouble("x");
-                y=jsonObject.getDouble("y");
+                x = jsonObject.getDouble("x");
+                y = jsonObject.getDouble("y");
 
-                arrListData.add(new AddressData(addressName, placeName,y,x));
+                arrListData.add(new AddressData(addressName, placeName, y, x));
 
             }
 
@@ -217,19 +221,46 @@ public class SearchFragment extends Fragment {
             e.printStackTrace();
         }
 
+        sortData();
         searchRecyclerAdapter.notifyDataSetChanged();
 
         if (arrListData.size() == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage("검색 결과가 없습니다");
-                        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        });
+                }
+            });
             AlertDialog dialog = builder.create();
             dialog.show();
+        }
+
+    }
+
+    public void sortData() {
+        Location locationA = new Location("A");
+        Location locationB = new Location("B");
+        AddressData addressData;
+
+        locationA.setLatitude(currentLocation.latitude);
+        locationA.setLongitude(currentLocation.longitude);
+        for (int i = 0; i < arrListData.size(); i++) {
+            addressData = arrListData.get(i);
+            locationB.setLatitude(addressData.getLat());
+            locationB.setLongitude(addressData.getLng());
+            double distance = locationA.distanceTo(locationB);
+            addressData.setDistance(distance);
+            Log.e("TAG", addressData.getDistance() + "");
+        }
+
+
+        Collections.sort(arrListData);
+
+        for (int i = 0; i < arrListData.size(); i++) {
+            addressData = arrListData.get(i);
+            Log.e("TAG 2", addressData.getDistance() + "");
         }
 
     }
