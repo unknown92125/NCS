@@ -30,11 +30,12 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0-beta05'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
-    implementation 'com.applandeo:material-calendar-view:1.4.0'
+//    implementation 'com.applandeo:material-calendar-view:1.7.0'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.balysv:material-ripple:1.0.2'
     implementation files('libs/libDaumMapAndroid.jar')
     implementation 'dev.dworks.libs:volleyplus:+'
+    implementation 'com.github.ceryle:SegmentedButton:v2.0.2'
 
 
 }

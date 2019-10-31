@@ -61,34 +61,6 @@ public class AddressActivity extends AppCompatActivity {
 
     }
 
-//    inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//
-//    etSearch = getActivity().findViewById(R.id.et_address_search);
-//        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//
-//        @Override
-//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//
-//                inputMethodManager.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
-//                address = etSearch.getText().toString();
-//                try {
-//                    address = URLEncoder.encode(address, "utf-8");
-//
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-//                arrListData.clear();
-//                searchAddress();
-//                searchRecyclerAdapter.notifyDataSetChanged();
-//                etSearch.clearFocus();
-//
-//                return true;
-//            }
-//            return false;
-//        }
-//    });
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -96,7 +68,7 @@ public class AddressActivity extends AppCompatActivity {
         map = new MapView(this);
         mapViewContainer.addView(map);
         map.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(lat, lng)));
-        Log.e("TAG", lat + "   "+lng);
+        Log.e("TAG", lat + "   " + lng);
         map.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -119,6 +91,6 @@ public class AddressActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-
+        startActivity(new Intent(this, CalendarActivity.class));
     }
 }

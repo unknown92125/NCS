@@ -7,7 +7,7 @@
     //////////////////////////////////////////
     <string name="map_title">주소</string>
     <string name="address_title">주소</string>
-    <string name="calendar_title">날짜</string>
+    <string name="calendar_title">일정</string>
     <string name="space_title">평수</string>
 
     <string name="enter">확인</string>
