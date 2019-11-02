@@ -5,9 +5,14 @@
     <string name="kakao_rest_key">0f1893776abf2a59938fbb2df9c478c2</string>
 
     //////////////////////////////////////////
+    <string name="default_address">서울 중구 태평로1가 31 서울특별시청</string>
+    <string name="default_date">2019년 11월 22일</string>
+    <string name="default_time">오후 2시 30분</string>
+
     <string name="map_title">주소</string>
     <string name="address_title">주소</string>
     <string name="calendar_title">일정</string>
+    <string name="check_title">예약</string>
     <string name="space_title">평수</string>
 
     <string name="enter">확인</string>

@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBarTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CheckActivity"></activity>
+        <activity android:name=".CalendarActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

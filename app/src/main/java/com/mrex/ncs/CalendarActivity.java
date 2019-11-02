@@ -1,30 +1,18 @@
 package com.mrex.ncs;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CalendarView;
 
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.DayViewDecorator;
-import com.prolificinteractive.materialcalendarview.DayViewFacade;
-import com.prolificinteractive.materialcalendarview.spans.DotSpan;
-
-import java.util.Collection;
-import java.util.HashSet;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CalendarActivity extends AppCompatActivity {
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-
-
-
 
 
     }
@@ -55,5 +43,6 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
+        startActivity(new Intent(this, CheckActivity.class));
     }
 }
