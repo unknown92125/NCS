@@ -25,26 +25,17 @@
         android:paddingHorizontal="16dp"
         android:src="@drawable/arrow_left" />
 
-    <!--    <CalendarView-->
-    <!--        android:id="@+id/cv"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="320dp"-->
-    <!--        android:layout_below="@id/tv_title" />-->
+<!--    <com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
+<!--        android:id="@+id/calendar_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="360dp"-->
+<!--        android:layout_below="@id/tv_title" />-->
 
-    <!--    <com.applikeysolutions.cosmocalendar.view.CalendarView-->
-    <!--        android:id="@+id/cv"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="360dp"-->
-    <!--        android:layout_below="@id/tv_title"-->
-    <!--        app:currentDayTextColor="@color/blue"-->
-    <!--        app:selectedDayBackgroundColor="@color/gray5"-->
-    <!--        app:weekendDayTextColor="@color/red" />-->
-
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+    <CalendarView
         android:id="@+id/calendar_view"
+        android:layout_below="@id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
-        android:layout_below="@id/tv_title" />
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/tv_time"
@@ -57,98 +48,14 @@
         android:textColor="@color/black"
         android:textStyle="bold" />
 
-    <!--    <co.ceryle.segmentedbutton.SegmentedButtonGroup-->
-    <!--        android:id="@+id/sbg"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@id/tv_time"-->
-    <!--        android:layout_centerHorizontal="true"-->
-    <!--        android:layout_margin="24dp"-->
-    <!--        android:weightSum="3"-->
-    <!--        app:sbg_animateSelector="accelerate"-->
-    <!--        app:sbg_borderColor="@color/gray5"-->
-    <!--        app:sbg_borderSize="1dp"-->
-    <!--        app:sbg_dividerColor="@color/gray5"-->
-    <!--        app:sbg_dividerPadding="16dp"-->
-    <!--        app:sbg_dividerSize="1dp"-->
-    <!--        app:sbg_radius="4dp"-->
-    <!--        app:sbg_rippleColor="@color/gray4"-->
-    <!--        app:sbg_selectorColor="@color/gray4">-->
 
-    <!--        <co.ceryle.segmentedbutton.SegmentedButton-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:padding="8dp"-->
-    <!--            app:sb_text="오전"-->
-    <!--            app:sb_textColor="@color/gray4"-->
-    <!--            app:sb_textColor_onSelection="@color/white" />-->
 
-    <!--        <co.ceryle.segmentedbutton.SegmentedButton-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:padding="8dp"-->
-    <!--            app:sb_text="오후"-->
-    <!--            app:sb_textColor="@color/gray4"-->
-    <!--            app:sb_textColor_onSelection="@color/white" />-->
-
-    <!--        <co.ceryle.segmentedbutton.SegmentedButton-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:padding="8dp"-->
-    <!--            app:sb_text="야간"-->
-    <!--            app:sb_textColor="@color/gray4"-->
-    <!--            app:sb_textColor_onSelection="@color/white" />-->
-
-    <!--    </co.ceryle.segmentedbutton.SegmentedButtonGroup>-->
-
-    <androidx.appcompat.widget.AppCompatRadioButton
-        android:id="@+id/rb1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TimePicker
         android:layout_below="@id/tv_time"
-        android:enabled="true" />
-
-    <TextView
-        android:id="@+id/tv_floor"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/rb1"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="평수"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_floor"
-        android:layout_marginHorizontal="140dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:imeOptions="actionDone"
-            android:inputType="number"
-            android:maxLength="4"
-            android:textSize="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="평"
-            android:textColor="@color/gray4" />
-
-    </LinearLayout>
+        android:timePickerMode="spinner"
+        android:layout_above="@id/tv_next"/>
 
 
     <TextView
