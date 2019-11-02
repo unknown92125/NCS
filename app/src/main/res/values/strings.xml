@@ -8,6 +8,7 @@
     <string name="default_address">서울 중구 태평로1가 31 서울특별시청</string>
     <string name="default_date">2019년 11월 22일</string>
     <string name="default_time">오후 2시 30분</string>
+    <string name="default_area">24평</string>
 
     <string name="map_title">주소</string>
     <string name="address_title">주소</string>
