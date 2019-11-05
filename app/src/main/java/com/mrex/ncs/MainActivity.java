@@ -1,23 +1,12 @@
 package com.mrex.ncs;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import static com.kakao.util.maps.helper.Utility.getPackageInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
         }
     };
