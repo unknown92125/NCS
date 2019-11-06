@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBarTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".CheckActivity" />
         <activity android:name=".CalendarActivity" />
 

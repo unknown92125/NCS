@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".SignUpActivity">
 
-    <ImageView
-        android:id="@+id/iv"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/start" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_sign_up"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="24dp"
+        android:textSize="24dp"
+        android:text="@string/sign_up"/>
 
     <EditText
         android:id="@+id/et_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv"
+        android:layout_below="@id/tv_sign_up"
         android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
@@ -34,45 +37,28 @@
         android:hint="@string/password"
         android:imeOptions="actionDone" />
 
-    <Button
-        android:id="@+id/bt_login"
+    <EditText
+        android:id="@+id/et_pw2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_pw"
         android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
-        android:background="@color/gray4"
-        android:textColor="@color/white"
-        android:text="@string/login"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bt_login"
-        android:text="@string/find_password"
-        android:layout_marginTop="24dp"
-        android:layout_centerHorizontal="true"/>
+        android:hint="@string/password"
+        android:imeOptions="actionDone" />
 
     <Button
-        android:id="@+id/bt_sign_up"
+        android:id="@+id/bt_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/et_pw2"
         android:layout_marginStart="40dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
         android:background="@color/gray4"
         android:textColor="@color/white"
-        android:layout_marginEnd="40dp"
-        android:text="@string/sign_up"
+        android:text="@string/enter"
         />
-
-
-    <!--    <com.kakao.usermgmt.LoginButton-->
-    <!--        android:id="@+id/bt_kakao_login"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_centerInParent="true" />-->
 
 </RelativeLayout>

@@ -25,6 +25,12 @@
     <string name="address_search">주소를 검색하세요</string>
     <string name="address_detail">상세주소를 입력하세요</string>
 
+    <string name="email_or_phone">이메일 또는 휴대폰번호</string>
+    <string name="password">비밀번호</string>
+    <string name="find_password">비밀번호 찾기</string>
+    <string name="login">로그인</string>
+    <string name="sign_up">회원가입</string>
+
     ////////////////////////////////////////
     <string name="home_1_1">이사 청소</string>
     <string name="home_1_2">평당 10,600원 부터</string>
