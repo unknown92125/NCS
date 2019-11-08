@@ -8,8 +8,10 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -28,11 +30,11 @@ public class CalendarActivity extends AppCompatActivity {
         timePicker = findViewById(R.id.tp);
 
         calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH,1);
-        minMaxDate=calendar.getTimeInMillis();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        minMaxDate = calendar.getTimeInMillis();
         calendarView.setMinDate(minMaxDate);
-        calendar.add(Calendar.MONTH,1);
-        minMaxDate=calendar.getTimeInMillis();
+        calendar.add(Calendar.MONTH, 1);
+        minMaxDate = calendar.getTimeInMillis();
         calendarView.setMaxDate(minMaxDate);
 
 
@@ -64,10 +66,16 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-        String date;
-        int year, month, day, hour, min;
-
-        calendarView.getDate();
+////        String date;
+//        Date date;
+//        int year, month, day, hour, min;
+//        long dateLong, timeLong;
+//
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 E요일 a hh:mm", Locale.getDefault());
+//
+//        dateLong = calendarView.getDate();
+//
+//        timeLong=(timePicker.getCurrentHour()*1000*60*60)+timePicker.getCurrentMinute()*60*1000;
 
         startActivity(new Intent(this, CheckActivity.class));
     }
