@@ -69,7 +69,7 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context= getActivity();
+        context = getActivity();
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -207,8 +207,8 @@ public class SearchFragment extends Fragment {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = jsonArray.getJSONObject(i);
-                addressName = jsonObject.getString("address_name") + " ";
-                placeName = jsonObject.getString("place_name");
+                addressName = jsonObject.getString("address_name");
+                placeName = " " + jsonObject.getString("place_name");
                 x = jsonObject.getDouble("x");
                 y = jsonObject.getDouble("y");
 

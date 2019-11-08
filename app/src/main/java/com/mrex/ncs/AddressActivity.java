@@ -93,7 +93,8 @@ public class AddressActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-        fullAddress = etAddress2.getText().toString();
+        fullAddress = address1+placeName+" "+etAddress2.getText().toString();
+        Log.e("fullAddress: ",fullAddress);
         startActivity(new Intent(this, CalendarActivity.class));
     }
 }
