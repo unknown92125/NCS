@@ -93,13 +93,12 @@
 
     </ScrollView>
 
-    <TextView
-        android:id="@+id/tv_reservation"
+    <Button
+        android:id="@+id/bt_reservation"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:background="@color/gray5"
-        android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:onClick="reservation"

@@ -19,6 +19,8 @@ import net.daum.mf.map.api.MapView;
 
 public class AddressActivity extends AppCompatActivity {
 
+    static String fullAddress;
+
     private ViewGroup mapViewContainer;
 
     private MapView map;
@@ -26,7 +28,7 @@ public class AddressActivity extends AppCompatActivity {
     private TextView tvAddress1;
     private String address1;
     private EditText etAddress2;
-    private String address2;
+    private String placeName;
     private double lat;
     private double lng;
     private InputMethodManager inputMethodManager;
@@ -41,14 +43,14 @@ public class AddressActivity extends AppCompatActivity {
 
         intent = getIntent();
         address1 = intent.getStringExtra("address");
-        address2 = intent.getStringExtra("place");
+        placeName = intent.getStringExtra("place");
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
 
         tvAddress1 = findViewById(R.id.tv_address1);
         etAddress2 = findViewById(R.id.et_address2);
 
-        tvAddress1.setText(address1 + address2);
+        tvAddress1.setText(address1 + placeName);
 //
 //        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 //        etAddress2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -91,6 +93,7 @@ public class AddressActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
+        fullAddress = etAddress2.getText().toString();
         startActivity(new Intent(this, CalendarActivity.class));
     }
 }

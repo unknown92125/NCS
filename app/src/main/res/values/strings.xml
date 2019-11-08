@@ -10,7 +10,7 @@
     <string name="default_time">오후 2시 30분</string>
     <string name="default_area">24평</string>
 
-    <string name="between6">오후 6시부터 오후 6시까지는 50% 추가비용이 적용됩니다</string>
+    <string name="between6">※오후 6시부터 오전 6시까지는 50% 추가비용이 적용됩니다</string>
 
     <string name="map_title">주소</string>
     <string name="address_title">주소</string>

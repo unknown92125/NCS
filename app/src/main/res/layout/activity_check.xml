@@ -124,51 +124,51 @@
     <LinearLayout
         android:id="@+id/ll_expected_time"
         android:layout_width="match_parent"
-        android:layout_marginTop="2dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_area"
-        android:weightSum="2"
-        android:padding="16dp"
+        android:layout_marginTop="2dp"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:weightSum="2">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="예상 소요시간 : "/>
+            android:text="예상 소요시간 : " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="5시간 30분"/>
+            android:text="5시간 30분" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:background="@color/white"
         android:id="@+id/ll_price"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_expected_time"
-        android:weightSum="2"
+        android:background="@color/white"
+        android:orientation="horizontal"
         android:padding="16dp"
-        android:orientation="horizontal">
+        android:weightSum="2">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="결제 금액 :"/>
+            android:text="결제 금액 :" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="20,000원"/>
+            android:text="20,000원" />
 
     </LinearLayout>
 
@@ -176,38 +176,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_price"
-        android:background="@color/white"
         android:layout_marginTop="2dp"
+        android:background="@color/white"
         android:gravity="center"
-        android:padding="8dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="카카오페이"/>
+            android:text="카카오페이" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="구글페이"/>
+            android:text="구글페이" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="무통장입금"/>
+            android:text="무통장입금" />
 
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/tv_next"
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_next"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="56dp"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:background="@color/gray5"-->
+    <!--        android:clickable="true"-->
+    <!--        android:foreground="?android:attr/selectableItemBackground"-->
+    <!--        android:gravity="center"-->
+    <!--        android:onClick="next"-->
+    <!--        android:padding="8dp"-->
+    <!--        android:text="@string/enter"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textStyle="bold" />-->
+
+    <Button
+        android:id="@+id/bt_next"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:background="@color/gray5"
-        android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:onClick="next"

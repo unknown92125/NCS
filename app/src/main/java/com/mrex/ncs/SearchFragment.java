@@ -55,31 +55,30 @@ public class SearchFragment extends Fragment {
     private String address;
     private EditText etSearch;
 
-    private MapPoint xy;
-
     private InputMethodManager inputMethodManager;
 
-    JSONObject jsonObject;
-    String addressName;
-    String placeName;
-    Double x;
-    Double y;
+    private JSONObject jsonObject;
+    private String addressName;
+    private String placeName;
+    private Double x;
+    private Double y;
 
-    public SearchFragment() {//////////////////////////
+    public SearchFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context= getActivity();
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         FragmentManager fragmentManager = getFragmentManager();
 
         recyclerView = view.findViewById(R.id.rv_search);
-        searchRecyclerAdapter = new SearchRecyclerAdapter(arrListData, getActivity(), fragmentManager);
+        searchRecyclerAdapter = new SearchRecyclerAdapter(arrListData, context, fragmentManager);
         recyclerView.setAdapter(searchRecyclerAdapter);
 
-        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         etSearch = getActivity().findViewById(R.id.et_address_search);
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -140,7 +139,7 @@ public class SearchFragment extends Fragment {
 
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -174,7 +173,7 @@ public class SearchFragment extends Fragment {
 
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -225,7 +224,7 @@ public class SearchFragment extends Fragment {
         searchRecyclerAdapter.notifyDataSetChanged();
 
         if (arrListData.size() == 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("검색 결과가 없습니다");
             builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override

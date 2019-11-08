@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MapFragment">
 
     <RelativeLayout
@@ -19,21 +19,19 @@
         android:src="@drawable/ic_my_location"
         app:fab_colorNormal="@color/gray5"
         app:fab_colorPressed="@color/gray5"
-        app:fab_colorRipple="@color/gray4"
-        />
+        app:fab_colorRipple="@color/gray4" />
 
     <TextView
         android:id="@+id/tv_address1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="서울특별시 중구 123456"
+        android:layout_above="@id/iv_location"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_corner"
         android:padding="16dp"
-        android:textColor="@color/white"
-        android:layout_centerInParent="true"
-        android:layout_above="@id/iv_location"
-        android:layout_marginBottom="8dp"
-        />
+        android:text="서울특별시 중구 123456"
+        android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/iv_location"
@@ -41,15 +39,14 @@
         android:layout_height="68dp"
         android:layout_centerInParent="true"
         android:paddingBottom="28dp"
-        android:src="@drawable/ic_location"/>
+        android:src="@drawable/ic_location" />
 
-    <TextView
-        android:id="@+id/tv_next"
+    <Button
+        android:id="@+id/bt_next"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:background="@color/gray5"
-        android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:padding="8dp"

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     static MapPoint.GeoCoordinate currentLocation;
     private MapReverseGeoCoder mapReverseGeoCoder;
     private TextView tvAddress1;
-    private TextView tvNext;
+    private Button btNext;
     private ViewGroup mapViewContainer;
 
     private String selectedPlaceName = "";
@@ -59,10 +60,10 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
         mapViewContainer = view.findViewById(R.id.map_view);
 
-        currentLocation=new MapPoint.GeoCoordinate(SEOUL_LAT,SEOUL_LNG);
+        currentLocation = new MapPoint.GeoCoordinate(SEOUL_LAT, SEOUL_LNG);
 
-        tvNext = view.findViewById(R.id.tv_next);
-        tvNext.setOnClickListener(new View.OnClickListener() {
+        btNext = view.findViewById(R.id.bt_next);
+        btNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddressActivity.class);
@@ -150,10 +151,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
             map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
             map.animateCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(currentLocation.latitude, currentLocation.longitude)));
         }
-    }
-
-    public void checkDistance() {
-
     }
 
     private MapEventListener mapEventListener = new MapEventListener() {

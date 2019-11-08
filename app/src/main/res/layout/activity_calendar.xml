@@ -25,56 +25,58 @@
         android:paddingHorizontal="16dp"
         android:src="@drawable/arrow_left" />
 
-<!--    <com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
-<!--        android:id="@+id/calendar_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="360dp"-->
-<!--        android:layout_below="@id/tv_title" />-->
+    <!--    <com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
+    <!--        android:id="@+id/calendar_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="360dp"-->
+    <!--        android:layout_below="@id/tv_title" />-->
 
-    <CalendarView
-        android:id="@+id/calendar_view"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bt_next"
         android:layout_below="@id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/calendar_view"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="시간"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
+        <CalendarView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-
-
-    <TimePicker
-        android:id="@+id/tp"
-        android:layout_below="@id/tv_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner"
-        android:layout_above="@id/tv_next"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_between6"
-        android:layout_below="@id/tp"
-        android:padding="4dp"
-        android:gravity="center"
-        android:text="@string/between6"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="시간"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
 
-    <TextView
-        android:id="@+id/tv_next"
+        <TimePicker
+            android:id="@+id/tp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner" />
+
+        <TextView
+            android:id="@+id/tv_between6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/between6"
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_next"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:background="@color/gray5"
-        android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:onClick="next"
@@ -82,8 +84,6 @@
         android:text="@string/enter"
         android:textColor="@color/white"
         android:textStyle="bold" />
-
-
 
 
 </RelativeLayout>
