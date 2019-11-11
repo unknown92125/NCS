@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "669720549953",
+    "firebase_url": "https://newcleaningservices-bd546.firebaseio.com",
+    "project_id": "newcleaningservices-bd546",
+    "storage_bucket": "newcleaningservices-bd546.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:669720549953:android:c8a9ef30d8edda1cec04c0",
+        "android_client_info": {
+          "package_name": "com.mrex.ncs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "669720549953-qdgk8ka5l7vgl5a01ft9v92aaljd1rek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mrex.ncs",
+            "certificate_hash": "a211f6bb29382908c82ab3807e8f8545e8320c53"
+          }
+        },
+        {
+          "client_id": "669720549953-06rai9fdps5tqlm2lev7j3fdj5g57end.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABN8tkHoK8lybD_UH4-LF4MlfDqLcDdf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "669720549953-06rai9fdps5tqlm2lev7j3fdj5g57end.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

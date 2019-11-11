@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity {
@@ -46,7 +45,13 @@ public class CalendarActivity extends AppCompatActivity {
         calendarView.setMaxDate(minMaxDate);
 
         sdfDate = new SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault());
-        sdfTime = new SimpleDateFormat("a h시 m분", Locale.getDefault());
+        sdfTime = new SimpleDateFormat("a h : mm", Locale.getDefault());
+
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        dateMilli = calendar.getTimeInMillis();
+        date = sdfDate.format(dateMilli);
+        time = sdfTime.format(dateMilli);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

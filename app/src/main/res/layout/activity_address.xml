@@ -74,21 +74,6 @@
         android:textColor="@color/gray5"
         android:textSize="16dp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tv_next"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="56dp"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:background="@color/gray5"-->
-    <!--        android:clickable="true"-->
-    <!--        android:foreground="?android:attr/selectableItemBackground"-->
-    <!--        android:gravity="center"-->
-    <!--        android:onClick="next"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:text="@string/enter"-->
-    <!--        android:textColor="@color/white"-->
-    <!--        android:textStyle="bold" />-->
-
     <Button
         android:id="@+id/bt_next"
         android:layout_width="match_parent"
@@ -125,6 +110,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/et_area"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="right|center_vertical"

@@ -37,5 +37,10 @@ dependencies {
     implementation 'com.github.ceryle:SegmentedButton:v2.0.2'
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
+    implementation 'com.google.firebase:firebase-database:19.1.0'
 
 }
+
+apply plugin: 'com.google.gms.google-services'

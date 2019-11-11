@@ -45,7 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@string/default_address"
             android:textSize="16dp" />
 
     </LinearLayout>
@@ -70,7 +69,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@string/default_date"
             android:textSize="16dp" />
 
     </LinearLayout>
@@ -95,7 +93,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@string/default_time"
             android:textSize="16dp" />
 
     </LinearLayout>
@@ -120,7 +117,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@string/default_area"
             android:textSize="16dp" />
 
     </LinearLayout>
@@ -140,14 +136,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="예상 소요시간 : " />
+            android:text="@string/expected_time" />
 
         <TextView
+            android:id="@+id/tv_expected_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
-            android:text="0시간 00분" />
+            android:gravity="right" />
 
     </LinearLayout>
 
@@ -165,14 +161,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="결제 금액 :" />
+            android:text="@string/price" />
 
         <TextView
+            android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
-            android:text="00,000원" />
+            android:gravity="right" />
 
     </LinearLayout>
 

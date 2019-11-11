@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +21,7 @@ import net.daum.mf.map.api.MapView;
 public class AddressActivity extends AppCompatActivity {
 
     static String fullAddress;
+    static int area;
 
     private ViewGroup mapViewContainer;
 
@@ -27,7 +29,7 @@ public class AddressActivity extends AppCompatActivity {
     private Intent intent;
     private TextView tvAddress1;
     private String address1;
-    private EditText etAddress2;
+    private EditText etAddress2, etArea;
     private String placeName;
     private double lat;
     private double lng;
@@ -40,6 +42,7 @@ public class AddressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_address);
 
         mapViewContainer = findViewById(R.id.map_view);
+        etArea = findViewById(R.id.et_area);
 
         intent = getIntent();
         address1 = intent.getStringExtra("address");
@@ -93,8 +96,19 @@ public class AddressActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-        fullAddress = address1+placeName+" "+etAddress2.getText().toString();
-        Log.e("fullAddress: ",fullAddress);
+        if (etAddress2.length() == 0) {
+            Toast.makeText(this, "상세주소를 입력해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (etArea.length() == 0) {
+            Toast.makeText(this, "면적을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        fullAddress = address1 + placeName + " " + etAddress2.getText().toString();
+        area = Integer.parseInt(etArea.getText().toString());
+        Log.e("fullAddress: ", fullAddress);
+        Log.e("area: ", area + "");
         startActivity(new Intent(this, CalendarActivity.class));
     }
 }
