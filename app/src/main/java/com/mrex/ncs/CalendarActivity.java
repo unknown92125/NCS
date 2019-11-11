@@ -2,10 +2,12 @@ package com.mrex.ncs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
@@ -20,6 +22,11 @@ public class CalendarActivity extends AppCompatActivity {
     private Long minMaxDate;
     private CalendarView calendarView;
     private TimePicker timePicker;
+    private Long dateMilli, timeMilli;
+    private String date, time;
+    private SimpleDateFormat sdfDate, sdfTime;
+
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +37,43 @@ public class CalendarActivity extends AppCompatActivity {
         timePicker = findViewById(R.id.tp);
 
         calendar = Calendar.getInstance();
+
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         minMaxDate = calendar.getTimeInMillis();
         calendarView.setMinDate(minMaxDate);
         calendar.add(Calendar.MONTH, 1);
         minMaxDate = calendar.getTimeInMillis();
         calendarView.setMaxDate(minMaxDate);
+
+        sdfDate = new SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault());
+        sdfTime = new SimpleDateFormat("a h시 m분", Locale.getDefault());
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+
+                calendar.set(i, i1, i2);
+                dateMilli = calendar.getTimeInMillis();
+//                date = sdfDate.format(new Date(dateMilli));
+                date = sdfDate.format(dateMilli);
+            }
+        });
+
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+
+                Log.e("date and time", i + "  " + i1);
+
+                calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, i);
+                calendar.set(Calendar.MINUTE, i1);
+                timeMilli = calendar.getTimeInMillis();
+                time = sdfTime.format(timeMilli);
+//                time = sdfTime.format(new Date(timeMilli));
+                Log.e("date and time", time);
+            }
+        });
 
 
     }
@@ -66,17 +104,11 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-////        String date;
-//        Date date;
-//        int year, month, day, hour, min;
-//        long dateLong, timeLong;
-//
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 E요일 a hh:mm", Locale.getDefault());
-//
-//        dateLong = calendarView.getDate();
-//
-//        timeLong=(timePicker.getCurrentHour()*1000*60*60)+timePicker.getCurrentMinute()*60*1000;
 
-        startActivity(new Intent(this, CheckActivity.class));
+        intent = new Intent(this, CheckActivity.class);
+        intent.putExtra("date", date);
+        intent.putExtra("time", time);
+        startActivity(intent);
+
     }
 }
