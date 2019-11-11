@@ -46,6 +46,7 @@
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
+            android:onClick="login"
             android:src="@drawable/ic_more" />
 
 
