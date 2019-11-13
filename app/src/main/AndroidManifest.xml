@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBarTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FireBaseUIActivity"></activity>
+        <activity android:name=".SignInActivity"></activity>
+        <activity android:name=".FireBaseUIActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CheckActivity" />

@@ -78,6 +78,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public void login(View view) {
-        startActivity(new Intent(this, FireBaseUIActivity.class));
+        startActivity(new Intent(this, SignInActivity.class));
     }
 }

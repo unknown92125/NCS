@@ -27,6 +27,8 @@ public class FireBaseUIActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fire_base_ui);
 
         createSignInIntent();
+        signOut();
+        delete();
     }
 
     public void createSignInIntent() {
@@ -63,6 +65,11 @@ public class FireBaseUIActivity extends AppCompatActivity {
                 Log.e("tag", "if (resultCode == RESULT_OK)");
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                Log.e("getDisplayName",user.getDisplayName());
+                Log.e("getEmail",user.getEmail());
+                Log.e("getProviderId",user.getProviderId());
+                Log.e("getUid",user.getUid());
+
                 // ...
             } else {
                 Log.e("tag", "Sign in failed.");
@@ -81,7 +88,7 @@ public class FireBaseUIActivity extends AppCompatActivity {
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
-                        // ...
+                        Log.e("tag", "signOut ");
                     }
                 });
         // [END auth_fui_signout]
@@ -94,7 +101,7 @@ public class FireBaseUIActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // ...
+                        Log.e("tag", " delete");
                     }
                 });
         // [END auth_fui_delete]
