@@ -2,7 +2,7 @@ package com.mrex.ncs;
 
 public class User {
 
-    private String uID;
+    private String iD;
     private String name;
     private String address;
     private String phone;
@@ -11,20 +11,20 @@ public class User {
     public User() {
     }
 
-    public User(String uID, String name, String address, String phone, int point) {
-        this.uID = uID;
+    public User(String iD, String name, String address, String phone, int point) {
+        this.iD = iD;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.point = point;
     }
 
-    public String getuID() {
-        return uID;
+    public String getiD() {
+        return iD;
     }
 
-    public void setuID(String uID) {
-        this.uID = uID;
+    public void setiD(String iD) {
+        this.iD = iD;
     }
 
     public String getName() {

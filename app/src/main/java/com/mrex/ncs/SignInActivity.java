@@ -25,18 +25,31 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.util.OptionalBoolean;
+import com.kakao.util.exception.KakaoException;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RC_SIGN_IN = 9001;
 
     private String userName;
-    private String userUID;
+    private String userID;
 
-    private DatabaseReference uIDRef;
+    private DatabaseReference iDRef;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+
+    ///////////////////
+
+    private SessionCallback callback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +57,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_in);
 
         findViewById(R.id.bt_google_login).setOnClickListener(this);
-        findViewById(R.id.bt_logout).setOnClickListener(this);
+        findViewById(R.id.bt_google_logout).setOnClickListener(this);
+        findViewById(R.id.bt_kakao_logout).setOnClickListener(this);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -56,6 +70,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
+        //////////////////////
+
+        callback = new SessionCallback();
+        Session.getCurrentSession().addCallback(callback);
 
 
     }
@@ -78,6 +97,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 // ...
             }
         }
+
+        /////////////////////////////
+
+        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
+
     }
 
     @Override
@@ -101,9 +127,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             // Sign in success, update UI with the signed-in user's information
                             Log.e("tag", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            userUID = user.getUid();
+                            userID = user.getUid();
                             userName = user.getDisplayName();
-                            Log.e("tag", "uid:" + userUID + "  name:" + userName);
+                            Log.e("tag", "id:" + userID + "  name:" + userName);
 
                             uploadUserDB();
 
@@ -143,8 +169,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         int i = view.getId();
         if (i == R.id.bt_google_login) {
             signIn();
-        } else if (i == R.id.bt_logout) {
+        } else if (i == R.id.bt_google_logout) {
             signOut();
+        } else if (i == R.id.bt_kakao_logout) {
+            UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                @Override
+                public void onCompleteLogout() {
+                    Log.e("tag", "kakao:onCompleteLogout");
+                }
+            });
         }
     }
 
@@ -153,16 +186,18 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void uploadUserDB() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
-        uIDRef = rootRef.child("users").child(userUID);
+        iDRef = rootRef.child("users").child(userID);
 
-        uIDRef.addValueEventListener(new ValueEventListener() {
+        iDRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 User user = dataSnapshot.getValue(User.class);
-                if (user== null) {
-                    User setUser = new User(userUID, userName, "", "", 3);
-                    uIDRef.setValue(setUser);
+                if (user == null) {
+                    User setUser = new User(userID, userName, "", "", 0);
+                    iDRef.setValue(setUser);
+                } else {
+
                 }
             }
 
@@ -172,4 +207,65 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         });
 
     }
+
+    ///////////////////////////////////////////////////
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Session.getCurrentSession().removeCallback(callback);
+    }
+
+    private class SessionCallback implements ISessionCallback {
+
+        //로그인 성공
+        @Override
+        public void onSessionOpened() {
+            Log.e("tag", "SessionCallback:onSessionOpened");
+            requestMe();
+        }
+
+        //로그인 실패
+        @Override
+        public void onSessionOpenFailed(KakaoException exception) {
+            Log.e("tag", "SessionCallback:onSessionOpenFailed");
+        }
+
+        //사용자 정보 요청
+        protected void requestMe() {
+            UserManagement.getInstance().me(new MeV2ResponseCallback() {
+                @Override
+                public void onFailure(ErrorResult errorResult) {
+                    Log.e("tag", "failed to get user info. msg=" + errorResult);
+                }
+
+                @Override
+                public void onSessionClosed(ErrorResult errorResult) {
+                    Log.e("tag", "requestMe:onSessionClosed");
+                }
+
+                @Override
+                public void onSuccess(MeV2Response result) {
+                    Log.e("tag", "requestMe:onSuccess");
+
+                    Log.e("tag", "getId:" + result.getId() + "   getKakaoAccount:" + result.getKakaoAccount()
+                            + "  getProperties:" + result.getProperties() + "  getGroupUserToken:" + result.getGroupUserToken());
+
+                    userID = result.getId() + "";
+                    userName = result.getNickname();
+                    Log.e("tag", "id:" + userID + "  name:" + userName);
+
+                    uploadUserDB();
+
+                    if (result.hasSignedUp() == OptionalBoolean.FALSE) {
+                        Log.e("tag", "result.hasSignedUp() == OptionalBoolean.FALSE");
+                    } else {
+                        Log.e("tag", "else result.hasSignedUp() == OptionalBoolean.FALSE");
+                    }
+                }
+            });
+        }
+
+    }
+
 }

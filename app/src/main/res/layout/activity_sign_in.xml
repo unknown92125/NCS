@@ -13,10 +13,24 @@
 
 
     <Button
-        android:id="@+id/bt_logout"
+        android:id="@+id/bt_google_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/bt_google_login"
+        android:text="log out" />
+
+    <com.kakao.usermgmt.LoginButton
+        android:id="@+id/bt_kakao_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bt_google_logout"
+        android:padding="16dp" />
+
+    <Button
+        android:id="@+id/bt_kakao_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bt_kakao_login"
         android:text="log out" />
 
 </RelativeLayout>
