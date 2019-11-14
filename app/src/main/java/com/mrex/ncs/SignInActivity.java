@@ -39,8 +39,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private static final int RC_SIGN_IN = 9001;
 
-    private String userName;
-    private String userID;
+    public static String userName;
+    public static String userID;
 
     private DatabaseReference iDRef;
 
@@ -205,6 +205,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        Intent intentFromReservation = getIntent();
+        setResult(RESULT_OK, intentFromReservation);
+        finish();
 
     }
 
