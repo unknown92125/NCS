@@ -256,7 +256,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             + "  getProperties:" + result.getProperties() + "  getGroupUserToken:" + result.getGroupUserToken());
 
                     userID = result.getId() + "";
-                    userName = result.getNickname();
+                    userName = result.getKakaoAccount().getDisplayId();
+//                    String email=result.getKakaoAccount().getEmail();
                     Log.e("tag", "id:" + userID + "  name:" + userName);
 
                     uploadUserDB();

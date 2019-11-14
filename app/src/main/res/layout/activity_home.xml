@@ -1,58 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <FrameLayout
-        android:id="@+id/layout_fragments"
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/layout_menu" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/layout_menu"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray5"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/layout_fragments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/layout_menu" />
+
+            <LinearLayout
+                android:id="@+id/layout_menu"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray5"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
 
-        <ImageView
-            android:id="@+id/iv_home"
-            android:layout_width="0dp"
+                <ImageView
+                    android:id="@+id/iv_home"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_home" />
+
+                <ImageView
+                    android:id="@+id/iv_event"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_event" />
+
+                <ImageView
+                    android:id="@+id/iv_menu"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_more" />
+
+            </LinearLayout>
+
+            <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+            <!--                android:id="@+id/fab_person"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_above="@id/layout_menu"-->
+            <!--                android:layout_alignParentRight="true"-->
+            <!--                android:layout_margin="20dp"-->
+            <!--                android:src="@drawable/ic_person_white"-->
+            <!--                app:fab_colorNormal="@color/gray5"-->
+            <!--                app:fab_colorPressed="@color/gray4"-->
+            <!--                app:fab_colorRipple="@color/white2"-->
+            <!--                />-->
+
+        </RelativeLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="16dp"
-            android:src="@drawable/ic_home" />
+            android:layout_gravity="start"
+            android:maxWidth="280dp">
 
-        <ImageView
-            android:id="@+id/iv_event"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="16dp"
-            android:src="@drawable/ic_event" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_menu"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="16dp"
-            android:src="@drawable/ic_more" />
+                <ImageView
+                    android:id="@+id/iv_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="184dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pager_img_2"
+                    android:tint="#55000000" />
+
+                <TextView
+                    android:id="@+id/tv_navigation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:gravity="bottom"
+                    android:padding="16dp"
+                    android:text="닉네임"
+                    android:textColor="@color/white"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/iv_navigation"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </RelativeLayout>
+
+        </com.google.android.material.navigation.NavigationView>
 
 
-    </LinearLayout>
-
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </RelativeLayout>

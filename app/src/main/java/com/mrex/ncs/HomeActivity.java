@@ -5,14 +5,22 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,12 +28,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 10;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    private ActionBarDrawerToggle toggle;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ArrayList<DrawerList> arrListDrawer = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private DrawerRecyclerAdapter drawerRecyclerAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        drawerLayout = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.nv);
+
+        arrListDrawer.add(new DrawerList(R.drawable.ic_person, "내 정보"));
+        arrListDrawer.add(new DrawerList(R.drawable.ic_reservation_list, "예약 확인"));
+
+        recyclerView = findViewById(R.id.rv_navigation);
+        drawerRecyclerAdapter = new DrawerRecyclerAdapter(arrListDrawer, this);
+        recyclerView.setAdapter(drawerRecyclerAdapter);
 
         findViewById(R.id.iv_home).setOnClickListener(this);
         findViewById(R.id.iv_event).setOnClickListener(this);
@@ -38,7 +62,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         getLocationPermission();
 
+        navigationView.setItemIconTintList(null);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name);
+        toggle.syncState();
+        drawerLayout.addDrawerListener(toggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("세상의 모든 청소");
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                drawerLayout.closeDrawer(navigationView);
+                return false;
+            }
+        });
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        toggle.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     private void getLocationPermission() {
@@ -91,6 +136,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.iv_home) {
+            getSupportActionBar().setTitle("세상의 모든 청소");
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.layout_fragments, new HomeFragment());
             fragmentTransaction.commit();
@@ -99,9 +145,37 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         if (i == R.id.iv_menu) {
+            getSupportActionBar().setTitle("더보기");
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.layout_fragments, new MenuFragment());
             fragmentTransaction.commit();
+        }
+
+    }
+
+    public class DrawerList {
+        int image;
+        String menuText;
+
+        public DrawerList(int image, String menuText) {
+            this.image = image;
+            this.menuText = menuText;
+        }
+
+        public int getImage() {
+            return image;
+        }
+
+        public void setImage(int image) {
+            this.image = image;
+        }
+
+        public String getMenuText() {
+            return menuText;
+        }
+
+        public void setMenuText(String menuText) {
+            this.menuText = menuText;
         }
     }
 }
