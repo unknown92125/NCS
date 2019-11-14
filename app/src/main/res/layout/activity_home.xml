@@ -22,6 +22,7 @@
 
 
         <ImageView
+            android:id="@+id/iv_home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -31,6 +32,7 @@
             android:src="@drawable/ic_home" />
 
         <ImageView
+            android:id="@+id/iv_event"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -40,13 +42,13 @@
             android:src="@drawable/ic_event" />
 
         <ImageView
+            android:id="@+id/iv_menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
-            android:onClick="login"
             android:src="@drawable/ic_more" />
 
 
