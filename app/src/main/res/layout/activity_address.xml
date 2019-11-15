@@ -7,36 +7,14 @@
     android:orientation="vertical"
     tools:context=".AddressActivity">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="@string/map_title"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/tv_title"
-        android:layout_alignBottom="@id/tv_title"
-        android:clickable="true"
-        android:onClick="back"
-        android:paddingHorizontal="16dp"
-        android:src="@drawable/arrow_left" />
-
     <RelativeLayout
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_below="@id/tv_title" />
+        android:layout_height="280dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_below="@id/tv_title">
+        android:layout_height="280dp">
 
         <ImageView
             android:id="@+id/iv_location"

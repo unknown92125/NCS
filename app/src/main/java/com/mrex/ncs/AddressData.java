@@ -22,8 +22,6 @@ public class AddressData implements Comparable<AddressData>{
         this.placeName="";
     }
 
-
-
     public Double getDistance() {
         return distance;
     }

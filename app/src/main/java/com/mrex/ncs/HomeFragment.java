@@ -71,8 +71,6 @@ public class HomeFragment extends Fragment {
         CirclePageIndicator circlePageIndicator = view.findViewById(R.id.circle_indicator);
         circlePageIndicator.setViewPager(viewPager);
 
-
-
         return view;
     }
 

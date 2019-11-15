@@ -3,6 +3,7 @@ package com.mrex.ncs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TimePicker;
@@ -31,6 +32,9 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.calendar_title));
 
         calendarView = findViewById(R.id.calendar_view);
         timePicker = findViewById(R.id.tp);
@@ -83,31 +87,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
-//    public class EventDecorator implements DayViewDecorator {
-//
-//        private final int color;
-//        private final HashSet<CalendarDay> dates;
-//
-//        public EventDecorator(int color, Collection<CalendarDay> dates) {
-//            this.color = color;
-//            this.dates = new HashSet<>(dates);
-//        }
-//
-//        @Override
-//        public boolean shouldDecorate(CalendarDay day) {
-//            return dates.contains(day);
-//        }
-//
-//        @Override
-//        public void decorate(DayViewFacade view) {
-//            view.addSpan(new DotSpan(5, color));
-//        }
-//    }//EventDecorator
-
-    public void back(View view) {
-        finish();
-    }
-
     public void next(View view) {
 
         intent = new Intent(this, CheckActivity.class);
@@ -116,4 +95,13 @@ public class CalendarActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

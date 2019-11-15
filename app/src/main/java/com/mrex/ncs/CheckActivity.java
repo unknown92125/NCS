@@ -2,6 +2,7 @@ package com.mrex.ncs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,9 @@ public class CheckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.check_title));
+
         tvDate = findViewById(R.id.tv_date);
         tvTime = findViewById(R.id.tv_time);
         tvAddress = findViewById(R.id.tv_address);
@@ -58,17 +62,11 @@ public class CheckActivity extends AppCompatActivity {
         }
         tvPrice.setText(String.format("%,d", price) + "원");
 
-
         tvDate.setText(date);
         tvTime.setText(time);
         tvAddress.setText(address);
         tvArea.setText(area + "평");
 
-
-    }
-
-    public void back(View view) {
-        finish();
     }
 
     public void next(View view) {
@@ -116,4 +114,13 @@ public class CheckActivity extends AppCompatActivity {
         finish();
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.mrex.ncs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.sign_in_title));
 
         findViewById(R.id.bt_google_login).setOnClickListener(this);
         findViewById(R.id.bt_google_logout).setOnClickListener(this);
@@ -272,5 +276,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

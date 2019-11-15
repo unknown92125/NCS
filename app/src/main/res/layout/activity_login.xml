@@ -68,11 +68,4 @@
         android:text="@string/sign_up"
         />
 
-
-    <!--    <com.kakao.usermgmt.LoginButton-->
-    <!--        android:id="@+id/bt_kakao_login"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_centerInParent="true" />-->
-
 </RelativeLayout>

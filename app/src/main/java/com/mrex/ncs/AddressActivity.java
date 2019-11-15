@@ -3,15 +3,16 @@ package com.mrex.ncs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -33,13 +34,14 @@ public class AddressActivity extends AppCompatActivity {
     private String placeName;
     private double lat;
     private double lng;
-    private InputMethodManager inputMethodManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_address);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.address_title));
 
         mapViewContainer = findViewById(R.id.map_view);
         etArea = findViewById(R.id.et_area);
@@ -91,10 +93,6 @@ public class AddressActivity extends AppCompatActivity {
         map = null;
     }
 
-    public void back(View view) {
-        finish();
-    }
-
     public void next(View view) {
         if (etAddress2.length() == 0) {
             Toast.makeText(this, "상세주소를 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -111,4 +109,13 @@ public class AddressActivity extends AppCompatActivity {
         Log.e("area: ", area + "");
         startActivity(new Intent(this, CalendarActivity.class));
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

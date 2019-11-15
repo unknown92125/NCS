@@ -11,12 +11,15 @@
 
     <string name="between6">※오후 6시부터 오전 6시까지는 50% 추가비용이 적용됩니다</string>
 
+    <string name="home_title">세상의 모든 청소</string>
+    <string name="home_first_title">안내</string>
     <string name="map_title">주소</string>
     <string name="address_title">주소</string>
     <string name="calendar_title">일정</string>
     <string name="check_title">예약</string>
     <string name="space_title">평수</string>
     <string name="menu_title">더보기</string>
+    <string name="sign_in_title">로그인</string>
 
     <string name="enter">확인</string>
 
@@ -44,7 +47,7 @@
     //////////housecleaning//////////
     <string name="service_guide">서비스 안내</string>
 
-    <string name="home_first_title">진행안내(텍스트뷰>이미지로 변경예정)</string>
+    <string name="home_first_subtitle">진행안내(텍스트뷰>이미지로 변경예정)</string>
     <string name="home_first_text">방/거실\n
         탈거 가능한 전등 커버 탈거 후 내부세척\n
         소방감지기, 환풍구, 동체감지기 오염 제거\n
@@ -77,7 +80,7 @@
         창틀 전면 먼지 및 오염 제거\n
 </string>
 
-    <string name="home_first_title2">추가 작업(텍스트뷰>이미지로 변경예정)</string>
+    <string name="home_first_subtitle2">추가 작업(텍스트뷰>이미지로 변경예정)</string>
     <string name="home_first_text2">화장실 및 벽지 곰팡이 제거 작업\n
         유리/타일 벽면 스티커 제거 작업\n
         외부 유리 전용 세체 세척 작업\n

@@ -1,31 +1,21 @@
 package com.mrex.ncs;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class HomeFirstActivity extends AppCompatActivity {
+import android.os.Bundle;
+import android.view.MenuItem;
+
+public class MyDataActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_first);
+        setContentView(R.layout.activity_my_data);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.home_first_title));
+        getSupportActionBar().setTitle(getString(R.string.home_title));
 
-    }
-
-    public void reservation(View view) {
-        startActivity(new Intent(this, MapActivity.class));
-    }
-
-    public void back(View view) {
-        finish();
     }
 
     @Override
@@ -37,5 +27,3 @@ public class HomeFirstActivity extends AppCompatActivity {
     }
 
 }
-
-

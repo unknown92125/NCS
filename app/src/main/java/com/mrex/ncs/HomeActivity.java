@@ -41,6 +41,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.home_title));
+
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nv);
 
@@ -66,8 +69,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name);
         toggle.syncState();
         drawerLayout.addDrawerListener(toggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("세상의 모든 청소");
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -76,7 +77,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
-
 
     }
 
