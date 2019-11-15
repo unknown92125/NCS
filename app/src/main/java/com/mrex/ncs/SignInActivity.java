@@ -1,6 +1,7 @@
 package com.mrex.ncs;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -188,6 +189,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     ///////////////////////////////////////////////
 
     private void uploadUserDB() {
+        saveID();
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
         iDRef = rootRef.child("users").child(userID);
@@ -214,6 +217,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         setResult(RESULT_OK, intentFromReservation);
         finish();
 
+    }
+
+    private void saveID() {
+        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sf.edit();
+
+        editor.putString("userID", userID);
+        editor.putString("userName", userName);
+        editor.commit();
     }
 
     ///////////////////////////////////////////////////
@@ -260,7 +272,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             + "  getProperties:" + result.getProperties() + "  getGroupUserToken:" + result.getGroupUserToken());
 
                     userID = result.getId() + "";
-                    userName = result.getKakaoAccount().getDisplayId();
+                    userName = result.getProperties().get("nickname");
 //                    String email=result.getKakaoAccount().getEmail();
                     Log.e("tag", "id:" + userID + "  name:" + userName);
 

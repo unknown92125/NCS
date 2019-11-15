@@ -81,15 +81,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="184dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/pager_img_2"
-                    android:tint="#55000000" />
+                    android:src="@drawable/pager_img_2" />
 
                 <TextView
-                    android:id="@+id/tv_navigation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:gravity="bottom"
-                    android:padding="16dp"
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/rv_navigation"
+                    android:padding="12dp"
                     android:text="닉네임"
                     android:textColor="@color/white"
                     android:textSize="24dp"

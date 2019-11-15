@@ -22,6 +22,7 @@
     <string name="sign_in_title">로그인</string>
 
     <string name="enter">확인</string>
+    <string name="nickname">닉네임</string>
 
     <string name="reservation">청소 예약하기</string>
 
@@ -32,6 +33,7 @@
     <string name="password">비밀번호</string>
     <string name="find_password">비밀번호 찾기</string>
     <string name="login">로그인</string>
+    <string name="logout">로그아웃</string>
     <string name="sign_up">회원가입</string>
 
     ////////////////////////////////////////

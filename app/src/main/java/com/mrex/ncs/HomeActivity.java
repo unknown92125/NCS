@@ -2,11 +2,13 @@ package com.mrex.ncs;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<DrawerList> arrListDrawer = new ArrayList<>();
     private RecyclerView recyclerView;
     private DrawerRecyclerAdapter drawerRecyclerAdapter;
+    private TextView tvName;
 
 
     @Override
@@ -46,12 +49,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nv);
+        tvName = findViewById(R.id.tv_name);
 
         arrListDrawer.add(new DrawerList(R.drawable.ic_person, "내 정보"));
         arrListDrawer.add(new DrawerList(R.drawable.ic_reservation_list, "예약 확인"));
 
         recyclerView = findViewById(R.id.rv_navigation);
-        drawerRecyclerAdapter = new DrawerRecyclerAdapter(arrListDrawer, this);
+        drawerRecyclerAdapter = new DrawerRecyclerAdapter(arrListDrawer, this, drawerLayout);
         recyclerView.setAdapter(drawerRecyclerAdapter);
 
         findViewById(R.id.iv_home).setOnClickListener(this);
@@ -77,7 +81,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
+    }
 
+    private void loadID() {
+        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        String userName = sf.getString("userName", "needSignIn");
+
+        if (userName.equals("needSignIn")) {
+            tvName.setText("");
+
+        } else {
+            tvName.setText(userName);
+
+        }
     }
 
     @Override
@@ -118,7 +134,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-
+        loadID();
     }
 
     @Override

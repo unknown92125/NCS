@@ -1,6 +1,8 @@
 package com.mrex.ncs;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,19 +10,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class DrawerRecyclerAdapter extends RecyclerView.Adapter {
 
     private ArrayList<HomeActivity.DrawerList> arrListDrawer;
     private HomeActivity.DrawerList drawerList;
     private Context context;
+    private DrawerLayout drawerLayout;
 
-    public DrawerRecyclerAdapter(ArrayList<HomeActivity.DrawerList> arrListDrawer, Context context) {
+    public DrawerRecyclerAdapter(ArrayList<HomeActivity.DrawerList> arrListDrawer, Context context, DrawerLayout drawerLayout) {
         this.arrListDrawer = arrListDrawer;
         this.context = context;
+        this.drawerLayout = drawerLayout;
     }
 
     @NonNull
@@ -28,9 +36,9 @@ public class DrawerRecyclerAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View itemView = inflater.inflate(R.layout.menu_recycler_view, parent, false);
+        View view = inflater.inflate(R.layout.menu_recycler_view, parent, false);
 
-        VHolder vHolder = new VHolder(itemView);
+        VHolder vHolder = new VHolder(view);
 
         return vHolder;
     }
@@ -64,8 +72,22 @@ public class DrawerRecyclerAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     int position = getLayoutPosition();
 
+                    SharedPreferences sf = context.getSharedPreferences("sfUser", MODE_PRIVATE);
+                    String userName = sf.getString("userName", "needSignIn");
+
+                    if (userName.equals("needSignIn")) {
+                        context.startActivity(new Intent(context, SignInActivity.class));
+
+                    } else {
+                        Intent intent = new Intent(context, MyDataActivity.class);
+                        intent.putExtra("position", position);
+                        context.startActivity(intent);
+                    }
+
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
             });
 

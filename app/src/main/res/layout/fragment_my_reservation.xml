@@ -3,17 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyDataActivity">
+    tools:context=".MyReservationFragment">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/layout_tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/layout_tab" />
+        android:text="my reservation" />
 
 </RelativeLayout>
