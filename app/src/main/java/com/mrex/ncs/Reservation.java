@@ -1,6 +1,13 @@
 package com.mrex.ncs;
 
-public class Reservation {
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class Reservation implements Comparable<Reservation> {
 
     private String id;
     private String address;
@@ -13,6 +20,7 @@ public class Reservation {
     private String payDate;
     private String isDone;
     private String payPrice;
+    private long milliDate;
 
     public Reservation() {
     }
@@ -29,6 +37,7 @@ public class Reservation {
         this.payDate = payDate;
         this.isDone = isDone;
         this.payPrice = payPrice;
+
     }
 
     public String getAddress() {
@@ -109,5 +118,40 @@ public class Reservation {
 
     public void setPayPrice(String payPrice) {
         this.payPrice = payPrice;
+    }
+
+    public long getMilliDate() {
+        return milliDate;
+    }
+
+    public void setMilliDate(long milliDate) {
+        this.milliDate = milliDate;
+    }
+
+    //TODO
+    @Override
+    public int compareTo(Reservation reservation) {
+
+        try {
+            Date dDate = new SimpleDateFormat("yyyy년 MM월 dd일 E요일", Locale.getDefault()).parse(this.date);
+            long date0 = dDate.getTime();
+            Log.e("tag", date0 + "");
+            dDate = new SimpleDateFormat("yyyy년 MM월 dd일 E요일", Locale.getDefault()).parse(reservation.getDate());
+            long date1 = dDate.getTime();
+            Log.e("tag", date1 + "");
+            if (date0 == date1) return 0;
+            else if (date0 > date1) return 1;
+            else return -1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+
+//        long date0 = this.getMilliDate();
+//        long date1 = reservation.getMilliDate();
+//        if (date0 == date1) return 0;
+//        else if (date0 > date1) return 1;
+//        else return -1;
+
     }
 }

@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -47,6 +48,8 @@ public class MyReservationFragment extends Fragment {
         myDataActivity = (MyDataActivity) getActivity();
 
         recyclerView = view.findViewById(R.id.rv_reservation);
+        myReservationAdapter = new MyReservationAdapter();
+
 
         SharedPreferences sf = myDataActivity.getSharedPreferences("sfUser", MODE_PRIVATE);
         userID = sf.getString("userID", "needSignIn");
@@ -68,7 +71,13 @@ public class MyReservationFragment extends Fragment {
                     arrListRV.add(reservation);
 
                 }
-                myReservationAdapter = new MyReservationAdapter();
+
+                //TODO
+                Collections.sort(arrListRV);
+                Collections.reverse(arrListRV);
+                for (Reservation t : arrListRV) {
+                    Log.e("tag", t.getDate() + ":" + t.getMilliDate());
+                }
                 recyclerView.setAdapter(myReservationAdapter);
             }
 
