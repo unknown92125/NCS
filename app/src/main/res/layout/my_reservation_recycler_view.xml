@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@color/white2">
+
+    <RelativeLayout
+        android:id="@+id/rl_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_date_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:padding="8dp"
+            android:text="11/22 (금)" />
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_date_list"
+            android:layout_alignBottom="@id/ll_location"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingRight="16dp"
+            android:src="@drawable/ic_arrow_down_black" />
+
+        <LinearLayout
+            android:id="@+id/ll_location"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_below="@id/tv_date_list"
+            android:layout_marginBottom="2dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_list"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_date"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_date" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_time"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@id/ll_date"
+            android:layout_marginBottom="2dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_time" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_area"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@id/ll_time"
+            android:layout_marginBottom="2dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_home_2" />
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_phone"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@id/ll_area"
+            android:layout_marginBottom="2dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_phone_black" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_expected_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_phone"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/expected_time" />
+
+            <TextView
+                android:id="@+id/tv_expected_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_expected_time"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/price" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_payment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_price"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/payment_method" />
+
+            <TextView
+                android:id="@+id/tv_payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_pay_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_payment"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/paid_date" />
+
+            <TextView
+                android:id="@+id/tv_pay_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

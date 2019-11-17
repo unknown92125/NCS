@@ -101,10 +101,34 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_phone"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/ll_area"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_phone_black" />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_expected_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_area"
+        android:layout_below="@id/ll_phone"
         android:layout_marginTop="2dp"
         android:background="@color/white"
         android:orientation="horizontal"
@@ -152,6 +176,7 @@
     </LinearLayout>
 
     <RadioGroup
+        android:id="@+id/rg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_price"

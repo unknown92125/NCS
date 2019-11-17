@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +20,7 @@ import net.daum.mf.map.api.MapView;
 
 public class AddressActivity extends AppCompatActivity {
 
-    static String fullAddress;
+    static String fullAddress, phone;
     static int area;
 
     private ViewGroup mapViewContainer;
@@ -30,7 +29,7 @@ public class AddressActivity extends AppCompatActivity {
     private Intent intent;
     private TextView tvAddress1;
     private String address1;
-    private EditText etAddress2, etArea;
+    private EditText etAddress2, etArea, etPhone1, etPhone2, etPhone3;
     private String placeName;
     private double lat;
     private double lng;
@@ -45,6 +44,9 @@ public class AddressActivity extends AppCompatActivity {
 
         mapViewContainer = findViewById(R.id.map_view);
         etArea = findViewById(R.id.et_area);
+        etPhone1 = findViewById(R.id.et_phone_1);
+        etPhone2 = findViewById(R.id.et_phone_2);
+        etPhone3 = findViewById(R.id.et_phone_3);
 
         intent = getIntent();
         address1 = intent.getStringExtra("address");
@@ -103,6 +105,12 @@ public class AddressActivity extends AppCompatActivity {
             return;
         }
 
+        if (etPhone1.length() == 0 || etPhone2.length() == 0 || etPhone3.length() == 0) {
+            Toast.makeText(this, "연락처를 입력해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        phone = etPhone1.getText().toString() + "-" + etPhone2.getText().toString() + "-" + etPhone3.getText().toString();
         fullAddress = address1 + placeName + " " + etAddress2.getText().toString();
         area = Integer.parseInt(etArea.getText().toString());
         Log.e("fullAddress: ", fullAddress);
