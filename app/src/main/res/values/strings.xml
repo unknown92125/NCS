@@ -13,6 +13,7 @@
     <string name="google_pay">구글페이 :</string>
     <string name="kakao_pay">카카오페이 :</string>
     <string name="deposit">무통장입금 :</string>
+    <string name="deposit_name">입금자명 :</string>
 
     <string name="between6">※오후 6시부터 오전 6시까지는 50% 추가비용이 적용됩니다</string>
 

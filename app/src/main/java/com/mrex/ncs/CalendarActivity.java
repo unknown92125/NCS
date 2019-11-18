@@ -72,7 +72,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onTimeChanged(TimePicker timePicker, int i, int i1) {
 
-                Log.e("date and time", i + "  " + i1);
+                Log.e("CalendarA:date and time", i + "  " + i1);
 
                 calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY, i);
@@ -80,7 +80,7 @@ public class CalendarActivity extends AppCompatActivity {
                 timeMilli = calendar.getTimeInMillis();
                 time = sdfTime.format(timeMilli);
 //                time = sdfTime.format(new Date(timeMilli));
-                Log.e("date and time", time);
+                Log.e("CalendarA:date and time", time);
             }
         });
 

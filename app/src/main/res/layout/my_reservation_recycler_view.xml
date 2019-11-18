@@ -238,11 +238,36 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_pay_date"
+            android:id="@+id/ll_deposit_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_payment"
-            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/deposit_name" />
+
+            <TextView
+                android:id="@+id/tv_deposit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_pay_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_deposit_name"
+            android:layout_marginBottom="4dp"
             android:background="@color/white"
             android:orientation="horizontal"
             android:padding="16dp"

@@ -73,11 +73,11 @@ public class AddressActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("TAG", "AA onResume");
+        Log.e("AddressA:", "AA onResume");
         map = new MapView(this);
         mapViewContainer.addView(map);
         map.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(lat, lng)));
-        Log.e("TAG", lat + "   " + lng);
+        Log.e("AddressA:", lat + "   " + lng);
         map.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -90,7 +90,7 @@ public class AddressActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("TAG", "AA onPause");
+        Log.e("AddressA:", "AA onPause");
         mapViewContainer.removeView(map);
         map = null;
     }
@@ -113,8 +113,8 @@ public class AddressActivity extends AppCompatActivity {
         phone = etPhone1.getText().toString() + "-" + etPhone2.getText().toString() + "-" + etPhone3.getText().toString();
         fullAddress = address1 + placeName + " " + etAddress2.getText().toString();
         area = Integer.parseInt(etArea.getText().toString());
-        Log.e("fullAddress: ", fullAddress);
-        Log.e("area: ", area + "");
+        Log.e("AddressA:fullAddress: ", fullAddress);
+        Log.e("AddressA:area: ", area + "");
         startActivity(new Intent(this, CalendarActivity.class));
     }
 

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,12 +32,18 @@ public class CheckActivity extends AppCompatActivity {
 
     private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPhone;
     private String userID, date, time, address, minute, expectedTime, payPrice, payMethod, payDate, phone;
+    private String depositName = "needDepositName";
     private Intent intent;
     private int area, hour, price;
+    private EditText etDepositName;
+
+    private SharedPreferences sf;
 
     private DatabaseReference reservationRef;
 
     private RadioGroup radioGroup;
+
+    private LinearLayout llDepositName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,9 @@ public class CheckActivity extends AppCompatActivity {
         tvPrice = findViewById(R.id.tv_price);
         tvPhone = findViewById(R.id.tv_phone);
         radioGroup = findViewById(R.id.rg);
+        etDepositName = findViewById(R.id.et_deposit_name);
+        llDepositName = findViewById(R.id.ll_deposit_name);
+
 
         address = AddressActivity.fullAddress;
         area = AddressActivity.area;
@@ -91,19 +102,33 @@ public class CheckActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb = findViewById(checkedId);
                 payMethod = rb.getText().toString();
+                if (checkedId == R.id.rb_deposit) {
+                    llDepositName.setVisibility(View.VISIBLE);
+                } else {
+                    llDepositName.setVisibility(View.GONE);
+                }
             }
         });
 
     }
 
     public void next(View view) {
-        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
         String userName = sf.getString("userName", "needSignIn");
 
         if (userName.equals("needSignIn")) {
             startActivityForResult(new Intent(this, SignInActivity.class), RC_SIGN_IN);
+            return;
 
         } else {
+            if (payMethod.equals("무통장입금")) {
+                if (etDepositName.length() == 0) {
+                    Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                depositName = etDepositName.getText().toString();
+            }
+
             userID = sf.getString("userID", "needSignIn");
             uploadReservationDB();
             Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
@@ -117,6 +142,7 @@ public class CheckActivity extends AppCompatActivity {
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
+                userID = sf.getString("userID", "needSignIn");
                 uploadReservationDB();
                 Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
             }
@@ -134,7 +160,7 @@ public class CheckActivity extends AppCompatActivity {
         DatabaseReference rootRef = firebaseDatabase.getReference();
         reservationRef = rootRef.child("reservations").child(userID).push();
 
-        Reservation reservation = new Reservation(address, phone, area + "평", date, time, expectedTime, payMethod, payDate, "N", payPrice);
+        Reservation reservation = new Reservation(address, phone, area + "평", date, time, expectedTime, payMethod, payDate, "N", payPrice, depositName);
         reservationRef.setValue(reservation);
 
         reservationRef.addValueEventListener(new ValueEventListener() {

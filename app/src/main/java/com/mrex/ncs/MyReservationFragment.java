@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,7 +55,7 @@ public class MyReservationFragment extends Fragment {
 
         SharedPreferences sf = myDataActivity.getSharedPreferences("sfUser", MODE_PRIVATE);
         userID = sf.getString("userID", "needSignIn");
-        Log.e("tag", userID);
+        Log.e("MyReserF:", userID);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
@@ -64,11 +65,11 @@ public class MyReservationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrListRV.clear();
-                int pos=0;
+                int pos = 0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     reservation = ds.getValue(Reservation.class);
-                    Log.e("tag", reservation.getAddress());
-                    Log.e("tag", reservation.getDate());
+                    Log.e("MyReserF:", reservation.getAddress());
+                    Log.e("MyReserF:", reservation.getDate());
 
                     arrListRV.add(reservation);
                     myReservationAdapter.notifyItemInserted(pos);
@@ -80,7 +81,7 @@ public class MyReservationFragment extends Fragment {
                 Collections.sort(arrListRV);
                 Collections.reverse(arrListRV);
                 for (Reservation t : arrListRV) {
-                    Log.e("tag", t.getDate() + ":" + t.getMilliDate());
+                    Log.e("MyReserF:", t.getDate() + ":" + t.getMilliDate());
                 }
 
             }
@@ -123,6 +124,12 @@ public class MyReservationFragment extends Fragment {
             vHolder.tvPrice.setText(reservation.getPayPrice());
             vHolder.tvTime.setText(reservation.getTime());
             vHolder.tvPhone.setText(reservation.getPhone());
+            vHolder.tvDepositName.setText(reservation.getDepositName());
+            if (reservation.getDepositName().equals("needDepositName")) {
+                vHolder.llDepositName.setVisibility(View.GONE);
+            } else {
+                vHolder.llDepositName.setVisibility(View.VISIBLE);
+            }
             vHolder.rlList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -145,8 +152,9 @@ public class MyReservationFragment extends Fragment {
 
         public class VHolder extends RecyclerView.ViewHolder {
 
-            private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPay, tvPayDate, tvPhone, tvDateList;
+            private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPay, tvPayDate, tvPhone, tvDateList, tvDepositName;
             private RelativeLayout rlData, rlList;
+            private LinearLayout llDepositName;
             private ImageView ivArrow;
 
             public VHolder(@NonNull View itemView) {
@@ -161,8 +169,10 @@ public class MyReservationFragment extends Fragment {
                 tvPay = itemView.findViewById(R.id.tv_payment);
                 tvPayDate = itemView.findViewById(R.id.tv_pay_date);
                 tvPhone = itemView.findViewById(R.id.tv_phone);
+                tvDepositName = itemView.findViewById(R.id.tv_deposit_name);
                 rlData = itemView.findViewById(R.id.rl_data);
                 rlList = itemView.findViewById(R.id.rl_list);
+                llDepositName=itemView.findViewById(R.id.ll_deposit_name);
                 tvDateList = itemView.findViewById(R.id.tv_date_list);
                 ivArrow = itemView.findViewById(R.id.iv_arrow);
 

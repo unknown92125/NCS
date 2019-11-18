@@ -93,7 +93,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("TAG", "MF onResume");
+        Log.e("MapF:", "MF onResume");
         map = new MapView(getActivity());
         mapViewContainer.addView(map);
 
@@ -108,7 +108,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
     @Override
     public void onPause() {
-        Log.e("TAG", "MF onPause");
+        Log.e("MapF:", "MF onPause");
         super.onPause();
         if (isLocationPermissionGranted) {
             map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
@@ -157,7 +157,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         @Override
         public void onMapViewInitialized(MapView mapView) {
             super.onMapViewInitialized(mapView);
-            Log.e("TAG                    ", "onMapViewInitialized");
+            Log.e("MapF:", "onMapViewInitialized");
             mapReverseGeoCoder = new MapReverseGeoCoder(getString(R.string.kakao_app_key), mapView.getMapCenterPoint(), MapFragment.this, getActivity());
             mapReverseGeoCoder.startFindingAddress();
 
@@ -171,7 +171,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
         @Override
         public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-            Log.e("TAG                    ", "onMapViewMoveFinished");
+            Log.e("MapF:", "onMapViewMoveFinished");
             super.onMapViewMoveFinished(mapView, mapPoint);
             mapReverseGeoCoder = new MapReverseGeoCoder(getString(R.string.kakao_app_key), mapView.getMapCenterPoint(), MapFragment.this, getActivity());
             mapReverseGeoCoder.startFindingAddress();
@@ -190,7 +190,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
 
         currentLocation = mapPoint.getMapPointGeoCoord();
-        Log.e("TAG", currentLocation.latitude + "   " + currentLocation.longitude);
+        Log.e("MapF:", currentLocation.latitude + "   " + currentLocation.longitude);
         map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
         map.setShowCurrentLocationMarker(false);
     }

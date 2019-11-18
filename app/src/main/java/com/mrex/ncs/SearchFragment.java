@@ -118,7 +118,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.e("onResponse :     ", response.toString());
+                Log.e("SearchF:onResponse :", response.toString());
                 parsingAddress(response);
             }
 
@@ -126,7 +126,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("onErrorResponse :  ", error + "");
+                Log.e("SearchF:onErrorResp:", error + "");
             }
         }) {
 
@@ -152,7 +152,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.e("onResponse :     ", response.toString());
+                Log.e("SearchF:onResponse:", response.toString());
                 parsingKeyword(response);
             }
 
@@ -160,7 +160,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("onErrorResponse :  ", error + "");
+                Log.e("SearchF:onErrorResp:", error + "");
             }
         }) {
 
@@ -251,7 +251,7 @@ public class SearchFragment extends Fragment {
             locationB.setLongitude(addressData.getLng());
             double distance = locationA.distanceTo(locationB);
             addressData.setDistance(distance);
-            Log.e("TAG", addressData.getDistance() + "");
+            Log.e("SearchF:", addressData.getDistance() + "");
         }
 
 
@@ -259,7 +259,7 @@ public class SearchFragment extends Fragment {
 
         for (int i = 0; i < arrListData.size(); i++) {
             addressData = arrListData.get(i);
-            Log.e("TAG 2", addressData.getDistance() + "");
+            Log.e("SearchF:2:", addressData.getDistance() + "");
         }
 
     }

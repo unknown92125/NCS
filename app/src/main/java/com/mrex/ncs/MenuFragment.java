@@ -1,5 +1,6 @@
 package com.mrex.ncs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,16 +81,17 @@ public class MenuFragment extends Fragment {
                 tv = itemView.findViewById(R.id.tv_menu);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position=getLayoutPosition();
-                    if (position==2){
+                    @Override
+                    public void onClick(View v) {
+                        int position = getLayoutPosition();
+                        if (position == 2) {
+                            startActivity(new Intent(getContext(), ManagerActivity.class));
 //                        intent=new Intent(context, HomeFirstActivity.class);
 //                        context.startActivity(intent);
-                    }
+                        }
 
-                }
-            });
+                    }
+                });
             }
         }
     }

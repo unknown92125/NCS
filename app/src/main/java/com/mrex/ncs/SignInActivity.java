@@ -95,10 +95,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-                Log.e("tag", "onActivityResult sign in");
+                Log.e("SignInA:", "onActivityResult sign in");
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.e("tag", "Google sign in failed");
+                Log.e("SignInA:", "Google sign in failed");
                 // ...
             }
         }
@@ -116,12 +116,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.e("tag", "onStart:");
+        Log.e("SignInA:", "onStart:");
 
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.e("tag", "firebaseAuthWithGoogle:" + acct.getId());
+        Log.e("SignInA:", "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -130,17 +130,17 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.e("tag", "signInWithCredential:success");
+                            Log.e("SignInA:", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             userID = user.getUid();
                             userName = user.getDisplayName();
-                            Log.e("tag", "id:" + userID + "  name:" + userName);
+                            Log.e("SignInA:", "id:" + userID + "  name:" + userName);
 
                             uploadUserDB();
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.e("tag", "signInWithCredential:failure");
+                            Log.e("SignInA:", "signInWithCredential:failure");
 
                         }
 
@@ -180,7 +180,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
                 @Override
                 public void onCompleteLogout() {
-                    Log.e("tag", "kakao:onCompleteLogout");
+                    Log.e("SignInA:", "kakao:onCompleteLogout");
                 }
             });
         }
@@ -241,14 +241,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         //로그인 성공
         @Override
         public void onSessionOpened() {
-            Log.e("tag", "SessionCallback:onSessionOpened");
+            Log.e("SignInA:", "SessionCallback:onSessionOpened");
             requestMe();
         }
 
         //로그인 실패
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
-            Log.e("tag", "SessionCallback:onSessionOpenFailed");
+            Log.e("SignInA:", "SessionCallback:onSessionOpenFailed");
         }
 
         //사용자 정보 요청
@@ -256,32 +256,32 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             UserManagement.getInstance().me(new MeV2ResponseCallback() {
                 @Override
                 public void onFailure(ErrorResult errorResult) {
-                    Log.e("tag", "failed to get user info. msg=" + errorResult);
+                    Log.e("SignInA:", "failed to get user info. msg=" + errorResult);
                 }
 
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
-                    Log.e("tag", "requestMe:onSessionClosed");
+                    Log.e("SignInA:", "requestMe:onSessionClosed");
                 }
 
                 @Override
                 public void onSuccess(MeV2Response result) {
-                    Log.e("tag", "requestMe:onSuccess");
+                    Log.e("SignInA:", "requestMe:onSuccess");
 
-                    Log.e("tag", "getId:" + result.getId() + "   getKakaoAccount:" + result.getKakaoAccount()
+                    Log.e("SignInA:", "getId:" + result.getId() + "   getKakaoAccount:" + result.getKakaoAccount()
                             + "  getProperties:" + result.getProperties() + "  getGroupUserToken:" + result.getGroupUserToken());
 
                     userID = result.getId() + "";
                     userName = result.getProperties().get("nickname");
 //                    String email=result.getKakaoAccount().getEmail();
-                    Log.e("tag", "id:" + userID + "  name:" + userName);
+                    Log.e("SignInA:", "id:" + userID + "  name:" + userName);
 
                     uploadUserDB();
 
                     if (result.hasSignedUp() == OptionalBoolean.FALSE) {
-                        Log.e("tag", "result.hasSignedUp() == OptionalBoolean.FALSE");
+                        Log.e("SignInA:", "result.hasSignedUp() == OptionalBoolean.FALSE");
                     } else {
-                        Log.e("tag", "else result.hasSignedUp() == OptionalBoolean.FALSE");
+                        Log.e("SignInA:", "else result.hasSignedUp() == OptionalBoolean.FALSE");
                     }
                 }
             });

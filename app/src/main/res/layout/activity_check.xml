@@ -199,11 +199,45 @@
             android:text="구글페이" />
 
         <RadioButton
+            android:id="@+id/rb_deposit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="무통장입금" />
 
     </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/ll_deposit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="입금자명:" />
+
+        <EditText
+            android:id="@+id/et_deposit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:hint="입금자명을 입력하세요"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLength="10"
+            android:padding="16dp"
+            android:textColor="@color/gray5"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/bt_next"
