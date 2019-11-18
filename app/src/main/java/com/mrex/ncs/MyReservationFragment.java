@@ -49,6 +49,7 @@ public class MyReservationFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rv_reservation);
         myReservationAdapter = new MyReservationAdapter();
+        recyclerView.setAdapter(myReservationAdapter);
 
 
         SharedPreferences sf = myDataActivity.getSharedPreferences("sfUser", MODE_PRIVATE);
@@ -63,12 +64,15 @@ public class MyReservationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrListRV.clear();
+                int pos=0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     reservation = ds.getValue(Reservation.class);
                     Log.e("tag", reservation.getAddress());
                     Log.e("tag", reservation.getDate());
 
                     arrListRV.add(reservation);
+                    myReservationAdapter.notifyItemInserted(pos);
+                    pos++;
 
                 }
 
@@ -78,7 +82,7 @@ public class MyReservationFragment extends Fragment {
                 for (Reservation t : arrListRV) {
                     Log.e("tag", t.getDate() + ":" + t.getMilliDate());
                 }
-                recyclerView.setAdapter(myReservationAdapter);
+
             }
 
             @Override

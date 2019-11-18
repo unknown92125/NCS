@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MyDataActivity"></activity>
+        <activity android:name=".ManagerActivity"></activity>
+        <activity android:name=".MyDataActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".FireBaseUIActivity" />
         <activity android:name=".SignUpActivity" />
@@ -33,8 +34,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AddressActivity"
-            android:screenOrientation="portrait" />
-        <!-- <meta-data -->
+            android:screenOrientation="portrait" /> <!-- <meta-data -->
         <!-- android:name="com.google.android.geo.API_KEY" -->
         <!-- android:value="@string/google_maps_key" /> -->
         <activity

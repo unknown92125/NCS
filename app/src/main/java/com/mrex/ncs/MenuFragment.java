@@ -31,6 +31,7 @@ public class MenuFragment extends Fragment {
 
         arrListMenu.add(new MenuList(R.drawable.ic_volume_up, "공지사항"));
         arrListMenu.add(new MenuList(R.drawable.ic_phone_in_talk, "상담"));
+        arrListMenu.add(new MenuList(R.drawable.ic_person, "직원"));
 
         recyclerView = view.findViewById(R.id.rv);
         menuRecyclerAdapter = new MenuRecyclerAdapter();
@@ -82,8 +83,7 @@ public class MenuFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     int position=getLayoutPosition();
-
-                    if (position==0){
+                    if (position==2){
 //                        intent=new Intent(context, HomeFirstActivity.class);
 //                        context.startActivity(intent);
                     }

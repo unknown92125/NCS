@@ -1,7 +1,5 @@
 package com.mrex.ncs;
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -128,17 +126,15 @@ public class Reservation implements Comparable<Reservation> {
         this.milliDate = milliDate;
     }
 
-    //TODO
     @Override
     public int compareTo(Reservation reservation) {
 
         try {
-            Date dDate = new SimpleDateFormat("yyyy년 MM월 dd일 E요일", Locale.getDefault()).parse(this.date);
+            Date dDate = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).parse(this.date.substring(0, this.date.length() - 4));
             long date0 = dDate.getTime();
-            Log.e("tag", date0 + "");
-            dDate = new SimpleDateFormat("yyyy년 MM월 dd일 E요일", Locale.getDefault()).parse(reservation.getDate());
+            dDate = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).parse(reservation.getDate().substring(0, reservation.getDate().length() - 4));
             long date1 = dDate.getTime();
-            Log.e("tag", date1 + "");
+
             if (date0 == date1) return 0;
             else if (date0 > date1) return 1;
             else return -1;
@@ -146,12 +142,6 @@ public class Reservation implements Comparable<Reservation> {
             e.printStackTrace();
         }
         return 0;
-
-//        long date0 = this.getMilliDate();
-//        long date1 = reservation.getMilliDate();
-//        if (date0 == date1) return 0;
-//        else if (date0 > date1) return 1;
-//        else return -1;
 
     }
 }
