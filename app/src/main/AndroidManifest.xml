@@ -18,7 +18,6 @@
         <activity android:name=".ManagerActivity"></activity>
         <activity android:name=".MyDataActivity" />
         <activity android:name=".SignInActivity" />
-        <activity android:name=".FireBaseUIActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CheckActivity" />
@@ -60,6 +59,15 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
+        <service
+            android:name=".FMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
