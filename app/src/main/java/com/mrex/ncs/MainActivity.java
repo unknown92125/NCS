@@ -27,6 +27,8 @@ import static com.kakao.util.maps.helper.Utility.getPackageInfo;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String userToken = "needToken";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 //        }));
 
         String key = getKeyHash();
-        Log.e("TAG", key);
+        Log.e("MainA:", "KeyHash: "+key);
 
 
     }
@@ -70,15 +72,15 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         // Get new Instance ID token
-                        String token = task.getResult().getToken();
+                        userToken = task.getResult().getToken();
 
-                        Log.e("MainA:token:", token);
-                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+                        Log.e("MainA:token:", userToken);
+                        Toast.makeText(MainActivity.this, userToken, Toast.LENGTH_SHORT).show();
 
                         //토큰 저장
                         SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sf.edit();
-                        editor.putString("userToken", token);
+                        editor.putString("userToken", userToken);
                         editor.commit();
 
                     }

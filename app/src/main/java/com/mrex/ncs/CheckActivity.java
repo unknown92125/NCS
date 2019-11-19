@@ -194,12 +194,12 @@ public class CheckActivity extends AppCompatActivity {
         requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("MainA:", "requestQueue onResponse:" + response);
+                Log.e("CheckA:", "requestQueue onResponse:" + response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("MainA:", "requestQueue onErrorResponse");
+                Log.e("CheckA:", "requestQueue onErrorResponse");
             }
         }));
     }

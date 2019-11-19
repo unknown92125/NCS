@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.error.AuthFailureError;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -43,6 +44,11 @@ import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.mrex.ncs.MainActivity.userToken;
+
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RC_SIGN_IN = 9001;
@@ -54,6 +60,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+    private SharedPreferences sf;
 
     ///////////////////
 
@@ -196,8 +203,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private void uploadUserDB() {
         saveID();
-
-        //TODO sf에서 토큰을저장했었는지 불러와서 확인후 저장을안했을경우 uploadToken 호출
+        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        Boolean isTokenUploaded = sf.getBoolean("isTokenUploaded", false);
+        if (!isTokenUploaded) {
+            uploadToken();
+        }
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
@@ -227,11 +237,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void uploadToken(){
+    private void uploadToken() {
 
-        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        String token= sf.getString("userToken", "defValue");
-
+        Log.e("SignInA:", "uploadToken()");
         String serverUrl = "http://ncservices.dothome.co.kr/uploadToken.php";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -245,9 +253,25 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             public void onErrorResponse(VolleyError error) {
                 Log.e("MainA:", "requestQueue onErrorResponse");
             }
-        }));
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
 
-        //TODO 토큰 업로드후 sf에 한번 업로드했다고 저장
+                HashMap<String, String> datas = new HashMap<>();
+                datas.put("userID", userID);
+                datas.put("userToken", userToken);
+                datas.put("userType", "0");
+
+                Log.e("SignInA:", "getParams:" + "userID:" + userID + "/userToken:" + userToken);
+
+                return datas;
+            }
+        });
+
+        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sf.edit();
+        editor.putBoolean("isTokenUploaded", true);
+        editor.commit();
 
     }
 
