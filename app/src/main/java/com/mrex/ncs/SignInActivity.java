@@ -10,6 +10,12 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -191,6 +197,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void uploadUserDB() {
         saveID();
 
+        //TODO sf에서 토큰을저장했었는지 불러와서 확인후 저장을안했을경우 uploadToken 호출
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
         iDRef = rootRef.child("users").child(userID);
@@ -216,6 +224,30 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         Intent intentFromReservation = getIntent();
         setResult(RESULT_OK, intentFromReservation);
         finish();
+
+    }
+
+    private void uploadToken(){
+
+        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        String token= sf.getString("userToken", "defValue");
+
+        String serverUrl = "http://ncservices.dothome.co.kr/uploadToken.php";
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("MainA:", "requestQueue onResponse:" + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("MainA:", "requestQueue onErrorResponse");
+            }
+        }));
+
+        //TODO 토큰 업로드후 sf에 한번 업로드했다고 저장
 
     }
 

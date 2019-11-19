@@ -3,6 +3,7 @@ package com.mrex.ncs;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -131,6 +138,7 @@ public class CheckActivity extends AppCompatActivity {
 
             userID = sf.getString("userID", "needSignIn");
             uploadReservationDB();
+            pushFM();
             Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
         }
 
@@ -177,6 +185,23 @@ public class CheckActivity extends AppCompatActivity {
 //        finish();
         finishAffinity();
 
+    }
+
+    private void pushFM() {
+        String serverUrl = "http://ncservices.dothome.co.kr/pushFM.php";
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("MainA:", "requestQueue onResponse:" + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("MainA:", "requestQueue onErrorResponse");
+            }
+        }));
     }
 
     @Override
