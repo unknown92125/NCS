@@ -5,32 +5,106 @@
     android:layout_height="match_parent"
     tools:context=".SignInActivity">
 
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/start" />
+
+    <EditText
+        android:id="@+id/et_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/phone_number"
+        android:imeOptions="actionNext"
+        android:inputType="phone"
+        android:lines="1"
+        android:maxLength="11" />
+
+    <EditText
+        android:id="@+id/et_pw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_id"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:maxLength="20" />
+
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_find_pw"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/gray4"
+        android:text="@string/login"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_find_pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_pw"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/find_password" />
+
+    <Button
+        android:id="@+id/bt_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/gray4"
+        android:text="@string/sign_up"
+        android:textColor="@color/white" />
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/bt_google_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp" />
+        android:layout_below="@id/bt_login"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp" />
 
 
-    <Button
-        android:id="@+id/bt_google_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bt_google_login"
-        android:text="log out" />
+    <!--    <Button-->
+    <!--        android:id="@+id/bt_google_logout"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/bt_google_login"-->
+    <!--        android:text="log out" />-->
 
     <com.kakao.usermgmt.LoginButton
         android:id="@+id/bt_kakao_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bt_google_logout"
-        android:padding="16dp" />
+        android:layout_below="@id/bt_google_login"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp" />
 
-    <Button
-        android:id="@+id/bt_kakao_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bt_kakao_login"
-        android:text="log out" />
+    <!--    <Button-->
+    <!--        android:id="@+id/bt_kakao_logout"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/bt_kakao_login"-->
+    <!--        android:text="log out" />-->
 
 </RelativeLayout>

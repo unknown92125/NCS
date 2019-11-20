@@ -1,33 +1,21 @@
 package com.mrex.ncs;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import static com.kakao.util.maps.helper.Utility.getPackageInfo;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static String userToken = "needToken";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,55 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
         handler.sendEmptyMessageDelayed(0, 1500);
 
-        getToken();
+//        testPhoneVerify();
 
-        //////////////////////////////
-//        String serverUrl = "http://ncservices.dothome.co.kr/pushFM.php";
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Log.e("MainA:", "requestQueue onResponse:" + response);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.e("MainA:", "requestQueue onErrorResponse");
-//            }
-//        }));
+//        String key = getKeyHash();
+//        Log.e("MainA:", "KeyHash: " + key);
 
-        String key = getKeyHash();
-        Log.e("MainA:", "KeyHash: "+key);
-
-
-    }
-
-    public void getToken() {
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("MainA:", "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        userToken = task.getResult().getToken();
-
-                        Log.e("MainA:token:", userToken);
-                        Toast.makeText(MainActivity.this, userToken, Toast.LENGTH_SHORT).show();
-
-                        //토큰 저장
-                        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sf.edit();
-                        editor.putString("userToken", userToken);
-                        editor.commit();
-
-                    }
-                });
     }
 
     @Override
@@ -99,23 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public String getKeyHash() {
-        PackageInfo packageInfo = getPackageInfo(this, PackageManager.GET_SIGNATURES);
-        if (packageInfo == null)
-            return null;
-
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-            } catch (NoSuchAlgorithmException e) {
-                Log.e("TAG", "Unable to get MessageDigest. signature=" + signature, e);
-            }
-        }
-        return null;
-    }
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -125,5 +52,61 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     };
+
+    public void testPhoneVerify() {
+        // [START auth_test_phone_verify]
+        String phoneNum = "+821052565575";
+        String testVerificationCode = "123456";
+
+        // Whenever verification is triggered with the whitelisted number,
+        // provided it is not set for auto-retrieval, onCodeSent will be triggered.
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNum, 30L /*timeout*/, TimeUnit.SECONDS,
+                this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                    @Override
+                    public void onCodeSent(String verificationId,
+                                           PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        // Save the verification id somewhere
+                        // ...
+                        Log.e("MainA:","onCodeSent:"+verificationId);
+
+                        // The corresponding whitelisted code above should be used to complete sign-in.
+//                        MainActivity.this.enableUserManuallyInputCode();
+                    }
+
+                    @Override
+                    public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                        // Sign in with the credential
+                        // ...
+                        Log.e("MainA:","onVerificationCompleted:"+phoneAuthCredential.getSmsCode());
+                    }
+
+                    @Override
+                    public void onVerificationFailed(FirebaseException e) {
+                        // ...
+                        Log.e("MainA:","onVerificationFailed:"+e);
+                    }
+
+                });
+        // [END auth_test_phone_verify]
+    }
+
+//    public String getKeyHash() {
+//        PackageInfo packageInfo = getPackageInfo(this, PackageManager.GET_SIGNATURES);
+//        if (packageInfo == null)
+//            return null;
+//
+//        for (Signature signature : packageInfo.signatures) {
+//            try {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+//            } catch (NoSuchAlgorithmException e) {
+//                Log.e("TAG", "Unable to get MessageDigest. signature=" + signature, e);
+//            }
+//        }
+//        return null;
+//    }
 
 }

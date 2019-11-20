@@ -34,33 +34,33 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
-import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.mrex.ncs.MainActivity.userToken;
-
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RC_SIGN_IN = 9001;
 
-    public static String userName;
-    public static String userID;
+    private String userName;
+    private String userUID;
+    private String userID;
+    private String userPW;
+    private String userToken;
 
     private DatabaseReference iDRef;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    private SharedPreferences sf;
 
     ///////////////////
 
@@ -75,8 +75,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setTitle(getString(R.string.sign_in_title));
 
         findViewById(R.id.bt_google_login).setOnClickListener(this);
-        findViewById(R.id.bt_google_logout).setOnClickListener(this);
-        findViewById(R.id.bt_kakao_logout).setOnClickListener(this);
+        findViewById(R.id.bt_ok).setOnClickListener(this);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -93,6 +92,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
+
+        ///////////////////////
+
+        getToken();
 
 
     }
@@ -145,11 +148,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             // Sign in success, update UI with the signed-in user's information
                             Log.e("SignInA:", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            userID = user.getUid();
+                            userUID = user.getUid();
                             userName = user.getDisplayName();
-                            Log.e("SignInA:", "id:" + userID + "  name:" + userName);
+                            Log.e("SignInA:", "id:" + userUID + "  name:" + userName);
 
-                            uploadUserDB();
+                            uploadDB();
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -176,7 +179,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-
+                        Log.e("SignInA:", "google sign out complete");
                     }
                 });
     }
@@ -187,31 +190,32 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         int i = view.getId();
         if (i == R.id.bt_google_login) {
             signIn();
-        } else if (i == R.id.bt_google_logout) {
-            signOut();
-        } else if (i == R.id.bt_kakao_logout) {
-            UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-                @Override
-                public void onCompleteLogout() {
-                    Log.e("SignInA:", "kakao:onCompleteLogout");
-                }
-            });
+        } else if (i == R.id.bt_ok) {
+            startActivity(new Intent(this, SignUpActivity.class));
         }
+
+//         else if (i == R.id.bt_google_logout) {
+//            signOut();
+//        } else if (i == R.id.bt_kakao_logout) {
+//            UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+//                @Override
+//                public void onCompleteLogout() {
+//                    Log.e("SignInA:", "kakao:onCompleteLogout");
+//                }
+//            });
+//        }
     }
 
     ///////////////////////////////////////////////
 
-    private void uploadUserDB() {
-        saveID();
-        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        Boolean isTokenUploaded = sf.getBoolean("isTokenUploaded", false);
-        if (!isTokenUploaded) {
-            uploadToken();
-        }
+    private void uploadDB() {
+
+        saveUserDataSF();
+        uploadToken();
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
-        iDRef = rootRef.child("users").child(userID);
+        iDRef = rootRef.child("users").child(userUID);
 
         iDRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -219,7 +223,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
                 User user = dataSnapshot.getValue(User.class);
                 if (user == null) {
-                    User setUser = new User(userID, userName, "", "", 0);
+                    User setUser = new User(userUID, userName, userID, userPW);
                     iDRef.setValue(setUser);
                 } else {
 
@@ -246,41 +250,42 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("MainA:", "requestQueue onResponse:" + response);
+                Log.e("SignInA:uploadToken", "requestQueue onResponse:" + response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("MainA:", "requestQueue onErrorResponse");
+                Log.e("SignInA:uploadToken", "requestQueue onErrorResponse");
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 HashMap<String, String> datas = new HashMap<>();
-                datas.put("userID", userID);
+                datas.put("userUID", userUID);
                 datas.put("userToken", userToken);
-                datas.put("userType", "0");
+                if (userID.equals("manager")) {
+                    datas.put("userType", "manager");
+                } else {
+                    datas.put("userType", "user");
+                }
 
-                Log.e("SignInA:", "getParams:" + "userID:" + userID + "/userToken:" + userToken);
+                Log.e("SignInA:", "getParams:" + "userUID:" + userUID + "/userToken:" + userToken);
 
                 return datas;
             }
         });
 
-        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sf.edit();
-        editor.putBoolean("isTokenUploaded", true);
-        editor.commit();
-
     }
 
-    private void saveID() {
+    private void saveUserDataSF() {
         SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
 
-        editor.putString("userID", userID);
+        editor.putString("userUID", userUID);
         editor.putString("userName", userName);
+        editor.putString("userToken", userToken);
+
         editor.commit();
     }
 
@@ -327,18 +332,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     Log.e("SignInA:", "getId:" + result.getId() + "   getKakaoAccount:" + result.getKakaoAccount()
                             + "  getProperties:" + result.getProperties() + "  getGroupUserToken:" + result.getGroupUserToken());
 
-                    userID = result.getId() + "";
+                    userUID = result.getId() + "";
                     userName = result.getProperties().get("nickname");
 //                    String email=result.getKakaoAccount().getEmail();
-                    Log.e("SignInA:", "id:" + userID + "  name:" + userName);
+                    Log.e("SignInA:", "id:" + userUID + "  name:" + userName);
 
-                    uploadUserDB();
+                    uploadDB();
 
-                    if (result.hasSignedUp() == OptionalBoolean.FALSE) {
-                        Log.e("SignInA:", "result.hasSignedUp() == OptionalBoolean.FALSE");
-                    } else {
-                        Log.e("SignInA:", "else result.hasSignedUp() == OptionalBoolean.FALSE");
-                    }
                 }
             });
         }
@@ -351,6 +351,25 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getToken() {
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("SignInA:", "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        // Get new Instance ID token
+                        userToken = task.getResult().getToken();
+
+                        Log.e("SignInA:token:", userToken);
+
+                    }
+                });
     }
 
 

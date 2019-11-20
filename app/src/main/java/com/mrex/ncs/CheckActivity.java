@@ -136,7 +136,6 @@ public class CheckActivity extends AppCompatActivity {
                 depositName = etDepositName.getText().toString();
             }
 
-            userID = sf.getString("userID", "needSignIn");
             uploadReservationDB();
             pushFM();
             Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
@@ -150,8 +149,9 @@ public class CheckActivity extends AppCompatActivity {
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                userID = sf.getString("userID", "needSignIn");
+                userID = sf.getString("userUID", "needSignIn");
                 uploadReservationDB();
+                pushFM();
                 Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
             }
 
@@ -182,7 +182,6 @@ public class CheckActivity extends AppCompatActivity {
         });
 
         startActivity(new Intent(this, HomeActivity.class));
-//        finish();
         finishAffinity();
 
     }

@@ -2,29 +2,28 @@ package com.mrex.ncs;
 
 public class User {
 
-    private String iD;
+    private String uid;
     private String name;
-    private String address;
+    private String id;
+    private String pw;
     private String phone;
-    private int point;
 
     public User() {
     }
 
-    public User(String iD, String name, String address, String phone, int point) {
-        this.iD = iD;
+    public User(String uid, String name, String id, String pw) {
+        this.uid = uid;
         this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.point = point;
+        this.id = id;
+        this.pw = pw;
     }
 
-    public String getiD() {
-        return iD;
+    public String getUid() {
+        return uid;
     }
 
-    public void setiD(String iD) {
-        this.iD = iD;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -35,12 +34,20 @@ public class User {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getId() {
+        return id;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPw() {
+        return pw;
+    }
+
+    public void setPw(String pw) {
+        this.pw = pw;
     }
 
     public String getPhone() {
@@ -49,13 +56,5 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point = point;
     }
 }

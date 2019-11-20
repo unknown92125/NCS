@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
     <TextView
+        android:id="@+id/tv_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_sign_up"
         android:layout_centerHorizontal="true"
         android:layout_margin="24dp"
-        android:textSize="24dp"
-        android:text="@string/sign_up"/>
+        android:text="@string/sign_up"
+        android:textSize="24dp" />
 
     <EditText
         android:id="@+id/et_id"
@@ -23,8 +22,12 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
-        android:hint="@string/email_or_phone"
-        android:imeOptions="actionDone" />
+        android:hint="@string/id"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:lines="1"
+        android:maxLength="20" />
+
 
     <EditText
         android:id="@+id/et_pw"
@@ -35,7 +38,10 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
         android:hint="@string/password"
-        android:imeOptions="actionDone" />
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:maxLength="20" />
 
     <EditText
         android:id="@+id/et_pw2"
@@ -45,20 +51,70 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
-        android:hint="@string/password"
-        android:imeOptions="actionDone" />
+        android:hint="@string/password_2"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:maxLength="20" />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_pw2"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:ems="11"
+        android:hint="@string/phone_number"
+        android:imeOptions="actionDone"
+        android:lines="1"
+        android:maxLength="11" />
+
+    <Button
+        android:id="@+id/bt_get_verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/et_phone"
+        android:layout_alignBottom="@id/et_phone"
+        android:layout_toRightOf="@id/et_phone"
+
+        android:text="인증번호 받기" />
+
+    <EditText
+        android:id="@+id/et_verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bt_get_verification"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:ems="11"
+        android:hint="@string/verification_code"
+        android:imeOptions="actionDone"
+        android:lines="1"
+        android:maxLength="6" />
+
+    <Button
+        android:id="@+id/bt_verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/et_verification"
+        android:layout_alignBottom="@id/et_verification"
+        android:layout_toRightOf="@id/et_verification"
+        android:text="@string/enter" />
 
     <Button
         android:id="@+id/bt_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_pw2"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
+        android:layout_marginBottom="24dp"
         android:background="@color/gray4"
-        android:textColor="@color/white"
         android:text="@string/enter"
-        />
+        android:textColor="@color/white" />
 
 </RelativeLayout>

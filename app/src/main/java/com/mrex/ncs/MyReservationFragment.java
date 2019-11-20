@@ -32,7 +32,7 @@ public class MyReservationFragment extends Fragment {
     private MyDataActivity myDataActivity;
 
     private DatabaseReference reservationRef;
-    private String userID;
+    private String userUID;
     private Reservation reservation;
     private ArrayList<Reservation> arrListRV = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -54,12 +54,12 @@ public class MyReservationFragment extends Fragment {
 
 
         SharedPreferences sf = myDataActivity.getSharedPreferences("sfUser", MODE_PRIVATE);
-        userID = sf.getString("userID", "needSignIn");
-        Log.e("MyReserF:", userID);
+        userUID = sf.getString("userUID", "needSignIn");
+        Log.e("MyReserF:", userUID);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
-        reservationRef = rootRef.child("reservations").child(userID);
+        reservationRef = rootRef.child("reservations").child(userUID);
 
         reservationRef.addValueEventListener(new ValueEventListener() {
             @Override

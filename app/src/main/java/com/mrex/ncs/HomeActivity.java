@@ -149,11 +149,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-    public void login(View view) {
-        startActivity(new Intent(this, SignInActivity.class));
-    }
-
     @Override
     public void onClick(View view) {
         int i = view.getId();
