@@ -44,18 +44,22 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RC_SIGN_IN = 9001;
+    private static final int RC_SIGN_UP = 9002;
 
     private String userName;
     private String userUID;
-    private String userID;
-    private String userPW;
+    private String userID = "noValue";
+    private String userPW = "noValue";
     private String userToken;
+    private String userType = "user";
 
     private DatabaseReference iDRef;
 
@@ -75,7 +79,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setTitle(getString(R.string.sign_in_title));
 
         findViewById(R.id.bt_google_login).setOnClickListener(this);
-        findViewById(R.id.bt_ok).setOnClickListener(this);
+        findViewById(R.id.bt_sign_up).setOnClickListener(this);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -116,6 +120,23 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 // Google Sign In failed, update UI appropriately
                 Log.e("SignInA:", "Google sign in failed");
                 // ...
+            }
+        }
+
+        if (requestCode == RC_SIGN_UP) {
+            if (resultCode == RESULT_OK) {
+                userID = data.getStringExtra("userID");
+                userPW = data.getStringExtra("userPW");
+                userName = userID;
+                Log.e("SintInA:", "userID:" + userID);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
+
+                userUID = userID.substring(0, 4) + sdf.format(Calendar.getInstance().getTime());
+
+                Log.e("SintInA:", "userUID:" + userUID);
+
+                uploadDB();
             }
         }
 
@@ -190,8 +211,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         int i = view.getId();
         if (i == R.id.bt_google_login) {
             signIn();
-        } else if (i == R.id.bt_ok) {
-            startActivity(new Intent(this, SignUpActivity.class));
+        } else if (i == R.id.bt_sign_up) {
+            startActivityForResult(new Intent(this, SignUpActivity.class), RC_SIGN_UP);
         }
 
 //         else if (i == R.id.bt_google_logout) {
@@ -263,14 +284,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
                 HashMap<String, String> datas = new HashMap<>();
                 datas.put("userUID", userUID);
+                datas.put("userID", userID);
+                datas.put("userPW", userPW);
+                datas.put("userName", userName);
                 datas.put("userToken", userToken);
-                if (userID.equals("manager")) {
-                    datas.put("userType", "manager");
-                } else {
-                    datas.put("userType", "user");
-                }
+                datas.put("userType", userType);
 
-                Log.e("SignInA:", "getParams:" + "userUID:" + userUID + "/userToken:" + userToken);
+                Log.e("SignInA:", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:"+userName+"   userToken:" + userToken + "   userType:" + userType);
 
                 return datas;
             }
@@ -283,8 +303,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         SharedPreferences.Editor editor = sf.edit();
 
         editor.putString("userUID", userUID);
+        editor.putString("userID", userID);
+        editor.putString("userPW", userPW);
         editor.putString("userName", userName);
         editor.putString("userToken", userToken);
+        editor.putString("userType", userType);
 
         editor.commit();
     }

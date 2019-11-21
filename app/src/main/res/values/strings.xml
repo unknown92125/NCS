@@ -37,10 +37,14 @@
 
     <string name="phone_number">휴대폰번호</string>
     <string name="id">아이디</string>
+    <string name="id_text">6~16자리</string>
     <string name="password">비밀번호</string>
-    <string name="password_2">비밀번호 재입력</string>
+    <string name="password_text">비밀번호를 한번더 입력하세요</string>
+    <string name="password_wrong">비밀번호가 다릅니다</string>
+    <string name="password_right">같은 비밀번호입니다</string>
     <string name="find_password">비밀번호 찾기</string>
     <string name="verification_code">인증번호</string>
+    <string name="verification_code_text">인증번호를 입력후 확인을 눌러주세요</string>
     <string name="login">로그인</string>
     <string name="logout">로그아웃</string>
     <string name="sign_up">회원가입</string>

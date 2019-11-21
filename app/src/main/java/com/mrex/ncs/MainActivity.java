@@ -53,44 +53,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void testPhoneVerify() {
-        // [START auth_test_phone_verify]
-        String phoneNum = "+821052565575";
-        String testVerificationCode = "123456";
 
-        // Whenever verification is triggered with the whitelisted number,
-        // provided it is not set for auto-retrieval, onCodeSent will be triggered.
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNum, 30L /*timeout*/, TimeUnit.SECONDS,
-                this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-                    @Override
-                    public void onCodeSent(String verificationId,
-                                           PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                        // Save the verification id somewhere
-                        // ...
-                        Log.e("MainA:","onCodeSent:"+verificationId);
-
-                        // The corresponding whitelisted code above should be used to complete sign-in.
-//                        MainActivity.this.enableUserManuallyInputCode();
-                    }
-
-                    @Override
-                    public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-                        // Sign in with the credential
-                        // ...
-                        Log.e("MainA:","onVerificationCompleted:"+phoneAuthCredential.getSmsCode());
-                    }
-
-                    @Override
-                    public void onVerificationFailed(FirebaseException e) {
-                        // ...
-                        Log.e("MainA:","onVerificationFailed:"+e);
-                    }
-
-                });
-        // [END auth_test_phone_verify]
-    }
 
 //    public String getKeyHash() {
 //        PackageInfo packageInfo = getPackageInfo(this, PackageManager.GET_SIGNATURES);
