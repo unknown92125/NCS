@@ -33,7 +33,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     private ListView listView;
     private ChatAdapter chatAdapter;
 
-    private String userUID;
+    private String userUID, userName, userType;
     private DatabaseReference chatRef;
 
     @Override
@@ -49,6 +49,8 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
         SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
         userUID = sf.getString("userUID", "needSignIn");
+        userName = sf.getString("userName", "needSignIn");
+        userType = sf.getString("userType", "needSignIn");
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
@@ -71,13 +73,13 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
     public void sendMessage(View view) {
 
-        String name = "user";
         String message = et.getText().toString();
 
         Calendar calendar = Calendar.getInstance();
+        Long timeMilli= calendar.getTimeInMillis();
         String time = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
 
-        MessageItem messageItem = new MessageItem(name, message, time);
+        MessageItem messageItem = new MessageItem(userName, message, time, userType, timeMilli);
 
         chatRef.push().setValue(messageItem);
 
@@ -123,13 +125,13 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
             View itemView = null;
 
-            if (messageItem.getName().equals(getString(R.string.app_name_kr))) {
+            if (messageItem.getType().equals("manager")) {
                 itemView = layoutInflater.inflate(R.layout.manager_chat_box, viewGroup, false);
                 tvName = itemView.findViewById(R.id.tv_name_chat);
                 tvMsg = itemView.findViewById(R.id.tv_manager_chat);
                 tvTime = itemView.findViewById(R.id.tv_time_chat);
 
-                tvName.setText(messageItem.getName());
+                tvName.setText(getString(R.string.app_name_kr));
                 tvMsg.setText(messageItem.getMessage());
                 tvTime.setText(messageItem.getTime());
 

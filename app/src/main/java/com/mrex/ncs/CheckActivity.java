@@ -33,12 +33,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class CheckActivity extends AppCompatActivity {
+public class CheckActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final int RC_SIGN_IN = 5001;
 
     private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPhone;
-    private String userID, date, time, address, minute, expectedTime, payPrice, payMethod, payDate, phone;
+    private String userUID, date, time, address, minute, expectedTime, payPrice, payMethod, payDate, phone;
     private String depositName = "needDepositName";
     private Intent intent;
     private int area, hour, price;
@@ -70,6 +70,7 @@ public class CheckActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.rg);
         etDepositName = findViewById(R.id.et_deposit_name);
         llDepositName = findViewById(R.id.ll_deposit_name);
+        findViewById(R.id.bt_next_check).setOnClickListener(this);
 
 
         address = AddressActivity.fullAddress;
@@ -119,27 +120,27 @@ public class CheckActivity extends AppCompatActivity {
 
     }
 
-    public void next(View view) {
-        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        String userName = sf.getString("userName", "needSignIn");
-
-        if (userName.equals("needSignIn")) {
-            startActivityForResult(new Intent(this, SignInActivity.class), RC_SIGN_IN);
-            return;
-
-        } else {
-            if (payMethod.equals("무통장입금")) {
-                if (etDepositName.length() == 0) {
-                    Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                depositName = etDepositName.getText().toString();
-            }
-
-            uploadReservationDB();
-            pushFM();
-            Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
-        }
+    private void next() {
+//        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+//        String userName = sf.getString("userName", "needSignIn");
+//
+//        if (userName.equals("needSignIn")) {
+//            startActivityForResult(new Intent(this, SignInActivity.class), RC_SIGN_IN);
+//            return;
+//
+//        } else {
+//            if (payMethod.equals("무통장입금")) {
+//                if (etDepositName.length() == 0) {
+//                    Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                depositName = etDepositName.getText().toString();
+//            }
+//
+//            uploadReservationDB();
+//            pushFM();
+//            Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
+//        }
 
     }
 
@@ -149,7 +150,7 @@ public class CheckActivity extends AppCompatActivity {
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                userID = sf.getString("userUID", "needSignIn");
+                userUID = sf.getString("userUID", "needSignIn");
                 uploadReservationDB();
                 pushFM();
                 Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
@@ -166,7 +167,9 @@ public class CheckActivity extends AppCompatActivity {
     private void uploadReservationDB() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
-        reservationRef = rootRef.child("reservations").child(userID).push();
+        Log.e("CheckA:", userUID);
+        reservationRef = rootRef.child("reservations").child(userUID).push();
+
 
         Reservation reservation = new Reservation(address, phone, area + "평", date, time, expectedTime, payMethod, payDate, "N", payPrice, depositName);
         reservationRef.setValue(reservation);
@@ -211,4 +214,31 @@ public class CheckActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.bt_next_check) {
+            sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+            String userName = sf.getString("userName", "needSignIn");
+            userUID = sf.getString("userUID", "needSignIn");
+
+            if (userName.equals("needSignIn")) {
+                startActivityForResult(new Intent(this, SignInActivity.class), RC_SIGN_IN);
+                return;
+
+            } else {
+                if (payMethod.equals("무통장입금")) {
+                    if (etDepositName.length() == 0) {
+                        Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    depositName = etDepositName.getText().toString();
+                }
+
+                uploadReservationDB();
+                pushFM();
+                Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

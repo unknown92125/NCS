@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,14 +47,19 @@ import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int RC_SIGN_IN = 9001;
-    private static final int RC_SIGN_UP = 9002;
+    public static final int RC_SIGN_IN = 9001;
+    public static final int RC_SIGN_UP = 9002;
+
+    private SignInActivity signInActivity;
+
+    private ArrayList<User> arrListUser = new ArrayList<>();
 
     private String userName;
     private String userUID;
@@ -60,8 +67,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private String userPW = "noValue";
     private String userToken;
     private String userType = "user";
+    private String checkID, checkPW;
 
-    private DatabaseReference iDRef;
+    private Boolean isIDAndPWRight = false;
+
+    private EditText etID;
+    private EditText etPW;
+
+    private DatabaseReference rootRef, iDRef, userRef;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -74,12 +87,17 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        signInActivity = this;
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.sign_in_title));
 
+        etID = findViewById(R.id.et_id);
+        etPW = findViewById(R.id.et_pw);
+
         findViewById(R.id.bt_google_login).setOnClickListener(this);
         findViewById(R.id.bt_sign_up).setOnClickListener(this);
+        findViewById(R.id.bt_login).setOnClickListener(this);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -211,20 +229,67 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         int i = view.getId();
         if (i == R.id.bt_google_login) {
             signIn();
-        } else if (i == R.id.bt_sign_up) {
+        }
+        if (i == R.id.bt_sign_up) {
             startActivityForResult(new Intent(this, SignUpActivity.class), RC_SIGN_UP);
         }
+        if (i == R.id.bt_login) {
+            checkIDAndPW();
+        }
 
-//         else if (i == R.id.bt_google_logout) {
-//            signOut();
-//        } else if (i == R.id.bt_kakao_logout) {
-//            UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-//                @Override
-//                public void onCompleteLogout() {
-//                    Log.e("SignInA:", "kakao:onCompleteLogout");
-//                }
-//            });
-//        }
+    }
+
+    private void checkIDAndPW() {
+
+        if (etID.getText().toString().length() == 0 || etPW.getText().toString().length() == 0) {
+            return;
+        }
+
+        checkID = etID.getText().toString();
+        checkPW = etPW.getText().toString();
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        rootRef = firebaseDatabase.getReference();
+        userRef = rootRef.child("users");
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+
+                    if (checkID.equals(user.getId()) && checkPW.equals(user.getPw())) {
+                        isIDAndPWRight = true;
+                        userUID = user.getUid();
+                        userID = user.getId();
+                        userPW = user.getPw();
+                        userName = user.getName();
+                        userType = user.getType();
+
+                        uploadDB();
+                        finish();
+
+                        break;
+                    }
+                }//for
+                if (!isIDAndPWRight){
+                    Toast.makeText(signInActivity, "아이디 또는 비밀번호가 틀립니다", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Log.e("SignInA:2", isIDAndPWRight + "");
+        if (isIDAndPWRight) {
+
+
+        } else {
+
+        }
     }
 
     ///////////////////////////////////////////////
@@ -235,8 +300,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         uploadToken();
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference rootRef = firebaseDatabase.getReference();
-        iDRef = rootRef.child("users").child(userUID);
+        rootRef = firebaseDatabase.getReference();
+       iDRef = rootRef.child("users").child(userUID);
 
         iDRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -244,7 +309,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
                 User user = dataSnapshot.getValue(User.class);
                 if (user == null) {
-                    User setUser = new User(userUID, userName, userID, userPW);
+                    User setUser = new User(userUID, userID, userPW, userName, userType, userToken);
                     iDRef.setValue(setUser);
                 } else {
 
@@ -290,7 +355,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 datas.put("userToken", userToken);
                 datas.put("userType", userType);
 
-                Log.e("SignInA:", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:"+userName+"   userToken:" + userToken + "   userType:" + userType);
+                Log.e("SignInA:", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userToken:" + userToken + "   userType:" + userType);
 
                 return datas;
             }

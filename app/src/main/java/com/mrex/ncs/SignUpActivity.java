@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -23,6 +24,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,76 +61,75 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         etPW.addTextChangedListener(this);
         etPW2.addTextChangedListener(this);
 
-//        checkDuplicateID();
-    }
-
-    private void checkDuplicateID() {
-
-        String serverUrl = "http://ncservices.dothome.co.kr/checkDuplicateID.php";
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (response.equals("possible")) {
-                    isDuplicateID = false;
-                } else {
-                    isDuplicateID = true;
-                }
-                Log.e("SignInA:", "isDuplicateID:" + isDuplicateID);
-                Log.e("SignInA:", "checkDuplicateID:requestQueue onResponse:" + response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("SignInA:", "checkDuplicateID:requestQueue onErrorResponse" + error);
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                HashMap<String, String> datas = new HashMap<>();
-
-                datas.put("userID", userID);
-
-                Log.e("SignUpA:", "checkDuplicateID:" + "userID:" + userID);
-
-                return datas;
-            }
-        });
-
     }
 
 //    private void checkDuplicateID() {
 //
-//        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//        DatabaseReference rootRef = firebaseDatabase.getReference();
-//        DatabaseReference userRef = rootRef.child("users");
-//        userRef.addValueEventListener(new ValueEventListener() {
+//        String serverUrl = "http://ncservices.dothome.co.kr/checkDuplicateID.php";
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
 //            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    for (DataSnapshot dds : ds.getChildren()) {
-//                        user = dds.getValue(User.class);
-//                        checkID = user.getId();
-//                        if (checkID.equals(userID)) {
-//                            isDuplicateID = true;
-//                        } else isDuplicateID = false;
-//
-//                        //TODO
-//
-//                    }
+//            public void onResponse(String response) {
+//                if (response.equals("possible")) {
+//                    isDuplicateID = false;
+//                } else {
+//                    isDuplicateID = true;
 //                }
-//
+//                Log.e("SignInA:", "isDuplicateID:" + isDuplicateID);
+//                Log.e("SignInA:", "checkDuplicateID:requestQueue onResponse:" + response);
 //            }
-//
+//        }, new Response.ErrorListener() {
 //            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            public void onErrorResponse(VolleyError error) {
+//                Log.e("SignInA:", "checkDuplicateID:requestQueue onErrorResponse" + error);
+//            }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
 //
+//                HashMap<String, String> datas = new HashMap<>();
+//
+//                datas.put("userID", userID);
+//
+//                Log.e("SignUpA:", "checkDuplicateID:" + "userID:" + userID);
+//
+//                return datas;
 //            }
 //        });
+//
 //    }
+
+    private void checkDuplicateID() {
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference rootRef = firebaseDatabase.getReference();
+        DatabaseReference userRef = rootRef.child("users");
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        user = ds.getValue(User.class);
+                        checkID = user.getId();
+                        if (checkID.equals(userID)) {
+                            isDuplicateID = true;
+                        } else isDuplicateID = false;
+
+                        //TODO
+
+                    }
+//                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
     @Override

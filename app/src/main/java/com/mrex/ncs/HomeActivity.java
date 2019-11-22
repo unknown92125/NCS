@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,16 +24,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+
+import static com.mrex.ncs.SignInActivity.RC_SIGN_IN;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     static Boolean isLocationPermissionGranted;
     final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 10;
+
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private ActionBarDrawerToggle toggle;
@@ -42,6 +42,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private DrawerRecyclerAdapter drawerRecyclerAdapter;
     private TextView tvName;
+    private String userName;
+    private SharedPreferences sf;
 
 
     @Override
@@ -51,6 +53,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.home_title));
+
+        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        userName = sf.getString("userName", "needSignIn");
 
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nv);
@@ -64,7 +69,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setAdapter(drawerRecyclerAdapter);
 
         findViewById(R.id.iv_home).setOnClickListener(this);
-        findViewById(R.id.iv_event).setOnClickListener(this);
+        findViewById(R.id.iv_chat).setOnClickListener(this);
         findViewById(R.id.iv_menu).setOnClickListener(this);
 
         fragmentManager = getSupportFragmentManager();
@@ -91,7 +96,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadID() {
         SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        String userName = sf.getString("userName", "needSignIn");
+        userName = sf.getString("userName", "needSignIn");
 
         if (userName.equals("needSignIn")) {
             tvName.setText("");
@@ -158,8 +163,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             fragmentTransaction.replace(R.id.layout_fragments, new HomeFragment());
             fragmentTransaction.commit();
         }
-        if (i == R.id.iv_event) {
-
+        if (i == R.id.iv_chat) {
+            getSupportActionBar().setTitle("채팅상담");
+            if (userName.equals("needSignIn")) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.layout_fragments, new ChatSignInFragment());
+                fragmentTransaction.commit();
+            } else if (sf.getString("userType", "needSignIn").equals("manager")){
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.layout_fragments, new ManagerChatFragment());
+                fragmentTransaction.commit();
+            } else {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.layout_fragments, new ChatFragment());
+                fragmentTransaction.commit();
+            }
         }
         if (i == R.id.iv_menu) {
             getSupportActionBar().setTitle("더보기");

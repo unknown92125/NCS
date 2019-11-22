@@ -240,14 +240,13 @@
 
 
     <Button
-        android:id="@+id/bt_next"
+        android:id="@+id/bt_next_check"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:background="@color/gray5"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
-        android:onClick="next"
         android:padding="8dp"
         android:text="@string/enter"
         android:textColor="@color/white"

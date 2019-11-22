@@ -20,11 +20,11 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
-        android:hint="@string/phone_number"
+        android:hint="@string/id"
         android:imeOptions="actionNext"
-        android:inputType="phone"
+        android:inputType="text"
         android:lines="1"
-        android:maxLength="11" />
+        android:maxLength="16" />
 
     <EditText
         android:id="@+id/et_pw"

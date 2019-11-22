@@ -50,6 +50,7 @@ public class ManagerActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 arrListRV.clear();
+                managerAdapter.notifyDataSetChanged();
                 int pos = 0;
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {

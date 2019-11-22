@@ -3,19 +3,22 @@ package com.mrex.ncs;
 public class User {
 
     private String uid;
-    private String name;
     private String id;
     private String pw;
-    private String phone;
+    private String name;
+    private String type;
+    private String token;
 
     public User() {
     }
 
-    public User(String uid, String name, String id, String pw) {
+    public User(String uid, String id, String pw, String name, String type, String token) {
         this.uid = uid;
-        this.name = name;
         this.id = id;
         this.pw = pw;
+        this.name = name;
+        this.type = type;
+        this.token = token;
     }
 
     public String getUid() {
@@ -24,14 +27,6 @@ public class User {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getId() {
@@ -50,11 +45,27 @@ public class User {
         this.pw = pw;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getName() {
+        return name;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
