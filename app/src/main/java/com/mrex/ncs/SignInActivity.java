@@ -46,11 +46,16 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.mrex.ncs.U.isSignedIn;
+import static com.mrex.ncs.U.userID;
+import static com.mrex.ncs.U.userName;
+import static com.mrex.ncs.U.userPW;
+import static com.mrex.ncs.U.userToken;
+import static com.mrex.ncs.U.userType;
+import static com.mrex.ncs.U.userUID;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,23 +64,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private SignInActivity signInActivity;
 
-    private ArrayList<User> arrListUser = new ArrayList<>();
-
-    private String userName;
-    private String userUID;
-    private String userID = "noValue";
-    private String userPW = "noValue";
-    private String userToken;
-    private String userType = "user";
     private String checkID, checkPW;
-
     private Boolean isIDAndPWRight = false;
+    private EditText etID, etPW;
 
-    private EditText etID;
-    private EditText etPW;
-
-    private DatabaseReference rootRef, iDRef, userRef;
-
+    private DatabaseReference rootRef, iDRef;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -99,6 +92,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.bt_sign_up).setOnClickListener(this);
         findViewById(R.id.bt_login).setOnClickListener(this);
 
+        /////////////////////// Google
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -106,19 +100,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
-        //////////////////////
-
+        ////////////////////// Kakao
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
-
         ///////////////////////
 
         getToken();
-
 
     }
 
@@ -143,41 +131,20 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         if (requestCode == RC_SIGN_UP) {
             if (resultCode == RESULT_OK) {
-                userID = data.getStringExtra("userID");
-                userPW = data.getStringExtra("userPW");
-                userName = userID;
-                Log.e("SintInA:", "userID:" + userID);
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
-
-                userUID = userID.substring(0, 4) + sdf.format(Calendar.getInstance().getTime());
-
-                Log.e("SintInA:", "userUID:" + userUID);
-
                 uploadDB();
             }
         }
 
         /////////////////////////////
-
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             return;
         }
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.e("SignInA:", "onStart:");
-
-    }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.e("SignInA:", "firebaseAuthWithGoogle:" + acct.getId());
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -189,6 +156,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             FirebaseUser user = mAuth.getCurrentUser();
                             userUID = user.getUid();
                             userName = user.getDisplayName();
+                            userType = "user";
+                            isSignedIn = true;
                             Log.e("SignInA:", "id:" + userUID + "  name:" + userName);
 
                             uploadDB();
@@ -241,7 +210,16 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private void checkIDAndPW() {
 
-        if (etID.getText().toString().length() == 0 || etPW.getText().toString().length() == 0) {
+        if (etID.getText().toString().length() == 0) {
+            Toast.makeText(signInActivity, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (etPW.getText().toString().length() == 0) {
+            Toast.makeText(signInActivity, "비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (etID.getText().toString().equals("noValue") ||
+                etID.getText().toString().length() < 6 || etID.getText().toString().length() > 16 ||
+                etPW.getText().toString().length() < 6 || etPW.getText().toString().length() > 16) {
+            Toast.makeText(signInActivity, "아이디 또는 비밀번호가 틀립니다", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -250,7 +228,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         rootRef = firebaseDatabase.getReference();
-        userRef = rootRef.child("users");
+        DatabaseReference userRef = rootRef.child("users");
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -266,6 +244,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         userPW = user.getPw();
                         userName = user.getName();
                         userType = user.getType();
+                        isSignedIn = true;
 
                         uploadDB();
                         finish();
@@ -273,7 +252,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         break;
                     }
                 }//for
-                if (!isIDAndPWRight){
+                if (!isIDAndPWRight) {
                     Toast.makeText(signInActivity, "아이디 또는 비밀번호가 틀립니다", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -301,7 +280,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         rootRef = firebaseDatabase.getReference();
-       iDRef = rootRef.child("users").child(userUID);
+        iDRef = rootRef.child("users").child(userUID);
 
         iDRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -312,7 +291,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     User setUser = new User(userUID, userID, userPW, userName, userType, userToken);
                     iDRef.setValue(setUser);
                 } else {
-
+                    user.setToken(userToken);
                 }
             }
 
@@ -321,8 +300,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        Intent intentFromReservation = getIntent();
-        setResult(RESULT_OK, intentFromReservation);
+        Intent intentFromCheckActivity = getIntent();
+        setResult(RESULT_OK, intentFromCheckActivity);
         finish();
 
     }
@@ -349,9 +328,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
                 HashMap<String, String> datas = new HashMap<>();
                 datas.put("userUID", userUID);
-                datas.put("userID", userID);
-                datas.put("userPW", userPW);
-                datas.put("userName", userName);
                 datas.put("userToken", userToken);
                 datas.put("userType", userType);
 
@@ -373,6 +349,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         editor.putString("userName", userName);
         editor.putString("userToken", userToken);
         editor.putString("userType", userType);
+        editor.putBoolean("isSignedIn", true);
 
         editor.commit();
     }
@@ -386,7 +363,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private class SessionCallback implements ISessionCallback {
-
         //로그인 성공
         @Override
         public void onSessionOpened() {
@@ -422,7 +398,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
                     userUID = result.getId() + "";
                     userName = result.getProperties().get("nickname");
-//                    String email=result.getKakaoAccount().getEmail();
+                    userType = "user";
+                    isSignedIn = true;
                     Log.e("SignInA:", "id:" + userUID + "  name:" + userName);
 
                     uploadDB();
@@ -448,17 +425,23 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.e("SignInA:", "getInstanceId failed", task.getException());
+                            Log.e("SignInA:", "getTokenFailed", task.getException());
                             return;
                         }
                         // Get new Instance ID token
                         userToken = task.getResult().getToken();
-
                         Log.e("SignInA:token:", userToken);
 
                     }
                 });
     }
 
+    //    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        Log.e("SignInA:", "onStart:");
+//    }
 
 }

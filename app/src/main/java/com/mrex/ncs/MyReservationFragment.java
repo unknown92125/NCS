@@ -1,9 +1,7 @@
 package com.mrex.ncs;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static android.content.Context.MODE_PRIVATE;
+import static com.mrex.ncs.U.userUID;
 
 public class MyReservationFragment extends Fragment {
 
     private MyDataActivity myDataActivity;
 
     private DatabaseReference reservationRef;
-    private String userUID;
     private Reservation reservation;
     private ArrayList<Reservation> arrListRV = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -52,11 +49,6 @@ public class MyReservationFragment extends Fragment {
         myReservationAdapter = new MyReservationAdapter();
         recyclerView.setAdapter(myReservationAdapter);
 
-
-        SharedPreferences sf = myDataActivity.getSharedPreferences("sfUser", MODE_PRIVATE);
-        userUID = sf.getString("userUID", "needSignIn");
-        Log.e("MyReserF:", userUID);
-
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
         reservationRef = rootRef.child("reservations").child(userUID);
@@ -65,25 +57,17 @@ public class MyReservationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrListRV.clear();
+                myReservationAdapter.notifyDataSetChanged();
                 int pos = 0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     reservation = ds.getValue(Reservation.class);
-                    Log.e("MyReserF:", reservation.getAddress());
-                    Log.e("MyReserF:", reservation.getDate());
-
                     arrListRV.add(reservation);
                     myReservationAdapter.notifyItemInserted(pos);
                     pos++;
 
                 }
-
-                //TODO
                 Collections.sort(arrListRV);
                 Collections.reverse(arrListRV);
-                for (Reservation t : arrListRV) {
-                    Log.e("MyReserF:", t.getDate() + ":" + t.getMilliDate());
-                }
-
             }
 
             @Override
@@ -94,7 +78,6 @@ public class MyReservationFragment extends Fragment {
 
         return view;
     }
-
 
     public class MyReservationAdapter extends RecyclerView.Adapter {
 
@@ -125,7 +108,7 @@ public class MyReservationFragment extends Fragment {
             vHolder.tvTime.setText(reservation.getTime());
             vHolder.tvPhone.setText(reservation.getPhone());
             vHolder.tvDepositName.setText(reservation.getDepositName());
-            if (reservation.getDepositName().equals("needDepositName")) {
+            if (reservation.getDepositName().equals("noValue")) {
                 vHolder.llDepositName.setVisibility(View.GONE);
             } else {
                 vHolder.llDepositName.setVisibility(View.VISIBLE);
@@ -172,20 +155,10 @@ public class MyReservationFragment extends Fragment {
                 tvDepositName = itemView.findViewById(R.id.tv_deposit_name);
                 rlData = itemView.findViewById(R.id.rl_data);
                 rlList = itemView.findViewById(R.id.rl_list);
-                llDepositName=itemView.findViewById(R.id.ll_deposit_name);
+                llDepositName = itemView.findViewById(R.id.ll_deposit_name);
                 tvDateList = itemView.findViewById(R.id.tv_date_list);
                 ivArrow = itemView.findViewById(R.id.iv_arrow);
 
-//                itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        int position = getLayoutPosition();
-//
-//                        if (position == 0) {
-//
-//                        }
-//                    }
-//                });
             }
         }
 

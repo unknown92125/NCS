@@ -2,6 +2,7 @@ package com.mrex.ncs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +24,13 @@ import java.util.Collections;
 
 public class ManagerChatFragment extends Fragment {
 
+    public static String selectedUID;
+
     ArrayList<MessageItem> arrListMessageItem = new ArrayList<>();
     ArrayList<MessageItem> arrListLastMessage = new ArrayList<>();
     ArrayList<String> arrListUID = new ArrayList<>();
+
+    MessageItem messageItem;
 
     RecyclerView recyclerView;
     ManagerChatRecyclerAdapter managerChatRecyclerAdapter;
@@ -50,24 +55,27 @@ public class ManagerChatFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                arrListMessageItem.clear();
                 arrListLastMessage.clear();
                 arrListUID.clear();
-                managerChatRecyclerAdapter.notifyDataSetChanged();
-                int pos = 0;
+//                int pos = 0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    arrListMessageItem.clear();
                     arrListUID.add(ds.getKey());
+                    Log.e("MCF:ds", "getKey:" + ds.getKey() + "/getChildrenCount:" + ds.getChildrenCount() + "/getChildren:" + ds.getChildren());
                     for (DataSnapshot dds : ds.getChildren()) {
-                        MessageItem messageItem = dds.getValue(MessageItem.class);
+                        messageItem = dds.getValue(MessageItem.class);
                         arrListMessageItem.add(messageItem);
+                        Log.e("MCF:dds", "getName:" + messageItem.getName() + "/getMessage:" + messageItem.getMessage());
                     }
                     Collections.sort(arrListMessageItem);
-                    MessageItem messageItem = arrListMessageItem.get(arrListMessageItem.size() - 1);
+                    Log.e("MCF:", "size:" + arrListMessageItem.size());
+                    messageItem = arrListMessageItem.get(arrListMessageItem.size() - 1);
                     arrListLastMessage.add(messageItem);
-                    managerChatRecyclerAdapter.notifyItemInserted(pos);
-                    pos++;
+                    Log.e("MCF:", messageItem.getName() + "/" + messageItem.getMessage());
+//                    managerChatRecyclerAdapter.notifyItemInserted(pos);
+//                    pos++;
                 }
-
+                managerChatRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -123,11 +131,9 @@ public class ManagerChatFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         int position = getLayoutPosition();
-                        String selectedUID = arrListUID.get(position);
-                        Intent intent = new Intent(getContext(), ChatActivity.class);
-                        intent.putExtra("SelectedUID", selectedUID);
-                        startActivity(intent);
-
+                        selectedUID = arrListUID.get(position);
+                        Log.e("MCF:", selectedUID + "");
+                        startActivity(new Intent(getActivity(), ChatActivity.class));
                     }
                 });
             }

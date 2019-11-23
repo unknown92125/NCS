@@ -29,6 +29,7 @@
     <string name="space_title">평수</string>
     <string name="menu_title">더보기</string>
     <string name="sign_in_title">로그인</string>
+    <string name="chat_title">1:1 문의</string>
 
     <string name="enter">확인</string>
     <string name="nickname">닉네임</string>
@@ -40,7 +41,8 @@
 
     <string name="phone_number">휴대폰번호</string>
     <string name="id">아이디</string>
-    <string name="id_text">6~16자리</string>
+    <string name="id_text">영문 + 숫자 6 ~ 16자리</string>
+    <string name="pw_text">6 ~ 16자리</string>
     <string name="password">비밀번호</string>
     <string name="password_text">비밀번호를 한번더 입력하세요</string>
     <string name="password_wrong">비밀번호가 다릅니다</string>

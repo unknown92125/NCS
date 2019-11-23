@@ -23,6 +23,7 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.mrex.ncs.U.userName;
 
 public class MyDataFragment extends Fragment implements View.OnClickListener {
 
@@ -41,9 +42,6 @@ public class MyDataFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_data, container, false);
         myDataActivity = (MyDataActivity) getActivity();
-
-        SharedPreferences sf = myDataActivity.getSharedPreferences("sfUser", MODE_PRIVATE);
-        String userName = sf.getString("userName", "needSignIn");
 
         tvNickname = view.findViewById(R.id.tv_nickname);
         tvNickname.setText(userName);
@@ -64,7 +62,13 @@ public class MyDataFragment extends Fragment implements View.OnClickListener {
         SharedPreferences sf = myDataActivity.getSharedPreferences("sfUser", MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
 
-        editor.putString("userName", "needSignIn");
+        editor.putString("userUID", "noValue");
+        editor.putString("userID", "noValue");
+        editor.putString("userPW", "noValue");
+        editor.putString("userName", "noValue");
+        editor.putString("userType", "noValue");
+        editor.putString("userToken", "noValue");
+        editor.putBoolean("isSignedIn", false);
         editor.commit();
 
         //////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingTop="4dp"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -18,8 +20,8 @@
             android:layout_gravity="bottom"
             android:text="23415645"
             android:layout_marginRight="4dp"
-            android:textColor="@color/gray6"
-            android:textSize="12sp" />
+            android:textColor="@color/gray3"
+            android:textSize="10sp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -33,7 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="13415416"
+                android:text="1341541sjdfjiojnsfklnsdfklndsklfnskdlnfklsdnfklnsdfklnsdklfnskdl6"
+                android:maxWidth="240dp"
                 android:textColor="@color/gray6"
                 android:textSize="14sp" />
 

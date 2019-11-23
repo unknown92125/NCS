@@ -1,12 +1,11 @@
 package com.mrex.ncs;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -22,8 +21,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
+
+import static com.mrex.ncs.ManagerChatFragment.selectedUID;
+import static com.mrex.ncs.U.userName;
+import static com.mrex.ncs.U.userType;
+import static com.mrex.ncs.U.userUID;
 
 public class ChatActivity extends AppCompatActivity implements ChildEventListener {
 
@@ -33,13 +39,22 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     private ListView listView;
     private ChatAdapter chatAdapter;
 
-    private String userUID, userName, userType;
+    private String chatUID;
+    private Boolean isPreviousTypeSame = false, isNextTypeSame = false, isNextTimeSame = false;
+
+
     private DatabaseReference chatRef;
+    private MessageItem messageItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.chat_title));
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         et = findViewById(R.id.et_chat);
 
@@ -47,26 +62,26 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
         chatAdapter = new ChatAdapter(arrListMessage, getLayoutInflater());
         listView.setAdapter(chatAdapter);
 
-        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        userUID = sf.getString("userUID", "needSignIn");
-        userName = sf.getString("userName", "needSignIn");
-        userType = sf.getString("userType", "needSignIn");
+        if (userType.equals("user")) {
+            chatUID = userUID;
+        } else {
+            chatUID = selectedUID;
+        }
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
-        chatRef = rootRef.child("chat").child(userUID);
+        chatRef = rootRef.child("chat").child(chatUID);
 
         chatRef.addChildEventListener(this);
-
 
     }
 
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        MessageItem messageItem = dataSnapshot.getValue(MessageItem.class);
-
+//        Log.e("ChatA:", "onChildAdded");
+//        Log.e("ChatA:", dataSnapshot.getKey());
+        messageItem = dataSnapshot.getValue(MessageItem.class);
         arrListMessage.add(messageItem);
-
         chatAdapter.notifyDataSetChanged();
         listView.setSelection(arrListMessage.size() - 1);
     }
@@ -76,18 +91,23 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
         String message = et.getText().toString();
 
         Calendar calendar = Calendar.getInstance();
-        Long timeMilli= calendar.getTimeInMillis();
-        String time = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+        Long timeMilli = calendar.getTimeInMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("a h:mm", Locale.getDefault());
+        String time = sdf.format(timeMilli);
 
-        MessageItem messageItem = new MessageItem(userName, message, time, userType, timeMilli);
-
+        messageItem = new MessageItem(userName, message, time, userType, timeMilli);
         chatRef.push().setValue(messageItem);
 
         et.setText("");
+        et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return false;
+            }
+        });
 
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
+//        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
 
@@ -122,6 +142,30 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
             TextView tvName, tvMsg, tvTime;
 
             MessageItem messageItem = arrListMessage.get(position);
+            MessageItem previousMessage;
+            if (position != 0) {
+                previousMessage = arrListMessage.get(position - 1);
+                if (previousMessage.getType().equals(messageItem.getType())) {
+                    isPreviousTypeSame = true;
+                } else {
+                    isPreviousTypeSame = false;
+                }
+            }
+
+            MessageItem nextMessage;
+            if (position < arrListMessage.size() - 1) {
+                nextMessage = arrListMessage.get(position + 1);
+                if (nextMessage.getType().equals(messageItem.getType())) {
+                    isNextTypeSame = true;
+                } else {
+                    isNextTypeSame = false;
+                }
+                if (nextMessage.getTime().equals(messageItem.getTime())) {
+                    isNextTimeSame = true;
+                } else {
+                    isNextTimeSame = false;
+                }
+            }
 
             View itemView = null;
 
@@ -134,6 +178,25 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
                 tvName.setText(getString(R.string.app_name_kr));
                 tvMsg.setText(messageItem.getMessage());
                 tvTime.setText(messageItem.getTime());
+                if (position != 0) {
+                    if (isPreviousTypeSame) {
+                        tvName.setVisibility(View.GONE);
+                    } else {
+                        tvName.setVisibility(View.VISIBLE);
+                    }
+                }
+                if (position < arrListMessage.size() - 1) {
+                    if (isNextTimeSame) {
+                        tvTime.setVisibility(View.GONE);
+                        if (!isNextTypeSame) {
+                            tvTime.setVisibility(View.VISIBLE);
+                        } else {
+                            tvTime.setVisibility(View.GONE);
+                        }
+                    } else {
+                        tvTime.setVisibility(View.VISIBLE);
+                    }
+                }
 
             } else {
                 itemView = layoutInflater.inflate(R.layout.user_chat_box, viewGroup, false);
@@ -142,15 +205,23 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
                 tvMsg.setText(messageItem.getMessage());
                 tvTime.setText(messageItem.getTime());
-
+                if (position < arrListMessage.size() - 1) {
+                    if (isNextTimeSame) {
+                        tvTime.setVisibility(View.GONE);
+                        if (!isNextTypeSame) {
+                            tvTime.setVisibility(View.VISIBLE);
+                        } else {
+                            tvTime.setVisibility(View.GONE);
+                        }
+                    } else {
+                        tvTime.setVisibility(View.VISIBLE);
+                    }
+                }
             }
-
             return itemView;
         }
 
-
     }
-
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -171,4 +242,5 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     public void onCancelled(@NonNull DatabaseError databaseError) {
 
     }
+
 }

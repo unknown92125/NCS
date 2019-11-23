@@ -107,7 +107,7 @@ public class ManagerActivity extends AppCompatActivity {
             vHolder.tvTime.setText(reservation.getTime());
             vHolder.tvPhone.setText(reservation.getPhone());
             vHolder.tvDepositName.setText(reservation.getDepositName());
-            if (reservation.getDepositName().equals("needDepositName")) {
+            if (reservation.getDepositName().equals("noValue")) {
                 vHolder.llDepositName.setVisibility(View.GONE);
             } else {
                 vHolder.llDepositName.setVisibility(View.VISIBLE);

@@ -7,7 +7,6 @@ import java.util.Locale;
 
 public class Reservation implements Comparable<Reservation> {
 
-    private String id;
     private String address;
     private String phone;
     private String area;
@@ -16,7 +15,6 @@ public class Reservation implements Comparable<Reservation> {
     private String expectedTime;
     private String payMethod;
     private String payDate;
-    private String isDone;
     private String payPrice;
     private String depositName;
     private long milliDate;
@@ -25,7 +23,7 @@ public class Reservation implements Comparable<Reservation> {
     }
 
     public Reservation(String address, String phone, String area, String date, String time, String expectedTime,
-                       String payMethod, String payDate, String isDone, String payPrice, String depositName) {
+                       String payMethod, String payDate, String payPrice, String depositName) {
 
         this.address = address;
         this.phone = phone;
@@ -35,9 +33,8 @@ public class Reservation implements Comparable<Reservation> {
         this.expectedTime = expectedTime;
         this.payMethod = payMethod;
         this.payDate = payDate;
-        this.isDone = isDone;
         this.payPrice = payPrice;
-        this.depositName=depositName;
+        this.depositName = depositName;
 
     }
 
@@ -103,14 +100,6 @@ public class Reservation implements Comparable<Reservation> {
 
     public void setPayDate(String payDate) {
         this.payDate = payDate;
-    }
-
-    public String getIsDone() {
-        return isDone;
-    }
-
-    public void setIsDone(String isDone) {
-        this.isDone = isDone;
     }
 
     public String getPayPrice() {

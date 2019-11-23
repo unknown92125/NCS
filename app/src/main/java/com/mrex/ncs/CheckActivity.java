@@ -1,7 +1,6 @@
 package com.mrex.ncs;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,33 +22,29 @@ import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import static com.mrex.ncs.U.isSignedIn;
+import static com.mrex.ncs.U.userUID;
 
 public class CheckActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final int RC_SIGN_IN = 5001;
 
     private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPhone;
-    private String userUID, date, time, address, minute, expectedTime, payPrice, payMethod, payDate, phone;
-    private String depositName = "needDepositName";
+    private String date, time, address, minute, expectedTime, payPrice, payMethod, payDate, phone;
+    private String depositName = "noValue";
     private Intent intent;
     private int area, hour, price;
     private EditText etDepositName;
 
-    private SharedPreferences sf;
-
     private DatabaseReference reservationRef;
-
     private RadioGroup radioGroup;
-
     private LinearLayout llDepositName;
 
     @Override
@@ -72,7 +67,6 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         llDepositName = findViewById(R.id.ll_deposit_name);
         findViewById(R.id.bt_next_check).setOnClickListener(this);
 
-
         address = AddressActivity.fullAddress;
         area = AddressActivity.area;
         phone = AddressActivity.phone;
@@ -88,7 +82,6 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         expectedTime = hour + "시간 " + minute + "분";
         tvExpectedTime.setText(expectedTime);
 
-
         price = area * 1000;
         if (price < 20000) {
             price = 20000;
@@ -102,7 +95,6 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         tvArea.setText(area + "평");
 
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault());
-
         payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -120,44 +112,19 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void next() {
-//        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-//        String userName = sf.getString("userName", "needSignIn");
-//
-//        if (userName.equals("needSignIn")) {
-//            startActivityForResult(new Intent(this, SignInActivity.class), RC_SIGN_IN);
-//            return;
-//
-//        } else {
-//            if (payMethod.equals("무통장입금")) {
-//                if (etDepositName.length() == 0) {
-//                    Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                depositName = etDepositName.getText().toString();
-//            }
-//
-//            uploadReservationDB();
-//            pushFM();
-//            Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
-//        }
-
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                userUID = sf.getString("userUID", "needSignIn");
                 uploadReservationDB();
-                pushFM();
-                Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
+                pushReservationFM();
+                Toast.makeText(this, "예약이 완료되었습니다", Toast.LENGTH_SHORT).show();
             }
 
             if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "예약 취소", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "예약이 취소되었습니다", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -170,27 +137,42 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         Log.e("CheckA:", userUID);
         reservationRef = rootRef.child("reservations").child(userUID).push();
 
-
-        Reservation reservation = new Reservation(address, phone, area + "평", date, time, expectedTime, payMethod, payDate, "N", payPrice, depositName);
+        Reservation reservation = new Reservation(address, phone, area + "평", date, time, expectedTime, payMethod, payDate, payPrice, depositName);
         reservationRef.setValue(reservation);
-
-        reservationRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
 
         startActivity(new Intent(this, HomeActivity.class));
         finishAffinity();
 
     }
 
-    private void pushFM() {
-        String serverUrl = "http://ncservices.dothome.co.kr/pushFM.php";
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.bt_next_check) {
+
+            if (!isSignedIn) {
+                startActivityForResult(new Intent(this, SignInActivity.class), RC_SIGN_IN);
+                return;
+
+            } else {
+                if (payMethod.equals("무통장입금")) {
+                    if (etDepositName.length() == 0) {
+                        Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    depositName = etDepositName.getText().toString();
+                }
+
+                uploadReservationDB();
+                pushReservationFM();
+                Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void pushReservationFM() {
+        String serverUrl = "http://ncservices.dothome.co.kr/pushReservationFM.php";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
@@ -214,31 +196,4 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.bt_next_check) {
-            sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-            String userName = sf.getString("userName", "needSignIn");
-            userUID = sf.getString("userUID", "needSignIn");
-
-            if (userName.equals("needSignIn")) {
-                startActivityForResult(new Intent(this, SignInActivity.class), RC_SIGN_IN);
-                return;
-
-            } else {
-                if (payMethod.equals("무통장입금")) {
-                    if (etDepositName.length() == 0) {
-                        Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    depositName = etDepositName.getText().toString();
-                }
-
-                uploadReservationDB();
-                pushFM();
-                Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }

@@ -1,7 +1,6 @@
 package com.mrex.ncs;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -26,7 +24,13 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-import static com.mrex.ncs.SignInActivity.RC_SIGN_IN;
+import static com.mrex.ncs.U.isSignedIn;
+import static com.mrex.ncs.U.userID;
+import static com.mrex.ncs.U.userName;
+import static com.mrex.ncs.U.userPW;
+import static com.mrex.ncs.U.userToken;
+import static com.mrex.ncs.U.userType;
+import static com.mrex.ncs.U.userUID;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,9 +46,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private DrawerRecyclerAdapter drawerRecyclerAdapter;
     private TextView tvName;
-    private String userName;
     private SharedPreferences sf;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.home_title));
 
-        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        userName = sf.getString("userName", "needSignIn");
+        loadUserData();
 
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nv);
@@ -94,17 +95,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void loadID() {
-        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        userName = sf.getString("userName", "needSignIn");
-
-        if (userName.equals("needSignIn")) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isSignedIn) {
             tvName.setText("");
-
         } else {
             tvName.setText(userName);
-
         }
+    }
+
+    private void loadUserData() {
+        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        userUID = sf.getString("userUID", "noValue");
+        userID = sf.getString("userID", "noValue");
+        userPW = sf.getString("userPW", "noValue");
+        userName = sf.getString("userName", "noValue");
+        userType = sf.getString("userType", "noValue");
+        userToken = sf.getString("userToken", "noValue");
+        isSignedIn = sf.getBoolean("isSignedIn", false);
+        Log.e("loadUserData:", "userUID:" + userUID + "   userID:" + userID + "   userPW" + userPW + "   userName" + userName + "   userType" + userType + "   userToken" + userToken + "   isSignedIn" + isSignedIn);
     }
 
     @Override
@@ -141,35 +151,22 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadID();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
-
     @Override
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.iv_home) {
-            getSupportActionBar().setTitle("세상의 모든 청소");
+            getSupportActionBar().setTitle(getString(R.string.home_title));
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.layout_fragments, new HomeFragment());
             fragmentTransaction.commit();
         }
         if (i == R.id.iv_chat) {
-            getSupportActionBar().setTitle("채팅상담");
-            if (userName.equals("needSignIn")) {
+            getSupportActionBar().setTitle(getString(R.string.chat_title));
+            if (!isSignedIn) {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.layout_fragments, new ChatSignInFragment());
                 fragmentTransaction.commit();
-            } else if (sf.getString("userType", "needSignIn").equals("manager")){
+            } else if (userType.equals("manager")) {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.layout_fragments, new ManagerChatFragment());
                 fragmentTransaction.commit();
@@ -180,7 +177,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         if (i == R.id.iv_menu) {
-            getSupportActionBar().setTitle("더보기");
+            getSupportActionBar().setTitle(getString(R.string.menu_title));
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.layout_fragments, new MenuFragment());
             fragmentTransaction.commit();

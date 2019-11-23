@@ -64,6 +64,6 @@ public class MessageItem implements Comparable<MessageItem> {
         if (timeMilli0 == timeMilli1) return 0;
         else if (timeMilli0 > timeMilli1) return 1;
         else return -1;
-        
+
     }
 }

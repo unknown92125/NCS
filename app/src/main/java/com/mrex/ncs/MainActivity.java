@@ -4,16 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
-
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,8 +16,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         handler.sendEmptyMessageDelayed(0, 1500);
-
-//        testPhoneVerify();
 
 //        String key = getKeyHash();
 //        Log.e("MainA:", "KeyHash: " + key);
@@ -52,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     };
-
-
 
 //    public String getKeyHash() {
 //        PackageInfo packageInfo = getPackageInfo(this, PackageManager.GET_SIGNATURES);
