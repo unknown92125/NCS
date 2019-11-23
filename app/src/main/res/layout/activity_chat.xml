@@ -17,23 +17,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:weightSum="10">
 
         <EditText
             android:id="@+id/et_chat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8.5"
+            android:inputType="text"
+            android:maxEms="3"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:background="@color/gray6"
+            android:foreground="?android:attr/selectableItemBackground"
             android:onClick="sendMessage"
-            android:text="send" />
+            android:src="@drawable/ic_send_white" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -1,8 +1,10 @@
 package com.mrex.ncs;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -15,6 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.error.AuthFailureError;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,8 +33,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import static com.mrex.ncs.FMService.isChatForeground;
 import static com.mrex.ncs.ManagerChatFragment.selectedUID;
 import static com.mrex.ncs.U.userName;
 import static com.mrex.ncs.U.userType;
@@ -39,7 +51,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     private ListView listView;
     private ChatAdapter chatAdapter;
 
-    private String chatUID;
+    private String chatUID, message;
     private Boolean isPreviousTypeSame = false, isNextTypeSame = false, isNextTimeSame = false;
 
 
@@ -88,7 +100,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
     public void sendMessage(View view) {
 
-        String message = et.getText().toString();
+        message = et.getText().toString();
 
         Calendar calendar = Calendar.getInstance();
         Long timeMilli = calendar.getTimeInMillis();
@@ -97,6 +109,8 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
         messageItem = new MessageItem(userName, message, time, userType, timeMilli);
         chatRef.push().setValue(messageItem);
+
+        pushChatFM();
 
         et.setText("");
         et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -110,6 +124,51 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 //        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isChatForeground = true;
+        Log.e("ChatA", "onResume isChatForeground = true");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isChatForeground = false;
+        Log.e("ChatA", "onPause isChatForeground = false");
+    }
+
+    private void pushChatFM() {
+
+        String serverUrl = "http://ncservices.dothome.co.kr/pushChatFM.php";
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                HashMap<String, String> datas = new HashMap<>();
+                datas.put("userUID", chatUID);
+                datas.put("message", message);
+                datas.put("userName", userName);
+
+//                Log.e("SignInA:", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userToken:" + userToken + "   userType:" + userType);
+
+                return datas;
+            }
+        });
+
+    }
 
     public class ChatAdapter extends BaseAdapter {
 
@@ -224,6 +283,14 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
     }
@@ -242,5 +309,6 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     public void onCancelled(@NonNull DatabaseError databaseError) {
 
     }
+
 
 }

@@ -7,9 +7,13 @@
 
     <Button
         android:id="@+id/bt_start_chat"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="채팅시작" />
+        android:background="@drawable/rounded_corner_white"
+        android:text="@string/chat_title"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:textColor="@color/gray5" />
 
 </RelativeLayout>

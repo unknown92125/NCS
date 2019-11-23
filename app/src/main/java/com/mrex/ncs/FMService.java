@@ -19,23 +19,35 @@ import java.util.Map;
 
 public class FMService extends FirebaseMessagingService {
 
-    String data1, data2;
+    public static Boolean isChatForeground;
+
+    private String what, data1, data2;
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         Log.e("FMService:", "onMessageReceived");
+        Log.e("FMService:", "remoteMessage.getFrom(): " + remoteMessage.getFrom());
 
         Map<String, String> datas = remoteMessage.getData();
         if (datas != null) {
+            what = null;
             data1 = null;
             data2 = null;
             if (datas.size() > 0) {
+                what = datas.get("what");
                 data1 = datas.get("data1");
                 data2 = datas.get("data2");
                 Log.e("FMService:", "data1:" + data1 + "/data2:" + data2);
             }
+        }
+
+        if (isChatForeground == null) {
+            isChatForeground = false;
+        }
+        if (isChatForeground) {
+            return;
         }
 
 //        String title = "title";
@@ -64,10 +76,18 @@ public class FMService extends FirebaseMessagingService {
         builder.setContentText(data2);
         builder.setAutoCancel(true);
 
-        Intent intent = new Intent(this, ManagerActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
+        if (what.equals("chat")){
+            Intent intent = new Intent(this, ChatActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
+
+        }else if (what.equals("reservation")){
+            Intent intent = new Intent(this, ManagerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
+        }
 
         Notification notification = builder.build();
         notificationManager.notify(10, notification);

@@ -7,9 +7,13 @@
 
     <Button
         android:id="@+id/bt_sign_in"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="로그인" />
+        android:background="@drawable/rounded_corner_white"
+        android:text="@string/sign_in_title"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:textColor="@color/gray5" />
 
 </RelativeLayout>
