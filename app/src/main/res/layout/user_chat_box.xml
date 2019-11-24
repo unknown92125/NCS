@@ -1,46 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:paddingRight="8dp"
+    android:layout_height="wrap_content"
     android:paddingTop="4dp"
-    android:layout_height="wrap_content">
+    android:paddingRight="8dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:orientation="horizontal"
-        android:layout_margin="4dp">
+        android:layout_margin="4dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_time_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="23415645"
             android:layout_marginRight="4dp"
+            android:text="23415645"
             android:textColor="@color/gray3"
             android:textSize="10sp" />
 
-        <androidx.cardview.widget.CardView
+        <TextView
+            android:id="@+id/tv_user_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="8dp">
-
-            <TextView
-                android:id="@+id/tv_user_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="1341541sjdfjiojnsfklnsdfklndsklfnskdlnfklsdnfklnsdfklnsdklfnskdl6"
-                android:maxWidth="240dp"
-                android:textColor="@color/gray6"
-                android:textSize="14sp" />
-
-        </androidx.cardview.widget.CardView>
+            android:background="@drawable/chat_box_white"
+            android:maxWidth="240dp"
+            android:padding="8dp"
+            android:text="1341541sjdfjiojnsfklnsdfklndsklfnskdlnfklsdnfklnsdfklnsdklfnskdl6"
+            android:textColor="@color/gray6"
+            android:textSize="14sp" />
 
     </LinearLayout>
 

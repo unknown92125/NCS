@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/white2"
+    android:orientation="vertical"
+    android:weightSum="3"
+    tools:context=".HomeFragment">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="184dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white">
 
-    <com.viewpagerindicator.CirclePageIndicator
-        android:id="@+id/circle_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="156dp"
-        android:paddingTop="4dp"
-        app:fillColor="@color/white"
-        app:strokeColor="@color/white"
-        app:strokeWidth="1dp" />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/circle_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="4dp"
+            app:fillColor="@color/white"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp" />
+
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/rv_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/pager"
-        android:background="@color/white2"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-</RelativeLayout>
+
+</LinearLayout>

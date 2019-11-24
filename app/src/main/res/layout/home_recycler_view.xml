@@ -1,55 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="2dp"
+    android:layout_height="80dp"
+    android:layout_margin="2dp"
     android:background="@color/white"
     android:foreground="?android:attr/selectableItemBackground"
-    android:padding="16dp">
-
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignTop="@id/layout_linear"
-        android:layout_alignBottom="@id/layout_linear"
-        android:padding="16dp"
-        android:src="@drawable/home" />
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
-        android:id="@+id/layout_linear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/iv_icon"
-        android:orientation="vertical"
-        android:weightSum="2">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
-        <TextView
-            android:id="@+id/tv_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="bottom"
-            android:paddingVertical="8dp"
-            android:text="이사 청소"
-            android:textColor="@color/gray2"
-            android:textSize="24dp"
-            android:textStyle="bold" />
+            android:padding="18dp"
+            android:src="@drawable/stairs" />
 
-        <TextView
-            android:id="@+id/tv_bottom"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="top"
-            android:text="평당 000000원"
-            android:textColor="@color/gray1"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:weightSum="2">
 
+            <TextView
+                android:id="@+id/tv_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="@string/home_4_1"
+                android:textColor="@color/gray4"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/tv_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:paddingTop="4dp"
+                android:text="@string/home_4_1"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+    <!--    <ImageView-->
+    <!--        android:id="@+id/iv_icon"-->
+    <!--        android:layout_width="80dp"-->
+    <!--        android:layout_height="80dp"-->
+    <!--        android:layout_alignTop="@id/layout_linear"-->
+    <!--        android:layout_alignBottom="@id/layout_linear"-->
+    <!--        android:padding="16dp"-->
+    <!--        android:src="@drawable/home" />-->
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/layout_linear"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginLeft="8dp"-->
+    <!--        android:layout_toRightOf="@id/iv_icon"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:weightSum="2">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tv_top"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:gravity="bottom"-->
+    <!--            android:paddingVertical="8dp"-->
+    <!--            android:text="이사 청소"-->
+    <!--            android:textColor="@color/gray2"-->
+    <!--            android:textSize="24dp"-->
+    <!--            android:textStyle="bold" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tv_bottom"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:gravity="top"-->
+    <!--            android:text="평당 000000원"-->
+    <!--            android:textColor="@color/gray1"-->
+    <!--            android:textSize="16dp"-->
+    <!--            android:textStyle="bold" />-->
+
+
+    <!--    </LinearLayout>-->
+
+</androidx.cardview.widget.CardView>

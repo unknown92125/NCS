@@ -26,14 +26,15 @@ public class ManagerChatFragment extends Fragment {
 
     public static String selectedUID;
 
-    ArrayList<MessageItem> arrListMessageItem = new ArrayList<>();
-    ArrayList<MessageItem> arrListLastMessage = new ArrayList<>();
-    ArrayList<String> arrListUID = new ArrayList<>();
+    private ArrayList<MessageItem> arrListMessageItem = new ArrayList<>();
+    private ArrayList<MessageItem> arrListLastMessage = new ArrayList<>();
+    private ArrayList<String> arrListUID = new ArrayList<>();
 
-    MessageItem messageItem;
+    private MessageItem messageItem;
+    private String userChatName;
 
-    RecyclerView recyclerView;
-    ManagerChatRecyclerAdapter managerChatRecyclerAdapter;
+    private RecyclerView recyclerView;
+    private ManagerChatRecyclerAdapter managerChatRecyclerAdapter;
 
     public ManagerChatFragment() {
     }
@@ -42,10 +43,6 @@ public class ManagerChatFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_manager_chat, container, false);
-
-        recyclerView = view.findViewById(R.id.rv_manager_chat);
-        managerChatRecyclerAdapter = new ManagerChatRecyclerAdapter();
-        recyclerView.setAdapter(managerChatRecyclerAdapter);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
@@ -65,6 +62,10 @@ public class ManagerChatFragment extends Fragment {
                     for (DataSnapshot dds : ds.getChildren()) {
                         messageItem = dds.getValue(MessageItem.class);
                         arrListMessageItem.add(messageItem);
+
+                        if (!messageItem.getName().equals("세상의 모든 청소")) {
+                            userChatName = messageItem.getName();
+                        }
                         Log.e("MCF:dds", "getName:" + messageItem.getName() + "/getMessage:" + messageItem.getMessage());
                     }
                     Collections.sort(arrListMessageItem);
@@ -84,10 +85,20 @@ public class ManagerChatFragment extends Fragment {
             }
         });
 
+        recyclerView = view.findViewById(R.id.rv_manager_chat);
+        managerChatRecyclerAdapter = new ManagerChatRecyclerAdapter(arrListLastMessage);
+        recyclerView.setAdapter(managerChatRecyclerAdapter);
+
         return view;
     }
 
     public class ManagerChatRecyclerAdapter extends RecyclerView.Adapter {
+
+        ArrayList<MessageItem> arrListLastMessage;
+
+        public ManagerChatRecyclerAdapter(ArrayList<MessageItem> arrListLastMessage) {
+            this.arrListLastMessage = arrListLastMessage;
+        }
 
         @NonNull
         @Override
@@ -106,7 +117,7 @@ public class ManagerChatFragment extends Fragment {
             VHolder vHolder = (VHolder) holder;
             MessageItem messageItem = arrListLastMessage.get(position);
 
-            vHolder.tvName.setText(messageItem.getName());
+            vHolder.tvName.setText(userChatName);
             vHolder.tvMessage.setText(messageItem.getMessage());
             vHolder.tvTime.setText(messageItem.getTime());
         }

@@ -1,5 +1,6 @@
 package com.mrex.ncs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -53,7 +54,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
     private String chatUID, message;
     private Boolean isPreviousTypeSame = false, isNextTypeSame = false, isNextTimeSame = false;
-
+    private int etHeight;
 
     private DatabaseReference chatRef;
     private MessageItem messageItem;
@@ -66,19 +67,36 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.chat_title));
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         et = findViewById(R.id.et_chat);
 
         listView = findViewById(R.id.list_view_chat);
         chatAdapter = new ChatAdapter(arrListMessage, getLayoutInflater());
         listView.setAdapter(chatAdapter);
+        etHeight = et.getHeight();
+        et.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                Log.e("onLayoutChange", "top" + top + "  oldTop" + oldTop + "  bottom" + bottom + "  oldBottom" + oldBottom);
+                if (etHeight != bottom) {
+                    listView.setSelection(arrListMessage.size() - 1);
+                }
+            }
+        });
 
         if (userType.equals("user")) {
             chatUID = userUID;
         } else {
             chatUID = selectedUID;
+
+            //when started activity from HomeActivity(chat notification)
+            if (getIntent().getExtras() != null) {
+                Intent intent = getIntent();
+                chatUID = intent.getStringExtra("chatUID");
+            }
         }
+
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
@@ -107,7 +125,11 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
         SimpleDateFormat sdf = new SimpleDateFormat("a h:mm", Locale.getDefault());
         String time = sdf.format(timeMilli);
 
-        messageItem = new MessageItem(userName, message, time, userType, timeMilli);
+        if (userType.equals("manager")) {
+            messageItem = new MessageItem("세상의 모든 청소", message, time, userType, timeMilli);
+        } else {
+            messageItem = new MessageItem(userName, message, time, userType, timeMilli);
+        }
         chatRef.push().setValue(messageItem);
 
         pushChatFM();

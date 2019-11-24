@@ -1,6 +1,7 @@
 package com.mrex.ncs;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerRecyclerAdapter drawerRecyclerAdapter;
     private TextView tvName;
     private SharedPreferences sf;
+    private ImageView ivHome, ivChat, ivMenu, ivReservation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +64,22 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nv);
         tvName = findViewById(R.id.tv_name);
+        ivHome = findViewById(R.id.iv_home);
+        ivChat = findViewById(R.id.iv_chat);
+        ivMenu = findViewById(R.id.iv_menu);
+        ivReservation = findViewById(R.id.iv_reservation);
 
         arrListDrawer.add(new DrawerList(R.drawable.ic_person, "내 정보"));
-        arrListDrawer.add(new DrawerList(R.drawable.ic_reservation_list, "예약 확인"));
+        arrListDrawer.add(new DrawerList(R.drawable.ic_assignment_black, "예약 확인"));
 
         recyclerView = findViewById(R.id.rv_navigation);
         drawerRecyclerAdapter = new DrawerRecyclerAdapter(arrListDrawer, this, drawerLayout);
         recyclerView.setAdapter(drawerRecyclerAdapter);
 
-        findViewById(R.id.iv_home).setOnClickListener(this);
-        findViewById(R.id.iv_chat).setOnClickListener(this);
-        findViewById(R.id.iv_menu).setOnClickListener(this);
+        ivHome.setOnClickListener(this);
+        ivChat.setOnClickListener(this);
+        ivMenu.setOnClickListener(this);
+        ivReservation.setOnClickListener(this);
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -93,6 +101,32 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        //if started activity from chat Notification then show ManagerChatFragment and start ChatActivity
+        if (getIntent().getExtras() != null) {
+            Intent intent = getIntent();
+            String goTo = intent.getStringExtra("goTo");
+            Log.e("HomeActivity:", goTo);
+            if (goTo.equals("chat")) {
+                if (userType.equals("manager")) {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.layout_fragments, new ManagerChatFragment());
+                    fragmentTransaction.commit();
+                    Intent intent1 = new Intent(this, ChatActivity.class);
+                    intent1.putExtra("chatUID", intent.getStringExtra("chatUID"));
+                    startActivity(intent1);
+                } else if (userType.equals("user")) {
+                    Intent intent1 = new Intent(this, ChatActivity.class);
+                    intent1.putExtra("chatUID", intent.getStringExtra("chatUID"));
+                    startActivity(intent1);
+                }
+            } else if (goTo.equals("reservation")) {
+                if (userType.equals("manager")) {
+                    Intent intent1 = new Intent(this, ManagerActivity.class);
+                    startActivity(intent1);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -102,6 +136,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             tvName.setText("");
         } else {
             tvName.setText(userName);
+        }
+        if (userType.equals("manager")) {
+            ivReservation.setVisibility(View.VISIBLE);
+        } else {
+            ivReservation.setVisibility(View.GONE);
         }
     }
 
@@ -156,12 +195,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         int i = view.getId();
         if (i == R.id.iv_home) {
             getSupportActionBar().setTitle(getString(R.string.home_title));
+            ivHome.setImageResource(R.drawable.ic_home_blue);
+            ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
+            ivReservation.setImageResource(R.drawable.ic_assignment_white);
+            ivMenu.setImageResource(R.drawable.ic_menu_white);
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.layout_fragments, new HomeFragment());
             fragmentTransaction.commit();
         }
         if (i == R.id.iv_chat) {
             getSupportActionBar().setTitle(getString(R.string.chat_title));
+            ivHome.setImageResource(R.drawable.ic_home_white);
+            ivChat.setImageResource(R.drawable.ic_chat_bubble_blue);
+            ivReservation.setImageResource(R.drawable.ic_assignment_white);
+            ivMenu.setImageResource(R.drawable.ic_menu_white);
             if (!isSignedIn) {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.layout_fragments, new ChatSignInFragment());
@@ -176,8 +223,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 fragmentTransaction.commit();
             }
         }
+        if (i == R.id.iv_reservation) {
+            ivHome.setImageResource(R.drawable.ic_home_white);
+            ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
+            ivReservation.setImageResource(R.drawable.ic_assignment_blue);
+            ivMenu.setImageResource(R.drawable.ic_menu_white);
+            if (userType.equals("manager")) {
+                getSupportActionBar().setTitle(getString(R.string.check_title));
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.layout_fragments, new ReservationFragment());
+                fragmentTransaction.commit();
+            }
+        }
         if (i == R.id.iv_menu) {
             getSupportActionBar().setTitle(getString(R.string.menu_title));
+            ivHome.setImageResource(R.drawable.ic_home_white);
+            ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
+            ivReservation.setImageResource(R.drawable.ic_assignment_white);
+            ivMenu.setImageResource(R.drawable.ic_menu_blue);
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.layout_fragments, new MenuFragment());
             fragmentTransaction.commit();

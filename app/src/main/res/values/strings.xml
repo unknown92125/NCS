@@ -56,13 +56,14 @@
 
     ////////////////////////////////////////
     <string name="home_1_1">이사 청소</string>
-    <string name="home_1_2">평당 10,600원 부터</string>
+    <string name="home_1_2">평당 10,000원</string>
     <string name="home_2_1">입주 청소</string>
-    <string name="home_2_2">평당 10,600원 부터</string>
-    <string name="home_3_1">계단 청소</string>
+    <string name="home_2_2">평당 10,000원</string>
+    <string name="home_3_1">사무실 청소</string>
     <string name="home_3_2">무료 견적</string>
-    <string name="home_4_1">사무실 청소</string>
+    <string name="home_4_1">계단 청소</string>
     <string name="home_4_2">무료 견적</string>
+
 
     //////////housecleaning//////////
     <string name="service_guide">서비스 안내</string>

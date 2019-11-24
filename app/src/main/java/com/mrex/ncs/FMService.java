@@ -21,7 +21,7 @@ public class FMService extends FirebaseMessagingService {
 
     public static Boolean isChatForeground;
 
-    private String what, data1, data2;
+    private String what, data1, data2, chatUID;
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -39,16 +39,23 @@ public class FMService extends FirebaseMessagingService {
                 what = datas.get("what");
                 data1 = datas.get("data1");
                 data2 = datas.get("data2");
-                Log.e("FMService:", "data1:" + data1 + "/data2:" + data2);
+                if (what.equals("chat")) {
+                    chatUID = datas.get("chatUID");
+                    Log.e("FMService:", "chatUID:" + chatUID);
+                }
+                Log.e("FMService:", "what:" + what + "  data1:" + data1 + "  data2:" + data2);
             }
         }
 
         if (isChatForeground == null) {
             isChatForeground = false;
         }
-        if (isChatForeground) {
-            return;
+        if (what.equals("chat")) {
+            if (isChatForeground) {
+                return;
+            }
         }
+
 
 //        String title = "title";
 //        String text = "text";
@@ -71,20 +78,25 @@ public class FMService extends FirebaseMessagingService {
             builder = new NotificationCompat.Builder(this, null);
         }
 
-        builder.setSmallIcon(R.drawable.ic_home);
+        builder.setSmallIcon(R.drawable.ic_home_white);
         builder.setContentTitle(data1);
         builder.setContentText(data2);
         builder.setAutoCancel(true);
 
-        if (what.equals("chat")){
-            Intent intent = new Intent(this, ChatActivity.class);
+        if (what.equals("chat")) {
+            Intent intent = new Intent(this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("goTo", "chat");
+            intent.putExtra("chatUID", chatUID);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(pendingIntent);
 
-        }else if (what.equals("reservation")){
+        } else if (what.equals("reservation")) {
             Intent intent = new Intent(this, ManagerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("goTo", "reservation");
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(pendingIntent);
         }

@@ -27,8 +27,7 @@
                 android:layout_height="56dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/gray5"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:orientation="horizontal">
 
 
                 <ImageView
@@ -39,8 +38,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="16dp"
-                    android:src="@drawable/ic_home" />
+                    android:padding="14dp"
+                    android:src="@drawable/ic_home_blue" />
 
                 <ImageView
                     android:id="@+id/iv_chat"
@@ -54,6 +53,18 @@
                     android:src="@drawable/ic_chat_bubble_white" />
 
                 <ImageView
+                    android:id="@+id/iv_reservation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_assignment_white" />
+
+                <ImageView
                     android:id="@+id/iv_menu"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -61,8 +72,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="16dp"
-                    android:src="@drawable/ic_more" />
+                    android:padding="14dp"
+                    android:src="@drawable/ic_menu_white" />
 
             </LinearLayout>
 
@@ -84,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="184dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/pager_img_2" />
+                    android:src="@drawable/aqua_background" />
 
                 <TextView
                     android:id="@+id/tv_name"
