@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#222222</color>
     <color name="colorPrimaryDark">#111111</color>
-    <color name="colorAccent">#3acac6</color>
+    <color name="colorAccent">#329ea2</color>
 
     <color name="white">#FFFFFF</color>
     <color name="white2">#F1F1F1</color>
@@ -22,10 +22,18 @@
 
     <color name="black">#000000</color>
 
-    <color name="blueGreen">#37BEBB</color>
-    <color name="blueGreen1">#008080</color>
-    <color name="blueGreen2">#0A8A8A</color>
-    <color name="blueGreen3">#149494</color>
-    <color name="blueGreen4">#1E9E9E</color>
+
+    //dark
+    <color name="bluegreen1">#00787d</color>
+    <color name="bluegreen2">#00868b</color>
+    <color name="bluegreen3">#199296</color>
+    <color name="bluegreen4">#329ea2</color>
+    <color name="bluegreen5">#329ea2</color>
+    //bright
+    <color name="bluegreen11">#0abab5</color>
+    <color name="bluegreen12">#6adbd8</color>
+    <color name="bluegreen13">#b3d8df</color>
+    <color name="bluegreen14">#dbf5f3</color>
+
 
 </resources>

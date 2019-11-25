@@ -107,11 +107,11 @@ public class MyReservationFragment extends Fragment {
             vHolder.tvPrice.setText(reservation.getPayPrice());
             vHolder.tvTime.setText(reservation.getTime());
             vHolder.tvPhone.setText(reservation.getPhone());
-            vHolder.tvDepositName.setText(reservation.getDepositName());
-            if (reservation.getDepositName().equals("noValue")) {
-                vHolder.llDepositName.setVisibility(View.GONE);
+            vHolder.tvPayName.setText(reservation.getPayName());
+            if (reservation.getPayName().equals("noValue")) {
+                vHolder.llPayName.setVisibility(View.GONE);
             } else {
-                vHolder.llDepositName.setVisibility(View.VISIBLE);
+                vHolder.llPayName.setVisibility(View.VISIBLE);
             }
             vHolder.rlList.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,9 +135,9 @@ public class MyReservationFragment extends Fragment {
 
         public class VHolder extends RecyclerView.ViewHolder {
 
-            private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPay, tvPayDate, tvPhone, tvDateList, tvDepositName;
+            private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPay, tvPayDate, tvPhone, tvDateList, tvPayName;
             private RelativeLayout rlData, rlList;
-            private LinearLayout llDepositName;
+            private LinearLayout llPayName;
             private ImageView ivArrow;
 
             public VHolder(@NonNull View itemView) {
@@ -152,10 +152,10 @@ public class MyReservationFragment extends Fragment {
                 tvPay = itemView.findViewById(R.id.tv_payment);
                 tvPayDate = itemView.findViewById(R.id.tv_pay_date);
                 tvPhone = itemView.findViewById(R.id.tv_phone);
-                tvDepositName = itemView.findViewById(R.id.tv_deposit_name);
+                tvPayName = itemView.findViewById(R.id.tv_pay_name);
                 rlData = itemView.findViewById(R.id.rl_data);
                 rlList = itemView.findViewById(R.id.rl_list);
-                llDepositName = itemView.findViewById(R.id.ll_deposit_name);
+                llPayName = itemView.findViewById(R.id.ll_pay_name);
                 tvDateList = itemView.findViewById(R.id.tv_date_list);
                 ivArrow = itemView.findViewById(R.id.iv_arrow);
 

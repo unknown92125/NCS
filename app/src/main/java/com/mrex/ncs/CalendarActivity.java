@@ -25,6 +25,7 @@ public class CalendarActivity extends AppCompatActivity {
     private Long dateMilli, timeMilli;
     private String date, time;
     private SimpleDateFormat sdfDate, sdfTime;
+    private int year, month, day, dayOfWeek, hour, minute;
 
     private Intent intent;
 
@@ -61,6 +62,10 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
 
+                year = i;
+                month = i1;
+                day = i2;
+
                 calendar.set(i, i1, i2);
                 dateMilli = calendar.getTimeInMillis();
 //                date = sdfDate.format(new Date(dateMilli));
@@ -72,9 +77,10 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onTimeChanged(TimePicker timePicker, int i, int i1) {
 
-                Log.e("CalendarA:date and time", i + "  " + i1);
+                hour = i;
+                minute = i1;
 
-                calendar = Calendar.getInstance();
+//                calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY, i);
                 calendar.set(Calendar.MINUTE, i1);
                 timeMilli = calendar.getTimeInMillis();
@@ -88,6 +94,12 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
+
+        Calendar cal=Calendar.getInstance();
+        cal.set(year, month, day, hour, minute);
+        Long dateMilli = cal.getTimeInMillis();
+        sdfDate = new SimpleDateFormat("yyyy/M/d (E) a h:mm", Locale.getDefault());
+        String date=sdfDate.format(dateMilli);
 
         intent = new Intent(this, CheckActivity.class);
         intent.putExtra("date", date);

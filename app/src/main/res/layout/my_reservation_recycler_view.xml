@@ -238,7 +238,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_deposit_name"
+            android:id="@+id/ll_pay_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_payment"
@@ -251,10 +251,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/deposit_name" />
+                android:text="@string/pay_name" />
 
             <TextView
-                android:id="@+id/tv_deposit_name"
+                android:id="@+id/tv_pay_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -266,7 +266,7 @@
             android:id="@+id/ll_pay_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ll_deposit_name"
+            android:layout_below="@id/ll_pay_name"
             android:layout_marginBottom="4dp"
             android:background="@color/white"
             android:orientation="horizontal"

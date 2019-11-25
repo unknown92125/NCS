@@ -93,7 +93,7 @@ public class FMService extends FirebaseMessagingService {
             builder.setContentIntent(pendingIntent);
 
         } else if (what.equals("reservation")) {
-            Intent intent = new Intent(this, ManagerActivity.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("goTo", "reservation");

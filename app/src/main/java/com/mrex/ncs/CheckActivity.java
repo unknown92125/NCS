@@ -38,14 +38,14 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
 
     private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPhone;
     private String date, time, address, minute, expectedTime, payPrice, payMethod, payDate, phone;
-    private String depositName = "noValue";
+    private String payName = "noValue";
     private Intent intent;
     private int area, hour, price;
-    private EditText etDepositName;
+    private EditText etPayName;
 
     private DatabaseReference reservationRef;
     private RadioGroup radioGroup;
-    private LinearLayout llDepositName;
+    private LinearLayout llPayName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +63,8 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         tvPrice = findViewById(R.id.tv_price);
         tvPhone = findViewById(R.id.tv_phone);
         radioGroup = findViewById(R.id.rg);
-        etDepositName = findViewById(R.id.et_deposit_name);
-        llDepositName = findViewById(R.id.ll_deposit_name);
+        etPayName = findViewById(R.id.et_pay_name);
+        llPayName = findViewById(R.id.ll_pay_name);
         findViewById(R.id.bt_next_check).setOnClickListener(this);
 
         address = AddressActivity.fullAddress;
@@ -94,7 +94,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         tvAddress.setText(address);
         tvArea.setText(area + "평");
 
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault());
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy/M/d a h:ss", Locale.getDefault());
         payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -102,10 +102,10 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb = findViewById(checkedId);
                 payMethod = rb.getText().toString();
-                if (checkedId == R.id.rb_deposit) {
-                    llDepositName.setVisibility(View.VISIBLE);
+                if (checkedId == R.id.rb_pay) {
+                    llPayName.setVisibility(View.VISIBLE);
                 } else {
-                    llDepositName.setVisibility(View.GONE);
+                    llPayName.setVisibility(View.GONE);
                 }
             }
         });
@@ -137,7 +137,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         Log.e("CheckA:", userUID);
         reservationRef = rootRef.child("reservations").child(userUID).push();
 
-        Reservation reservation = new Reservation(address, phone, area + "평", date, time, expectedTime, payMethod, payDate, payPrice, depositName);
+        Reservation reservation = new Reservation(address, phone, area + "평", date, time, expectedTime, payMethod, payDate, payPrice, payName);
         reservationRef.setValue(reservation);
 
         startActivity(new Intent(this, HomeActivity.class));
@@ -157,11 +157,11 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
 
             } else {
                 if (payMethod.equals("무통장입금")) {
-                    if (etDepositName.length() == 0) {
+                    if (etPayName.length() == 0) {
                         Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    depositName = etDepositName.getText().toString();
+                    payName = etPayName.getText().toString();
                 }
 
                 uploadReservationDB();

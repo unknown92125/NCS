@@ -2,7 +2,6 @@ package com.mrex.ncs;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,12 +26,8 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 
 import static com.mrex.ncs.U.isSignedIn;
-import static com.mrex.ncs.U.userID;
 import static com.mrex.ncs.U.userName;
-import static com.mrex.ncs.U.userPW;
-import static com.mrex.ncs.U.userToken;
 import static com.mrex.ncs.U.userType;
-import static com.mrex.ncs.U.userUID;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -48,7 +43,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private DrawerRecyclerAdapter drawerRecyclerAdapter;
     private TextView tvName;
-    private SharedPreferences sf;
     private ImageView ivHome, ivChat, ivMenu, ivReservation;
 
     @Override
@@ -58,8 +52,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.home_title));
-
-        loadUserData();
 
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nv);
@@ -132,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isSignedIn) {
+        if ((!isSignedIn) || userName.equals("noValue")) {
             tvName.setText("");
         } else {
             tvName.setText(userName);
@@ -144,17 +136,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void loadUserData() {
-        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        userUID = sf.getString("userUID", "noValue");
-        userID = sf.getString("userID", "noValue");
-        userPW = sf.getString("userPW", "noValue");
-        userName = sf.getString("userName", "noValue");
-        userType = sf.getString("userType", "noValue");
-        userToken = sf.getString("userToken", "noValue");
-        isSignedIn = sf.getBoolean("isSignedIn", false);
-        Log.e("loadUserData:", "userUID:" + userUID + "   userID:" + userID + "   userPW" + userPW + "   userName" + userName + "   userType" + userType + "   userToken" + userToken + "   isSignedIn" + isSignedIn);
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -247,6 +228,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
 
     public class DrawerList {
         int image;

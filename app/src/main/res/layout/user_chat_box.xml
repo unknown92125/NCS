@@ -26,7 +26,7 @@
             android:id="@+id/tv_user_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_box_white"
+            android:background="@drawable/user_chat_box"
             android:maxWidth="240dp"
             android:padding="8dp"
             android:text="1341541sjdfjiojnsfklnsdfklndsklfnskdlnfklsdnfklnsdfklnsdklfnskdl6"

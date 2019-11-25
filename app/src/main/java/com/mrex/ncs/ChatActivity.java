@@ -78,7 +78,6 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
         et.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                Log.e("onLayoutChange", "top" + top + "  oldTop" + oldTop + "  bottom" + bottom + "  oldBottom" + oldBottom);
                 if (etHeight != bottom) {
                     listView.setSelection(arrListMessage.size() - 1);
                 }

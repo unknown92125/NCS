@@ -36,8 +36,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
@@ -49,6 +47,7 @@ import com.kakao.util.exception.KakaoException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mrex.ncs.MainActivity.token;
 import static com.mrex.ncs.U.isSignedIn;
 import static com.mrex.ncs.U.userID;
 import static com.mrex.ncs.U.userName;
@@ -68,7 +67,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private Boolean isIDAndPWRight = false;
     private EditText etID, etPW;
 
-    private DatabaseReference rootRef, iDRef;
+    private DatabaseReference rootRef, idRef;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -106,8 +105,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         Session.getCurrentSession().addCallback(callback);
         ///////////////////////
 
-        getToken();
-
     }
 
     @Override
@@ -131,7 +128,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         if (requestCode == RC_SIGN_UP) {
             if (resultCode == RESULT_OK) {
-                uploadDB();
+                loadOrUploadUser();
             }
         }
 
@@ -156,19 +153,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             FirebaseUser user = mAuth.getCurrentUser();
                             userUID = user.getUid();
                             userName = user.getDisplayName();
-                            userType = "user";
                             isSignedIn = true;
                             Log.e("SignInA:", "id:" + userUID + "  name:" + userName);
 
-                            uploadDB();
+                            loadOrUploadUser();
+                            finish();
 
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.e("SignInA:", "signInWithCredential:failure");
-
                         }
-
-                        // ...
                     }
                 });
     }
@@ -209,6 +202,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void checkIDAndPW() {
+        Log.e("SignInA:", "checkIDAndPW");
 
         if (etID.getText().toString().length() == 0) {
             Toast.makeText(signInActivity, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
@@ -237,61 +231,84 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     User user = ds.getValue(User.class);
 
+                    Log.e("SignInA:", "userid:" + user.getId() + "  checkid:" + checkID +
+                            "  userpw:" + user.getPw() + "  checkpw:" + checkPW + (checkID.equals(user.getId()) && checkPW.equals(user.getPw())));
+
                     if (checkID.equals(user.getId()) && checkPW.equals(user.getPw())) {
+                        Log.e("SignInA:", "id and pw equal");
+
                         isIDAndPWRight = true;
                         userUID = user.getUid();
                         userID = user.getId();
                         userPW = user.getPw();
                         userName = user.getName();
                         userType = user.getType();
+                        userToken = user.getToken();
                         isSignedIn = true;
 
-                        uploadDB();
-                        finish();
+                        if (!userToken.equals(token)) {
+                            Log.e("SignInA:", "!userToken.equals(token)");
+                            userToken = token;
+                            uploadToken();
+                            saveUserDataSF();
+                            finish();
+                        } else {
+                            saveUserDataSF();
+                            finish();
+                        }
 
                         break;
+                    } else {
+                        Toast.makeText(signInActivity, "아이디 또는 비밀번호가 틀립니다", Toast.LENGTH_SHORT).show();
                     }
-                }//for
-                if (!isIDAndPWRight) {
-                    Toast.makeText(signInActivity, "아이디 또는 비밀번호가 틀립니다", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-        Log.e("SignInA:2", isIDAndPWRight + "");
-        if (isIDAndPWRight) {
-
-
-        } else {
-
-        }
     }
 
     ///////////////////////////////////////////////
 
-    private void uploadDB() {
-
-        saveUserDataSF();
-        uploadToken();
+    private void loadOrUploadUser() {
+        Log.e("SignInA:", "loadOrUploadUser");
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        rootRef = firebaseDatabase.getReference();
-        iDRef = rootRef.child("users").child(userUID);
-
-        iDRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference rootRef = firebaseDatabase.getReference();
+        idRef = rootRef.child("users").child(userUID);
+        idRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                User user = dataSnapshot.getValue(User.class);
-                if (user == null) {
-                    User setUser = new User(userUID, userID, userPW, userName, userType, userToken);
-                    iDRef.setValue(setUser);
-                } else {
-                    user.setToken(userToken);
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    if (user == null) {
+                        User setUser = new User(userUID, userID, userPW, userName, userType, userToken);
+                        idRef.setValue(setUser);
+                        uploadToken();
+                        saveUserDataSF();
+                        finish();
+                    } else {
+                        userUID = user.getUid();
+                        userID = user.getId();
+                        userPW = user.getPw();
+                        userName = user.getName();
+                        userType = user.getType();
+                        userToken = user.getToken();
+
+                        if (!userToken.equals(token)) {
+                            Log.e("SignInA:", "!userToken.equals(token)");
+                            userToken = token;
+                            uploadToken();
+                            saveUserDataSF();
+                            finish();
+                        } else {
+                            saveUserDataSF();
+                            finish();
+                        }
+                    }
                 }
             }
 
@@ -300,15 +317,36 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+        Log.e("HomeA:loadOrUploadUser:", "userUID:" + userUID + "   userID:" + userID + "   userPW" + userPW + "   userName" + userName + "   userType" + userType + "   userToken" + userToken + "   isSignedIn" + isSignedIn);
+
         Intent intentFromCheckActivity = getIntent();
         setResult(RESULT_OK, intentFromCheckActivity);
-        finish();
-
     }
 
     private void uploadToken() {
+        Log.e("SignInA:", "uploadToken");
 
-        Log.e("SignInA:", "uploadToken()");
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference rootRef = firebaseDatabase.getReference();
+        idRef = rootRef.child("users").child(userUID);
+
+        idRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    idRef.child("token").setValue(token);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        ///////////////////////////////////////////////////////////////
+
         String serverUrl = "http://ncservices.dothome.co.kr/uploadToken.php";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -340,6 +378,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void saveUserDataSF() {
+        Log.e("SignInA:", "saveUserDataSF()");
+
         SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
 
@@ -351,8 +391,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         editor.putString("userType", userType);
         editor.putBoolean("isSignedIn", true);
 
-        editor.commit();
+        editor.apply();
     }
+
 
     ///////////////////////////////////////////////////
 
@@ -391,18 +432,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
                 @Override
                 public void onSuccess(MeV2Response result) {
-                    Log.e("SignInA:", "requestMe:onSuccess");
-
-                    Log.e("SignInA:", "getId:" + result.getId() + "   getKakaoAccount:" + result.getKakaoAccount()
-                            + "  getProperties:" + result.getProperties() + "  getGroupUserToken:" + result.getGroupUserToken());
+                    Log.e("SignInA:", "카카오로그인:onSuccess");
 
                     userUID = result.getId() + "";
                     userName = result.getProperties().get("nickname");
-                    userType = "user";
                     isSignedIn = true;
                     Log.e("SignInA:", "id:" + userUID + "  name:" + userName);
 
-                    uploadDB();
+                    loadOrUploadUser();
+                    finish();
 
                 }
             });
@@ -416,24 +454,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void getToken() {
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("SignInA:", "getTokenFailed", task.getException());
-                            return;
-                        }
-                        // Get new Instance ID token
-                        userToken = task.getResult().getToken();
-                        Log.e("SignInA:token:", userToken);
-
-                    }
-                });
     }
 
     //    @Override
