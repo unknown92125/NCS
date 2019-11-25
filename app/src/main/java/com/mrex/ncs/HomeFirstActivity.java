@@ -24,10 +24,6 @@ public class HomeFirstActivity extends AppCompatActivity {
         startActivity(new Intent(this, MapActivity.class));
     }
 
-    public void back(View view) {
-        finish();
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

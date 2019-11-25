@@ -34,11 +34,9 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     private final double SEOUL_LNG = 126.977951;
 
     private MapView map;
-    //    private Boolean isLocationPermissionGranted;
     static MapPoint.GeoCoordinate currentLocation;
     private MapReverseGeoCoder mapReverseGeoCoder;
     private TextView tvAddress1;
-    private Button btNext;
     private ViewGroup mapViewContainer;
 
     private String selectedPlaceName = "";
@@ -53,16 +51,13 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        Log.e("TAG", "MF onCreateView");
-
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         mapViewContainer = view.findViewById(R.id.map_view);
 
         currentLocation = new MapPoint.GeoCoordinate(SEOUL_LAT, SEOUL_LNG);
 
-        btNext = view.findViewById(R.id.bt_next);
+        Button btNext = view.findViewById(R.id.bt_next);
         btNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +88,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("MapF:", "MF onResume");
         map = new MapView(getActivity());
         mapViewContainer.addView(map);
 
@@ -108,7 +102,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
     @Override
     public void onPause() {
-        Log.e("MapF:", "MF onPause");
         super.onPause();
         if (isLocationPermissionGranted) {
             map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
@@ -157,21 +150,13 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         @Override
         public void onMapViewInitialized(MapView mapView) {
             super.onMapViewInitialized(mapView);
-            Log.e("MapF:", "onMapViewInitialized");
             mapReverseGeoCoder = new MapReverseGeoCoder(getString(R.string.kakao_app_key), mapView.getMapCenterPoint(), MapFragment.this, getActivity());
             mapReverseGeoCoder.startFindingAddress();
-
-//            if (bundle != null) {
-//                Log.e("TAG", "animateCamera");
-//                map.animateCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(selectedY,selectedX)));
-//                tvAddress1.setText(selectedAddress+" "+selectedPlaceName);
-//            }
 
         }
 
         @Override
         public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-            Log.e("MapF:", "onMapViewMoveFinished");
             super.onMapViewMoveFinished(mapView, mapPoint);
             mapReverseGeoCoder = new MapReverseGeoCoder(getString(R.string.kakao_app_key), mapView.getMapCenterPoint(), MapFragment.this, getActivity());
             mapReverseGeoCoder.startFindingAddress();
@@ -188,9 +173,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
     @Override
     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
-
         currentLocation = mapPoint.getMapPointGeoCoord();
-        Log.e("MapF:", currentLocation.latitude + "   " + currentLocation.longitude);
         map.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
         map.setShowCurrentLocationMarker(false);
     }

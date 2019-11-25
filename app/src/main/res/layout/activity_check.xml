@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".CheckActivity">
 
     <LinearLayout
-        android:id="@+id/ll_location"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="2dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
         android:background="@color/white"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:padding="12dp"
             android:src="@drawable/ic_location" />
 
@@ -29,17 +29,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_date"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/ll_location"
-        android:layout_marginBottom="2dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
         android:background="@color/white"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:padding="12dp"
             android:src="@drawable/ic_date" />
 
@@ -53,65 +51,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_time"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/ll_date"
-        android:layout_marginBottom="2dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
         android:background="@color/white"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:padding="12dp"
-            android:src="@drawable/ic_time" />
-
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textSize="16dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_area"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/ll_time"
-        android:layout_marginBottom="2dp"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:padding="12dp"
-            android:src="@drawable/ic_home_black" />
-
-        <TextView
-            android:id="@+id/tv_area"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textSize="16dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_phone"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@id/ll_area"
-        android:layout_marginBottom="2dp"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:padding="12dp"
             android:src="@drawable/ic_phone_black" />
 
@@ -119,20 +67,35 @@
             android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_home_black" />
+
+        <TextView
+            android:id="@+id/tv_area"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:textSize="16dp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_expected_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_phone"
-        android:layout_marginTop="2dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="1dp"
         android:background="@color/white"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:weightSum="2">
 
         <TextView
@@ -151,13 +114,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_price"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_expected_time"
+        android:layout_height="48dp"
+        android:layout_marginBottom="1dp"
         android:background="@color/white"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:weightSum="2">
 
         <TextView
@@ -178,13 +142,10 @@
     <RadioGroup
         android:id="@+id/rg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_price"
-        android:layout_marginTop="2dp"
+        android:layout_height="48dp"
         android:background="@color/white"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:orientation="horizontal">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -209,8 +170,7 @@
     <LinearLayout
         android:id="@+id/ll_pay_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rg"
+        android:layout_height="48dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -232,24 +192,29 @@
             android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLength="10"
-            android:padding="16dp"
             android:textColor="@color/gray5"
-            android:textSize="16dp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/bt_next_check"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray5"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="@string/enter"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/bt_next_check"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray5"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/enter"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

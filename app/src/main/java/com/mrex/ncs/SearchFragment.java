@@ -29,8 +29,6 @@ import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import net.daum.mf.map.api.MapPoint;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,22 +44,16 @@ import static com.mrex.ncs.MapFragment.currentLocation;
 
 public class SearchFragment extends Fragment {
 
-    Context context;
+    private Context context;
 
     private ArrayList<AddressData> arrListData = new ArrayList<>();
     private SearchRecyclerAdapter searchRecyclerAdapter;
-    private RecyclerView recyclerView;
 
-    private String address;
+    private String address, addressName, placeName;
     private EditText etSearch;
-
     private InputMethodManager inputMethodManager;
-
     private JSONObject jsonObject;
-    private String addressName;
-    private String placeName;
-    private Double x;
-    private Double y;
+    private Double x, y;
 
     public SearchFragment() {
     }
@@ -74,7 +66,7 @@ public class SearchFragment extends Fragment {
 
         FragmentManager fragmentManager = getFragmentManager();
 
-        recyclerView = view.findViewById(R.id.rv_search);
+        RecyclerView recyclerView = view.findViewById(R.id.rv_search);
         searchRecyclerAdapter = new SearchRecyclerAdapter(arrListData, context, fragmentManager);
         recyclerView.setAdapter(searchRecyclerAdapter);
 
@@ -109,7 +101,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    public void searchAddress() {
+    private void searchAddress() {
         String addressUrl = "https://dapi.kakao.com/v2/local/search/address.json";
 
         String getUrl = addressUrl + "?query=" + address;
@@ -143,7 +135,7 @@ public class SearchFragment extends Fragment {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void searchKeyword() {
+    private void searchKeyword() {
         String keywordUrl = "https://dapi.kakao.com/v2/local/search/keyword.json";
 
         String getUrl = keywordUrl + "?query=" + address;
@@ -177,7 +169,7 @@ public class SearchFragment extends Fragment {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void parsingAddress(JSONObject response) {
+    private void parsingAddress(JSONObject response) {
 
         try {
             JSONArray jsonArray = response.getJSONArray("documents");
@@ -200,7 +192,7 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public void parsingKeyword(JSONObject response) {
+    private void parsingKeyword(JSONObject response) {
 
         try {
             JSONArray jsonArray = response.getJSONArray("documents");
@@ -238,7 +230,7 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public void sortData() {
+    private void sortData() {
         Location locationA = new Location("A");
         Location locationB = new Location("B");
         AddressData addressData;
@@ -253,7 +245,6 @@ public class SearchFragment extends Fragment {
             addressData.setDistance(distance);
             Log.e("SearchF:", addressData.getDistance() + "");
         }
-
 
         Collections.sort(arrListData);
 

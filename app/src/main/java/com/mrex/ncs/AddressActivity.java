@@ -26,13 +26,9 @@ public class AddressActivity extends AppCompatActivity {
     private ViewGroup mapViewContainer;
 
     private MapView map;
-    private Intent intent;
-    private TextView tvAddress1;
-    private String address1;
+    private String address1, placeName;
     private EditText etAddress2, etArea, etPhone1, etPhone2, etPhone3;
-    private String placeName;
-    private double lat;
-    private double lng;
+    private double lat, lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +44,13 @@ public class AddressActivity extends AppCompatActivity {
         etPhone2 = findViewById(R.id.et_phone_2);
         etPhone3 = findViewById(R.id.et_phone_3);
 
-        intent = getIntent();
+        Intent intent = getIntent();
         address1 = intent.getStringExtra("address");
         placeName = intent.getStringExtra("place");
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
 
-        tvAddress1 = findViewById(R.id.tv_address1);
+        TextView tvAddress1 = findViewById(R.id.tv_address1);
         etAddress2 = findViewById(R.id.et_address2);
 
         tvAddress1.setText(address1 + placeName);
@@ -73,7 +69,6 @@ public class AddressActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("AddressA:", "AA onResume");
         map = new MapView(this);
         mapViewContainer.addView(map);
         map.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(lat, lng)));
@@ -90,7 +85,6 @@ public class AddressActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("AddressA:", "AA onPause");
         mapViewContainer.removeView(map);
         map = null;
     }
@@ -99,15 +93,15 @@ public class AddressActivity extends AppCompatActivity {
         if (etAddress2.length() == 0) {
             Toast.makeText(this, "상세주소를 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
-        }
-        if (etArea.length() == 0) {
+
+        } else if (etArea.length() == 0) {
             Toast.makeText(this, "면적을 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
-        }
 
-        if (etPhone1.length() == 0 || etPhone2.length() == 0 || etPhone3.length() == 0) {
+        } else if (etPhone1.length() == 0 || etPhone2.length() == 0 || etPhone3.length() == 0) {
             Toast.makeText(this, "연락처를 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
+
         }
 
         phone = etPhone1.getText().toString() + "-" + etPhone2.getText().toString() + "-" + etPhone3.getText().toString();

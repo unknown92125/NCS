@@ -36,16 +36,13 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
 
     private final int RC_SIGN_IN = 5001;
 
-    private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPhone;
-    private String date, time, address, minute, expectedTime, payPrice, payMethod, payDate, phone;
+    private String date, address, expectedTime, payPrice, payMethod, payDate, phone;
     private String payName = "noValue";
-    private Intent intent;
-    private int area, hour, price;
+    private int area;
     private EditText etPayName;
 
-    private DatabaseReference reservationRef;
-    private RadioGroup radioGroup;
     private LinearLayout llPayName;
+    private SimpleDateFormat sdfDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +52,13 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.check_title));
 
-        tvDate = findViewById(R.id.tv_date);
-        tvTime = findViewById(R.id.tv_time);
-        tvAddress = findViewById(R.id.tv_address);
-        tvArea = findViewById(R.id.tv_area);
-        tvExpectedTime = findViewById(R.id.tv_expected_time);
-        tvPrice = findViewById(R.id.tv_price);
-        tvPhone = findViewById(R.id.tv_phone);
-        radioGroup = findViewById(R.id.rg);
+        TextView tvDate = findViewById(R.id.tv_date);
+        TextView tvAddress = findViewById(R.id.tv_address);
+        TextView tvArea = findViewById(R.id.tv_area);
+        TextView tvExpectedTime = findViewById(R.id.tv_expected_time);
+        TextView tvPrice = findViewById(R.id.tv_price);
+        TextView tvPhone = findViewById(R.id.tv_phone);
+        RadioGroup radioGroup = findViewById(R.id.rg);
         etPayName = findViewById(R.id.et_pay_name);
         llPayName = findViewById(R.id.ll_pay_name);
         findViewById(R.id.bt_next_check).setOnClickListener(this);
@@ -73,16 +69,15 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
 
         tvPhone.setText(phone);
 
-        intent = getIntent();
+        Intent intent = getIntent();
         date = intent.getStringExtra("date");
-        time = intent.getStringExtra("time");
 
-        hour = (area * 10) / 60;
-        minute = (area * 10) % 60 + "";
+        int hour = (area * 10) / 60;
+        String minute = (area * 10) % 60 + "";
         expectedTime = hour + "시간 " + minute + "분";
         tvExpectedTime.setText(expectedTime);
 
-        price = area * 1000;
+        int price = area * 1000;
         if (price < 20000) {
             price = 20000;
         }
@@ -90,12 +85,11 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         tvPrice.setText(payPrice);
 
         tvDate.setText(date);
-        tvTime.setText(time);
         tvAddress.setText(address);
         tvArea.setText(area + "평");
 
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy/M/d a h:ss", Locale.getDefault());
-        payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
+        sdfDate = new SimpleDateFormat("yyyy/M/d (E) a h:mm", Locale.getDefault());
+
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -118,6 +112,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
+                payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
                 uploadReservationDB();
                 pushReservationFM();
                 Toast.makeText(this, "예약이 완료되었습니다", Toast.LENGTH_SHORT).show();
@@ -130,21 +125,6 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
-
-    private void uploadReservationDB() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference rootRef = firebaseDatabase.getReference();
-        Log.e("CheckA:", userUID);
-        reservationRef = rootRef.child("reservations").child(userUID).push();
-
-        Reservation reservation = new Reservation(address, phone, area + "평", date, time, expectedTime, payMethod, payDate, payPrice, payName);
-        reservationRef.setValue(reservation);
-
-        startActivity(new Intent(this, HomeActivity.class));
-        finishAffinity();
-
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -163,7 +143,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
                     }
                     payName = etPayName.getText().toString();
                 }
-
+                payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
                 uploadReservationDB();
                 pushReservationFM();
                 Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
@@ -171,7 +151,22 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void uploadReservationDB() {
+        Log.e("CheckA","uploadReservationDB");
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference rootRef = firebaseDatabase.getReference();
+        DatabaseReference reservationRef = rootRef.child("reservations").child(userUID).push();
+
+        Reservation reservation = new Reservation(address, date, phone, area + "평", expectedTime, payPrice, payMethod, payName, payDate);
+        reservationRef.setValue(reservation);
+
+        startActivity(new Intent(this, HomeActivity.class));
+        finishAffinity();
+
+    }
+
     private void pushReservationFM() {
+        Log.e("CheckA","pushReservationFM");
         String serverUrl = "http://ncservices.dothome.co.kr/pushReservationFM.php";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -183,7 +178,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("CheckA:", "requestQueue onErrorResponse");
+                Log.e("CheckA:", "requestQueue onErrorResponse:"+error);
             }
         }));
     }

@@ -24,9 +24,6 @@ public class MapActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.map_title));
 
-//        String key = getKeyHash(this);
-//        Log.e("TAG", key);
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.layout_fragments_map, new MapFragment());
@@ -48,10 +45,6 @@ public class MapActivity extends AppCompatActivity {
         });
     }
 
-    public void back(View view) {
-        finish();
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -60,21 +53,4 @@ public class MapActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-//    public static String getKeyHash(final Context context) {
-//        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
-//        if (packageInfo == null)
-//            return null;
-//
-//        for (Signature signature : packageInfo.signatures) {
-//            try {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-//            } catch (NoSuchAlgorithmException e) {
-//                Log.e("TAG", "Unable to get MessageDigest. signature=" + signature, e);
-//            }
-//        }
-//        return null;
-//    }
 }

@@ -110,7 +110,7 @@ public class ReservationFragment extends Fragment {
             vHolder.tvPay.setText(reservation.getPayMethod());
             vHolder.tvPayDate.setText(reservation.getPayDate());
             vHolder.tvPrice.setText(reservation.getPayPrice());
-            vHolder.tvTime.setText(reservation.getTime());
+//            vHolder.tvTime.setText(reservation.getTime());
             vHolder.tvPhone.setText(reservation.getPhone());
             vHolder.tvPayName.setText(reservation.getPayName());
             if (reservation.getPayName().equals("noValue")) {

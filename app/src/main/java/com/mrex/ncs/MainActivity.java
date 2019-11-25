@@ -3,8 +3,6 @@ package com.mrex.ncs;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -41,6 +39,7 @@ import static com.mrex.ncs.U.userUID;
 public class MainActivity extends AppCompatActivity {
 
     public static String token;
+
     private SharedPreferences sf;
     private DatabaseReference idRef;
 
@@ -49,10 +48,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        handler.sendEmptyMessageDelayed(0, 1500);
+        getToken();// -> loadUserData
 
-        getToken();
-        loadUserData();
+//        handler.sendEmptyMessageDelayed(0, 2000);
 
 //        String key = getKeyHash();
 //        Log.e("MainA:", "KeyHash: " + key);
@@ -60,73 +58,83 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUserData() {
+        Log.e("HomeA", "loadUserData");
 
         sf = getSharedPreferences("sfUser", MODE_PRIVATE);
-        userUID = sf.getString("userUID", "noValue");
         isSignedIn = sf.getBoolean("isSignedIn", false);
 
-        if (!isSignedIn) {
-            return;
-        } else if (userUID.equals("noValue")) {
-            return;
-        }
+        if (isSignedIn) {
+            Log.e("HomeA", "if (isSignedIn)");
+            userUID = sf.getString("userUID", "noValue");
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference rootRef = firebaseDatabase.getReference();
-        idRef = rootRef.child("users").child(userUID);
-        idRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference rootRef = firebaseDatabase.getReference();
+            idRef = rootRef.child("users").child(userUID);
 
-                User user = dataSnapshot.getValue(User.class);
-                if (user != null) {
-                    userID = user.getId();
-                    userPW = user.getPw();
-                    userName = user.getName();
-                    userType = user.getType();
-                    userToken = user.getToken();
+            idRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    if ((!userName.equals(getString(R.string.app_name_kr))) && userType.equals("manager")) {
-                        userName = getString(R.string.app_name_kr);
-                        idRef.child("name").setValue(getString(R.string.app_name_kr));
+                    if (dataSnapshot.getValue() != null) {
+                        Log.e("HomeA", "if (dataSnapshot.getValue() != null)");
+                        User user = dataSnapshot.getValue(User.class);
+                        userID = user.getId();
+                        userPW = user.getPw();
+                        userName = user.getName();
+                        userType = user.getType();
+                        userToken = user.getToken();
+
+                        if (token != null) {
+                            if (!userToken.equals(token)) {
+                                Log.e("HomeA", "if(!userToken.equals(token))");
+                                userToken = token;
+                                uploadToken();// -> saveUserDataSF
+                            } else {
+                                saveUserDataSF();
+                            }
+                        } else {
+                            //token == null
+                            saveUserDataSF();
+                        }
+                    } else {
+                        //dataSnapshot.getValue() == null
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        finish();
                     }
                 }
 
-                Log.e("HomeA:loadUserData:", "userUID:" + userUID + "   userID:" + userID + "   userPW" + userPW + "   userName" + userName + "   userType" + userType + "   userToken" + userToken + "   isSignedIn" + isSignedIn);
-                if (userToken==null || !userToken.equals(token)) {
-                    Log.e("HomeA:loadUserData:", "!userToken.equals(token)");
-                    userToken = token;
-                    uploadToken();
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
-                saveUserDataSF();
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-
+            });
+        } else {
+            //isSignedIn == false
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        }
     }
 
     private void saveUserDataSF() {
-        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        Log.e("HomeA", "saveUserDataSF");
+        sf = getSharedPreferences("sfUser", MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
 
         editor.putString("userUID", userUID);
         editor.putString("userID", userID);
         editor.putString("userPW", userPW);
         editor.putString("userName", userName);
-        editor.putString("userToken", userToken);
+        editor.putString("userToken", token);
         editor.putString("userType", userType);
         editor.putBoolean("isSignedIn", true);
 
         editor.apply();
+
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        finish();
     }
 
     private void uploadToken() {
+        Log.e("HomeA", "uploadToken");
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
@@ -136,9 +144,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                User user = dataSnapshot.getValue(User.class);
-                if (user != null) {
+                if (dataSnapshot.getValue() != null) {
+                    Log.e("HomeA", "if (dataSnapshot.getValue()!=null)");
                     idRef.child("token").setValue(token);
+                } else {
+                    //dataSnapshot.getValue()==null
                 }
             }
 
@@ -149,17 +159,18 @@ public class MainActivity extends AppCompatActivity {
 
         /////////////////////////////////////////////
 
-        Log.e("HomeA:", "uploadToken()");
         String serverUrl = "http://ncservices.dothome.co.kr/uploadToken.php";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.e("HomeA", "uploadToken onResponse:" + response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("HomeA", "uploadToken onErrorResponse:" + error);
             }
         }) {
             @Override
@@ -170,11 +181,13 @@ public class MainActivity extends AppCompatActivity {
                 datas.put("userToken", userToken);
                 datas.put("userType", userType);
 
-                Log.e("HomeA:", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userToken:" + userToken + "   userType:" + userType);
+                Log.e("HomeA:", "uploadToken getParams:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userType:" + userType + "   userToken:" + userToken);
 
                 return datas;
             }
         });
+
+        saveUserDataSF();
 
     }
 
@@ -185,15 +198,21 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.e("HomeA:", "getTokenFailed", task.getException());
-                            return;
-                        }
-                        // Get new Instance ID token
-                        token = task.getResult().getToken();
-                        Log.e("HomeA:token:", token);
+                            Log.e("HomeA", "getTokenFailed:", task.getException());
 
+                            loadUserData();
+
+                        } else {
+                            // Get new Instance ID token
+                            token = task.getResult().getToken();
+                            Log.e("HomeA:getToken:", token);
+
+                            loadUserData();
+                        }
                     }
                 });
+
+
     }
 
     @Override
@@ -208,15 +227,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-        }
-    };
+//    Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            super.handleMessage(msg);
+//            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+//            finish();
+//        }
+//    };
 
 //    public String getKeyHash() {
 //        PackageInfo packageInfo = getPackageInfo(this, PackageManager.GET_SIGNATURES);

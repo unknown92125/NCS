@@ -17,17 +17,7 @@ import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity {
 
-
-    private Calendar calendar;
-    private Long minMaxDate;
-    private CalendarView calendarView;
-    private TimePicker timePicker;
-    private Long dateMilli, timeMilli;
-    private String date, time;
-    private SimpleDateFormat sdfDate, sdfTime;
-    private int year, month, day, dayOfWeek, hour, minute;
-
-    private Intent intent;
+    private int year, month, day, hour, minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +27,27 @@ public class CalendarActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.calendar_title));
 
-        calendarView = findViewById(R.id.calendar_view);
-        timePicker = findViewById(R.id.tp);
+        CalendarView calendarView = findViewById(R.id.calendar_view);
+        TimePicker timePicker = findViewById(R.id.tp);
 
-        calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
 
+        //날짜선택은 익일부터 다음달까지만 가능
         calendar.add(Calendar.DAY_OF_MONTH, 1);
-        minMaxDate = calendar.getTimeInMillis();
+        long minMaxDate = calendar.getTimeInMillis();
         calendarView.setMinDate(minMaxDate);
         calendar.add(Calendar.MONTH, 1);
         minMaxDate = calendar.getTimeInMillis();
         calendarView.setMaxDate(minMaxDate);
 
-        sdfDate = new SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault());
-        sdfTime = new SimpleDateFormat("a h : mm", Locale.getDefault());
-
+        //기본값은 익일 현재 시간으로 설정
         calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
-        dateMilli = calendar.getTimeInMillis();
-        date = sdfDate.format(dateMilli);
-        time = sdfTime.format(dateMilli);
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -65,11 +56,7 @@ public class CalendarActivity extends AppCompatActivity {
                 year = i;
                 month = i1;
                 day = i2;
-
-                calendar.set(i, i1, i2);
-                dateMilli = calendar.getTimeInMillis();
-//                date = sdfDate.format(new Date(dateMilli));
-                date = sdfDate.format(dateMilli);
+                Log.e("CalendarA", "  " + year + "  " + month + "  " + day);
             }
         });
 
@@ -79,31 +66,22 @@ public class CalendarActivity extends AppCompatActivity {
 
                 hour = i;
                 minute = i1;
-
-//                calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR_OF_DAY, i);
-                calendar.set(Calendar.MINUTE, i1);
-                timeMilli = calendar.getTimeInMillis();
-                time = sdfTime.format(timeMilli);
-//                time = sdfTime.format(new Date(timeMilli));
-                Log.e("CalendarA:date and time", time);
+                Log.e("CalendarA", "  " + hour + "  " + minute);
             }
         });
-
-
     }
 
     public void next(View view) {
 
-        Calendar cal=Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(year, month, day, hour, minute);
         Long dateMilli = cal.getTimeInMillis();
-        sdfDate = new SimpleDateFormat("yyyy/M/d (E) a h:mm", Locale.getDefault());
-        String date=sdfDate.format(dateMilli);
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy/M/d (E) a h:mm", Locale.getDefault());
+        String date = sdfDate.format(dateMilli);
+        Log.e("CalendarA", date);
 
-        intent = new Intent(this, CheckActivity.class);
+        Intent intent = new Intent(this, CheckActivity.class);
         intent.putExtra("date", date);
-        intent.putExtra("time", time);
         startActivity(intent);
 
     }

@@ -9,21 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private ArrayList<Integer> arrListImg = new ArrayList<>();
     private HomePagerAdapter pagerAdapter;
@@ -38,7 +35,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
+        view.findViewById(R.id.cv_1).setOnClickListener(this);
+        view.findViewById(R.id.cv_2).setOnClickListener(this);
+        view.findViewById(R.id.cv_3).setOnClickListener(this);
+        view.findViewById(R.id.cv_4).setOnClickListener(this);
 
         ////////////////////////////////////////////////////
 
@@ -52,7 +52,6 @@ public class HomeFragment extends Fragment {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -70,6 +69,23 @@ public class HomeFragment extends Fragment {
         circlePageIndicator.setViewPager(viewPager);
 
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.cv_1) {
+            startActivity(new Intent(getActivity(), HomeFirstActivity.class));
+        }
+        if (i == R.id.cv_2) {
+//            startActivity(new Intent(getActivity(), HomeSecondActivity.class));
+        }
+        if (i == R.id.cv_3) {
+//            startActivity(new Intent(getActivity(), HomeThirdActivity.class));
+        }
+        if (i == R.id.cv_4) {
+//            startActivity(new Intent(getActivity(), HomeFourthActivity.class));
+        }
     }
 
     @Override
