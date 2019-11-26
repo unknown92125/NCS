@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
+    private HomeActivity homeActivity;
+
     private ArrayList<Integer> arrListImg = new ArrayList<>();
     private HomePagerAdapter pagerAdapter;
     private ViewPager viewPager;
@@ -34,6 +36,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        homeActivity = (HomeActivity) getActivity();
 
         view.findViewById(R.id.cv_1).setOnClickListener(this);
         view.findViewById(R.id.cv_2).setOnClickListener(this);
@@ -75,16 +79,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.cv_1) {
-            startActivity(new Intent(getActivity(), HomeFirstActivity.class));
+            startActivity(new Intent(homeActivity, HomeFirstActivity.class));
         }
         if (i == R.id.cv_2) {
-//            startActivity(new Intent(getActivity(), HomeSecondActivity.class));
+
         }
         if (i == R.id.cv_3) {
-//            startActivity(new Intent(getActivity(), HomeThirdActivity.class));
+
         }
         if (i == R.id.cv_4) {
-//            startActivity(new Intent(getActivity(), HomeFourthActivity.class));
+
         }
     }
 

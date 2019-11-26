@@ -132,7 +132,7 @@ public class Reservation implements Comparable<Reservation> {
         return 0;
 
     }
-
+}
 //    @Override
 //    public int compareTo(Reservation reservation) {
 //
@@ -151,4 +151,4 @@ public class Reservation implements Comparable<Reservation> {
 //        return 0;
 //
 //    }
-}
+

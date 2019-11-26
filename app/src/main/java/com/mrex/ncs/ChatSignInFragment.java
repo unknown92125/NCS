@@ -3,6 +3,7 @@ package com.mrex.ncs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,11 @@ public class ChatSignInFragment extends Fragment implements View.OnClickListener
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("ChatSignInF", "onActivityResult");
         if (requestCode == RC_SIGN_IN) {
+            Log.e("ChatSignInF", "RC_SIGN_IN");
             if (resultCode == RESULT_OK) {
+                Log.e("ChatSignInF", "RESULT_OK");
                 if (userType.equals("manager")) {
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.layout_fragments, new ManagerChatFragment());

@@ -1,11 +1,12 @@
 package com.mrex.ncs;
 
 public class U {
-    public static String userUID = "noValue",
-            userID = "noValue",
-            userPW = "noValue",
-            userName = "noValue",
-            userType = "noValue",
-            userToken = "noValue";
+    public static String
+            userUID,
+            userID,
+            userPW,
+            userName,
+            userType = "user",
+            userToken = "failedGetToken";
     public static Boolean isSignedIn = false;
 }

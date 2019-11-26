@@ -10,12 +10,12 @@
 
     <string name="default_address">서울 중구 태평로1가 31</string>
     <string name="expected_time">예상 소요시간 :</string>
-    <string name="paid_date">결제 날짜 :</string>
+    <string name="pay_date">결제 날짜 :</string>
     <string name="price">결제 금액 :</string>
-    <string name="payment_method">결제 수단 :</string>
-    <string name="google_pay">구글페이 :</string>
-    <string name="kakao_pay">카카오페이 :</string>
-    <string name="pay">무통장입금 :</string>
+    <string name="payment_method">결제 방법 :</string>
+    <string name="google_pay">구글페이</string>
+    <string name="kakao_pay">카카오페이</string>
+    <string name="pay">무통장입금</string>
     <string name="pay_name">입금자명 :</string>
 
     <string name="between6">※오후 6시부터 오전 6시까지는 50% 추가비용이 적용됩니다</string>
@@ -43,12 +43,16 @@
     <string name="phone_number">휴대폰번호</string>
     <string name="id">아이디</string>
     <string name="id_text">영문 + 숫자 6 ~ 16자리</string>
-    <string name="pw_text">6 ~ 16자리</string>
+
     <string name="password">비밀번호</string>
-    <string name="password_text">비밀번호를 한번더 입력하세요</string>
+    <string name="password_text">6 ~ 16자리</string>
+    <string name="password2">비밀번호 재확인</string>
+    <string name="password2_text">비밀번호를 한번더 입력하세요</string>
     <string name="password_wrong">비밀번호가 다릅니다</string>
     <string name="password_right">같은 비밀번호입니다</string>
+
     <string name="find_password">비밀번호 찾기</string>
+
     <string name="verification_code">인증번호</string>
     <string name="verification_code_text">인증번호를 입력후 확인을 눌러주세요</string>
     <string name="login">로그인</string>

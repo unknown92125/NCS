@@ -107,8 +107,8 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//        Log.e("ChatA:", "onChildAdded");
-//        Log.e("ChatA:", dataSnapshot.getKey());
+//        Log.e("ChatA", "onChildAdded");
+//        Log.e("ChatA", dataSnapshot.getKey());
         messageItem = dataSnapshot.getValue(MessageItem.class);
         arrListMessage.add(messageItem);
         chatAdapter.notifyDataSetChanged();
@@ -183,7 +183,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
                 datas.put("message", message);
                 datas.put("userName", userName);
 
-//                Log.e("SignInA:", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userToken:" + userToken + "   userType:" + userType);
+//                Log.e("ChatA", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userToken:" + userToken + "   userType:" + userType);
 
                 return datas;
             }

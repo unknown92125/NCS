@@ -8,7 +8,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class HomeFirstActivity extends AppCompatActivity {
+import static com.mrex.ncs.U.isSignedIn;
+
+public class HomeFirstActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,10 +20,8 @@ public class HomeFirstActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.home_first_title));
 
-    }
+        findViewById(R.id.bt_reservation).setOnClickListener(this);
 
-    public void reservation(View view) {
-        startActivity(new Intent(this, MapActivity.class));
     }
 
     @Override
@@ -32,6 +32,17 @@ public class HomeFirstActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.bt_reservation) {
+            if (isSignedIn) {
+                startActivity(new Intent(this, MapActivity.class));
+            } else {
+                startActivity(new Intent(this, SignInActivity.class));
+            }
+        }
+    }
 }
 
 

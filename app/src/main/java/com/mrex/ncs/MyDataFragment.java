@@ -24,18 +24,12 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.mrex.ncs.U.isSignedIn;
-import static com.mrex.ncs.U.userID;
 import static com.mrex.ncs.U.userName;
-import static com.mrex.ncs.U.userPW;
-import static com.mrex.ncs.U.userToken;
-import static com.mrex.ncs.U.userType;
-import static com.mrex.ncs.U.userUID;
 
 
 public class MyDataFragment extends Fragment implements View.OnClickListener {
 
     private MyDataActivity myDataActivity;
-    private TextView tvNickname;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -50,7 +44,7 @@ public class MyDataFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_my_data, container, false);
         myDataActivity = (MyDataActivity) getActivity();
 
-        tvNickname = view.findViewById(R.id.tv_nickname);
+        TextView tvNickname = view.findViewById(R.id.tv_nickname);
         tvNickname.setText(userName);
         view.findViewById(R.id.bt_sign_out).setOnClickListener(this);
 
@@ -66,25 +60,13 @@ public class MyDataFragment extends Fragment implements View.OnClickListener {
     }
 
     private void signOut() {
-        Log.e("MyDataA:", "signOut");
+        Log.e("MyDataF", "signOut");
         SharedPreferences sf = myDataActivity.getSharedPreferences("sfUser", MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
 
-        editor.putString("userUID", "noValue");
-        editor.putString("userID", "noValue");
-        editor.putString("userPW", "noValue");
-        editor.putString("userName", "noValue");
-        editor.putString("userType", "noValue");
-        editor.putString("userToken", "noValue");
         editor.putBoolean("isSignedIn", false);
         editor.apply();
 
-        userUID = "noValue";
-        userID = "noValue";
-        userPW = "noValue";
-        userName = "noValue";
-        userType = "noValue";
-        userToken = "noValue";
         isSignedIn = false;
 
         //////////////////////////////////////////////////////////////////////////////
@@ -95,14 +77,14 @@ public class MyDataFragment extends Fragment implements View.OnClickListener {
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Log.e("MyDataF:", "google sign out complete");
+                        Log.e("MyDataF", "google sign out complete");
                     }
                 });
         //////////////////////////////////////////////////////////////////////////////
         UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
             @Override
             public void onCompleteLogout() {
-                Log.e("SignInA:", "kakao:onCompleteLogout");
+                Log.e("MyDataF", "kakao:onCompleteLogout");
             }
         });
 

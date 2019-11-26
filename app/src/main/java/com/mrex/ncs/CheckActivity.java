@@ -29,12 +29,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static com.mrex.ncs.U.isSignedIn;
 import static com.mrex.ncs.U.userUID;
 
 public class CheckActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private final int RC_SIGN_IN = 5001;
 
     private String date, address, expectedTime, payPrice, payMethod, payDate, phone;
     private String payName = "noValue";
@@ -107,52 +104,24 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
-                uploadReservationDB();
-                pushReservationFM();
-                Toast.makeText(this, "예약이 완료되었습니다", Toast.LENGTH_SHORT).show();
-            }
-
-            if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "예약이 취소되었습니다", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-
-    }
-
-    @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.bt_next_check) {
-
-            if (!isSignedIn) {
-                startActivityForResult(new Intent(this, SignInActivity.class), RC_SIGN_IN);
-                return;
-
-            } else {
-                if (payMethod.equals("무통장입금")) {
-                    if (etPayName.length() == 0) {
-                        Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    payName = etPayName.getText().toString();
+            if (payMethod.equals("무통장입금")) {
+                if (etPayName.length() == 0) {
+                    Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
-                uploadReservationDB();
-                pushReservationFM();
-                Toast.makeText(this, "예약 완료", Toast.LENGTH_SHORT).show();
+                payName = etPayName.getText().toString();
             }
+            payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
+            uploadReservationDB();
+            pushReservationFM();
         }
     }
 
     private void uploadReservationDB() {
-        Log.e("CheckA","uploadReservationDB");
+        Log.e("CheckA", "uploadReservationDB");
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
         DatabaseReference reservationRef = rootRef.child("reservations").child(userUID).push();
@@ -160,13 +129,14 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         Reservation reservation = new Reservation(address, date, phone, area + "평", expectedTime, payPrice, payMethod, payName, payDate);
         reservationRef.setValue(reservation);
 
+        Toast.makeText(this, "예약이 완료되었습니다", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, HomeActivity.class));
         finishAffinity();
 
     }
 
     private void pushReservationFM() {
-        Log.e("CheckA","pushReservationFM");
+        Log.e("CheckA", "pushReservationFM");
         String serverUrl = "http://ncservices.dothome.co.kr/pushReservationFM.php";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -178,7 +148,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("CheckA:", "requestQueue onErrorResponse:"+error);
+                Log.e("CheckA:", "requestQueue onErrorResponse:" + error);
             }
         }));
     }

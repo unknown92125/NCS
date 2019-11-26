@@ -81,7 +81,6 @@
         android:background="@color/gray5"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
-        android:onClick="reservation"
         android:padding="8dp"
         android:text="@string/reservation"
         android:textColor="@color/white"

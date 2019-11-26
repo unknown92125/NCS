@@ -58,25 +58,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUserData() {
-        Log.e("HomeA", "loadUserData");
+        Log.e("MainA", "loadUserData");
 
         sf = getSharedPreferences("sfUser", MODE_PRIVATE);
         isSignedIn = sf.getBoolean("isSignedIn", false);
 
         if (isSignedIn) {
-            Log.e("HomeA", "if (isSignedIn)");
+            Log.e("MainA", "loadUserData:if (isSignedIn)");
             userUID = sf.getString("userUID", "noValue");
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference rootRef = firebaseDatabase.getReference();
             idRef = rootRef.child("users").child(userUID);
 
-            idRef.addValueEventListener(new ValueEventListener() {
+            idRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     if (dataSnapshot.getValue() != null) {
-                        Log.e("HomeA", "if (dataSnapshot.getValue() != null)");
+                        Log.e("MainA", "loadUserData: if (dataSnapshot.getValue() != null)");
                         User user = dataSnapshot.getValue(User.class);
                         userID = user.getId();
                         userPW = user.getPw();
@@ -86,8 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
                         if (token != null) {
                             if (!userToken.equals(token)) {
-                                Log.e("HomeA", "if(!userToken.equals(token))");
+                                Log.e("MainA", "if(!userToken.equals(token))");
                                 userToken = token;
+                                idRef.child("token").setValue(userToken);
                                 uploadToken();// -> saveUserDataSF
                             } else {
                                 saveUserDataSF();
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("MainA", "loadUserData: onCancelled:" + databaseError);
                 }
             });
         } else {
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveUserDataSF() {
-        Log.e("HomeA", "saveUserDataSF");
+        Log.e("MainA", "saveUserDataSF");
         sf = getSharedPreferences("sfUser", MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
 
@@ -134,43 +136,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uploadToken() {
-        Log.e("HomeA", "uploadToken");
-
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference rootRef = firebaseDatabase.getReference();
-        idRef = rootRef.child("users").child(userUID);
-
-        idRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.getValue() != null) {
-                    Log.e("HomeA", "if (dataSnapshot.getValue()!=null)");
-                    idRef.child("token").setValue(token);
-                } else {
-                    //dataSnapshot.getValue()==null
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-        /////////////////////////////////////////////
-
+        Log.e("MainA", "uploadToken");
         String serverUrl = "http://ncservices.dothome.co.kr/uploadToken.php";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("HomeA", "uploadToken onResponse:" + response);
+                Log.e("MainA", "uploadToken onResponse:" + response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("HomeA", "uploadToken onErrorResponse:" + error);
+                Log.e("MainA", "uploadToken onErrorResponse:" + error);
             }
         }) {
             @Override
@@ -180,8 +158,6 @@ public class MainActivity extends AppCompatActivity {
                 datas.put("userUID", userUID);
                 datas.put("userToken", userToken);
                 datas.put("userType", userType);
-
-                Log.e("HomeA:", "uploadToken getParams:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userType:" + userType + "   userToken:" + userToken);
 
                 return datas;
             }
@@ -198,32 +174,19 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.e("HomeA", "getTokenFailed:", task.getException());
+                            Log.e("MainA", "getTokenFailed:", task.getException());
 
                             loadUserData();
 
                         } else {
                             // Get new Instance ID token
                             token = task.getResult().getToken();
-                            Log.e("HomeA:getToken:", token);
+                            Log.e("MainA:getToken:", token);
 
                             loadUserData();
                         }
                     }
                 });
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
 
     }
 
