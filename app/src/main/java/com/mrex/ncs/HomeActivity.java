@@ -2,6 +2,7 @@ package com.mrex.ncs;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,9 +27,14 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
+import static com.mrex.ncs.FMService.isNewFM;
 import static com.mrex.ncs.U.isSignedIn;
+import static com.mrex.ncs.U.userID;
 import static com.mrex.ncs.U.userName;
+import static com.mrex.ncs.U.userPW;
+import static com.mrex.ncs.U.userToken;
 import static com.mrex.ncs.U.userType;
+import static com.mrex.ncs.U.userUID;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -99,6 +105,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
+        SharedPreferences sf = getSharedPreferences("sfUser", MODE_PRIVATE);
+        isSignedIn = sf.getBoolean("isSignedIn", false);
+        userUID = sf.getString("userUID", "0");
+        userID = sf.getString("userID", "0");
+        userPW = sf.getString("userPW", "0");
+        userName = sf.getString("userName", "0");
+        userType = sf.getString("userType", "user");
+        userToken = sf.getString("userToken", "0");
+
         if (!isSignedIn) {
             Log.e("HomeA", "onResume: if (!isSignedIn)");
             tvName.setText("");
@@ -114,66 +129,73 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         //if started activity from chat Notification then show ManagerChatFragment and start ChatActivity
-        if (getIntent().getExtras() != null) {
-            Log.e("HomeA", "onResume: if (getIntent().getExtras() != null)");
-            Intent intent = getIntent();
-            String goTo = intent.getStringExtra("goTo");
+        if (isNewFM) {
+            Log.e("HomeA", "if (isNewFM) True");
+            if (getIntent() != null) {
+                Log.e("HomeA", "onResume:  if (getIntent() != null)");
+                Intent intent = getIntent();
+                String goTo = intent.getStringExtra("goTo");
 
-            if (goTo != null) {
-                Log.e("HomeA", goTo);
+                if (goTo != null) {
+                    Log.e("HomeA", goTo);
 
-                if (isSignedIn) {
-                    Log.e("HomeA", "onResume: if (isSignedIn)");
+                    if (isSignedIn) {
+                        Log.e("HomeA", "onResume: if (isSignedIn)");
 
-                    if (goTo.equals("chat")) {
-                        getSupportActionBar().setTitle(getString(R.string.chat_title));
+                        if (goTo.equals("chat")) {
+                            getSupportActionBar().setTitle(getString(R.string.chat_title));
 
-                        ivHome.setImageResource(R.drawable.ic_home_white);
-                        ivChat.setImageResource(R.drawable.ic_chat_bubble_blue);
-                        ivReservation.setImageResource(R.drawable.ic_assignment_white);
-                        ivMenu.setImageResource(R.drawable.ic_menu_white);
+                            ivHome.setImageResource(R.drawable.ic_home_white);
+                            ivChat.setImageResource(R.drawable.ic_chat_bubble_blue);
+                            ivReservation.setImageResource(R.drawable.ic_assignment_white);
+                            ivMenu.setImageResource(R.drawable.ic_menu_white);
 
-                        Intent intent1 = new Intent(this, ChatActivity.class);
-                        intent1.putExtra("chatUID", intent.getStringExtra("chatUID"));
+                            Intent intent1 = new Intent(this, ChatActivity.class);
+                            intent1.putExtra("chatUID", intent.getStringExtra("chatUID"));
 
-                        if (userType.equals("manager")) {
-                            Log.e("HomeA", "onResume: if (userType.equals(\"manager\"))");
-                            fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.layout_fragments, new ManagerChatFragment());
-                            fragmentTransaction.commit();
+                            if (userType.equals("manager")) {
+                                Log.e("HomeA", "onResume: if (userType.equals(\"manager\"))");
+                                fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.layout_fragments, new ManagerChatFragment());
+                                fragmentTransaction.commit();
 
-                            startActivity(intent1);
+                                startActivity(intent1);
+                                isNewFM = false;
 
-                        } else if (userType.equals("user")) {
-                            Log.e("HomeA", "onResume: else if (userType.equals(\"user\"))");
-                            fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.layout_fragments, new ChatFragment());
-                            fragmentTransaction.commit();
+                            } else if (userType.equals("user")) {
+                                Log.e("HomeA", "onResume: else if (userType.equals(\"user\"))");
+                                fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.layout_fragments, new ChatFragment());
+                                fragmentTransaction.commit();
 
-                            startActivity(intent1);
+                                startActivity(intent1);
+                                isNewFM = false;
 
+                            }
+                        } else if (goTo.equals("reservation")) {
+                            getSupportActionBar().setTitle(getString(R.string.reservation_list));
+
+                            ivHome.setImageResource(R.drawable.ic_home_white);
+                            ivChat.setImageResource(R.drawable.ic_home_white);
+                            ivReservation.setImageResource(R.drawable.ic_chat_bubble_blue);
+                            ivMenu.setImageResource(R.drawable.ic_menu_white);
+
+                            if (userType.equals("manager")) {
+                                Log.e("HomeA", "onResume: if (userType.equals(\"manager\"))");
+                                fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.layout_fragments, new ReservationFragment());
+                                fragmentTransaction.commit();
+
+                            }
                         }
-                    } else if (goTo.equals("reservation")) {
-                        getSupportActionBar().setTitle(getString(R.string.reservation_list));
-
-                        ivHome.setImageResource(R.drawable.ic_home_white);
-                        ivChat.setImageResource(R.drawable.ic_home_white);
-                        ivReservation.setImageResource(R.drawable.ic_chat_bubble_blue);
-                        ivMenu.setImageResource(R.drawable.ic_menu_white);
-
-                        if (userType.equals("manager")) {
-                            Log.e("HomeA", "onResume: if (userType.equals(\"manager\"))");
-                            fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.layout_fragments, new ReservationFragment());
-                            fragmentTransaction.commit();
-
-                        }
+                    } else {
+                        //signedIn == false
+                        startActivity(new Intent(this, SignInActivity.class));
                     }
-                } else {
-                    //signedIn == false
-                    startActivity(new Intent(this, SignInActivity.class));
                 }
             }
+        } else {
+            Log.e("HomeA", "if (isNewFM) False");
         }
     }
 

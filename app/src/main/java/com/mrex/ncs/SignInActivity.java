@@ -65,6 +65,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private EditText etID, etPW;
 
     private DatabaseReference idRef;
+    private DatabaseReference userRef;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -171,7 +172,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
-        DatabaseReference userRef = rootRef.child("users");
+        userRef = rootRef.child("users");
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -202,7 +203,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             if (!userToken.equals(token)) {
                                 Log.e("SignInA", "checkIDAndPW: if(!userToken.equals(token))");
                                 userToken = token;
-                                idRef.child("token").setValue(userToken);
+                                Log.e("SignInA", userToken+"   "+token);
+                                userRef.child(userUID).child("token").setValue(userToken);
                                 uploadToken();
                                 saveUserDataSF();
                             } else {

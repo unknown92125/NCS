@@ -102,7 +102,7 @@ public class MyReservationFragment extends Fragment {
             vHolder.tvAddress.setText(reservation.getAddress());
             vHolder.tvArea.setText(reservation.getArea());
             vHolder.tvExpectedTime.setText(reservation.getExpectedTime());
-            vHolder.tvPay.setText(reservation.getPayMethod());
+            vHolder.tvPay.setText(reservation.getPayOption());
             vHolder.tvPayDate.setText(reservation.getPayDate());
             vHolder.tvPrice.setText(reservation.getPayPrice());
 //            vHolder.tvTime.setText(reservation.getTime());
@@ -149,7 +149,7 @@ public class MyReservationFragment extends Fragment {
                 tvArea = itemView.findViewById(R.id.tv_area);
                 tvExpectedTime = itemView.findViewById(R.id.tv_expected_time);
                 tvPrice = itemView.findViewById(R.id.tv_price);
-                tvPay = itemView.findViewById(R.id.tv_payment);
+                tvPay = itemView.findViewById(R.id.tv_pay_option);
                 tvPayDate = itemView.findViewById(R.id.tv_pay_date);
                 tvPhone = itemView.findViewById(R.id.tv_phone);
                 tvPayName = itemView.findViewById(R.id.tv_pay_name);

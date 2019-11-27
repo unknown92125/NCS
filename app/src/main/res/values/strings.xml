@@ -12,7 +12,7 @@
     <string name="expected_time">예상 소요시간 :</string>
     <string name="pay_date">결제 날짜 :</string>
     <string name="price">결제 금액 :</string>
-    <string name="payment_method">결제 방법 :</string>
+    <string name="pay_option">결제 방법 :</string>
     <string name="google_pay">구글페이</string>
     <string name="kakao_pay">카카오페이</string>
     <string name="pay">무통장입금</string>

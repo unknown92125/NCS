@@ -24,7 +24,12 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.mrex.ncs.U.isSignedIn;
+import static com.mrex.ncs.U.userID;
 import static com.mrex.ncs.U.userName;
+import static com.mrex.ncs.U.userPW;
+import static com.mrex.ncs.U.userToken;
+import static com.mrex.ncs.U.userType;
+import static com.mrex.ncs.U.userUID;
 
 
 public class MyDataFragment extends Fragment implements View.OnClickListener {
@@ -65,9 +70,22 @@ public class MyDataFragment extends Fragment implements View.OnClickListener {
         SharedPreferences.Editor editor = sf.edit();
 
         editor.putBoolean("isSignedIn", false);
+        editor.putString("userUID", "0");
+        editor.putString("userID", "0");
+        editor.putString("userPW", "0");
+        editor.putString("userName", "0");
+        editor.putString("userType", "0");
+        editor.putString("userToken", "0");
+
         editor.apply();
 
         isSignedIn = false;
+        userUID = "0";
+        userID = "0";
+        userPW = "0";
+        userName = "0";
+        userType = "0";
+        userToken = "0";
 
         //////////////////////////////////////////////////////////////////////////////
         mAuth.signOut();

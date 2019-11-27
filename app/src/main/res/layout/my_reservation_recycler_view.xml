@@ -213,7 +213,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_payment"
+            android:id="@+id/ll_pay_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_price"
@@ -226,10 +226,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/payment_method" />
+                android:text="@string/pay_option" />
 
             <TextView
-                android:id="@+id/tv_payment"
+                android:id="@+id/tv_pay_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -241,7 +241,7 @@
             android:id="@+id/ll_pay_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ll_payment"
+            android:layout_below="@id/ll_pay_option"
             android:background="@color/white"
             android:orientation="horizontal"
             android:padding="16dp"

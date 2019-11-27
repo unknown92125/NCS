@@ -20,6 +20,7 @@ import java.util.Map;
 public class FMService extends FirebaseMessagingService {
 
     public static Boolean isChatForeground;
+    public static Boolean isNewFM = false;
 
     private String what, data1, data2, chatUID;
 
@@ -28,7 +29,8 @@ public class FMService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         Log.e("FMService:", "onMessageReceived");
-        Log.e("FMService:", "remoteMessage.getFrom(): " + remoteMessage.getFrom());
+        Log.e("FMService:", "remoteMessage.getPriority(): " + remoteMessage.getPriority());
+        Log.e("FMService:", "remoteMessage.getOriginalPriority();: " + remoteMessage.getOriginalPriority());
 
         Map<String, String> datas = remoteMessage.getData();
         if (datas != null) {
@@ -91,6 +93,7 @@ public class FMService extends FirebaseMessagingService {
             intent.putExtra("chatUID", chatUID);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(pendingIntent);
+            isNewFM=true;
 
         } else if (what.equals("reservation")) {
             Intent intent = new Intent(this, HomeActivity.class);
@@ -99,6 +102,7 @@ public class FMService extends FirebaseMessagingService {
             intent.putExtra("goTo", "reservation");
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(pendingIntent);
+            isNewFM=true;
         }
 
         Notification notification = builder.build();

@@ -148,7 +148,7 @@ public class ManagerActivity extends AppCompatActivity {
 //                tvArea = itemView.findViewById(R.id.tv_area);
 //                tvExpectedTime = itemView.findViewById(R.id.tv_expected_time);
 //                tvPrice = itemView.findViewById(R.id.tv_price);
-//                tvPay = itemView.findViewById(R.id.tv_payment);
+//                tvPay = itemView.findViewById(R.id.tv_pay_option);
 //                tvPayDate = itemView.findViewById(R.id.tv_pay_date);
 //                tvPhone = itemView.findViewById(R.id.tv_phone);
 //                tvPayName = itemView.findViewById(R.id.tv_pay_name);

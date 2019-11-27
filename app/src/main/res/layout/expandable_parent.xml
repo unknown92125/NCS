@@ -11,7 +11,7 @@
             android:paddingRight="8dp">
 
             <ImageView
-                android:id="@+id/iv_is_new"
+                android:id="@+id/iv_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/tv_date"
@@ -22,7 +22,7 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_is_new"
+                android:layout_toRightOf="@id/iv_new"
                 android:padding="4dp"
                 android:text="11/22"
                 android:textColor="@color/gray3"
@@ -32,7 +32,7 @@
                 android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/iv_is_new"
+                android:layout_below="@id/iv_new"
                 android:text="서울 대치동 123456 123"
                 android:textColor="@color/gray5"
                 android:textSize="16sp"

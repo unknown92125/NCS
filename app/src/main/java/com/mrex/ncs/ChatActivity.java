@@ -91,11 +91,12 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
             //when started activity from HomeActivity(chat notification)
             if (getIntent().getExtras() != null) {
+                Log.e("ChatA", " if (getIntent().getExtras() != null)");
                 Intent intent = getIntent();
                 chatUID = intent.getStringExtra("chatUID");
+                Log.e("ChatA", "chatUID: "+chatUID);
             }
         }
-
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();

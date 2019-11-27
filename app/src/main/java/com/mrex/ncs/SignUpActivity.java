@@ -1,6 +1,5 @@
 package com.mrex.ncs;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -118,8 +116,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
 
                             if (ds.getValue() != null) {
                                 User user = ds.getValue(User.class);
-                                checkID = user.getId();
 
+                                checkID = user.getId();
+                                Log.e("SignUpA", "checkID" + checkID);
                                 if (checkID.equals(newID)) {
                                     Log.e("SignUpA", "중복된 아이디");
                                     isDuplicateID = true;
@@ -190,7 +189,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
 
     private void signUp() {
 
-        Log.e("SignUpA", isDuplicateID + "  " + isRightPW + "  " + isSamePW + "  " + isRightPhone + "  " + isVerificated);
+        checkPW();
+        checkPW2();
+        checkPhone();
+        checkVerificationCode();
+
+        Log.e("SignUpA", "id:" + isDuplicateID + "  pw1:" + isRightPW + "  pw2:" + isSamePW + "  phone:" + isRightPhone + "  code:" + isVerificated);
 
         if (isDuplicateID || !isRightPW || !isSamePW || !isVerificated) {
             return;
@@ -256,16 +260,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         if (etVeriCode.getText().toString().length() == 0) {
             tvVeriCode.setText("인증번호를 입력하세요");
             tvVeriCode.setTextColor(getResources().getColor(R.color.red));
+            tvVeriCode.setVisibility(View.VISIBLE);
             isVerificated = false;
         } else {
             String checkCode = etVeriCode.getText().toString();
+            Log.e("SignUpA", "checkCode: " + checkCode);
+            Log.e("SignUpA", "verificationCode: " + verificationCode);
             if (checkCode.equals(verificationCode)) {
                 tvVeriCode.setText("인증번호가 일치합니다");
                 tvVeriCode.setTextColor(getResources().getColor(R.color.blue));
+                tvVeriCode.setVisibility(View.VISIBLE);
                 isVerificated = true;
             } else {
                 tvVeriCode.setText("인증번호가 일치하지 않습니다");
                 tvVeriCode.setTextColor(getResources().getColor(R.color.red));
+                tvVeriCode.setVisibility(View.VISIBLE);
                 isVerificated = false;
             }
         }

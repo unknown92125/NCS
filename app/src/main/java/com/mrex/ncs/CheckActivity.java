@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.error.AuthFailureError;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -27,14 +28,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import static com.mrex.ncs.U.userName;
 import static com.mrex.ncs.U.userUID;
 
 public class CheckActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String date, address, expectedTime, payPrice, payMethod, payDate, phone;
-    private String payName = "noValue";
+    private String date, address, expectedTime, payPrice, payOption, payDate, phone;
+    private String payName = "0";
     private int area;
     private EditText etPayName;
 
@@ -92,7 +96,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb = findViewById(checkedId);
-                payMethod = rb.getText().toString();
+                payOption = rb.getText().toString();
                 if (checkedId == R.id.rb_pay) {
                     llPayName.setVisibility(View.VISIBLE);
                 } else {
@@ -107,7 +111,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.bt_next_check) {
-            if (payMethod.equals("무통장입금")) {
+            if (payOption.equals("무통장입금")) {
                 if (etPayName.length() == 0) {
                     Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
                     return;
@@ -126,7 +130,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         DatabaseReference rootRef = firebaseDatabase.getReference();
         DatabaseReference reservationRef = rootRef.child("reservations").child(userUID).push();
 
-        Reservation reservation = new Reservation(address, date, phone, area + "평", expectedTime, payPrice, payMethod, payName, payDate);
+        Reservation reservation = new Reservation(address, date, phone, area + "평", expectedTime, payPrice, payOption, payName, payDate);
         reservationRef.setValue(reservation);
 
         Toast.makeText(this, "예약이 완료되었습니다", Toast.LENGTH_SHORT).show();
@@ -150,7 +154,19 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
             public void onErrorResponse(VolleyError error) {
                 Log.e("CheckA:", "requestQueue onErrorResponse:" + error);
             }
-        }));
+        }){
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                HashMap<String, String> datas = new HashMap<>();
+                datas.put("address", address);
+
+//                Log.e("ChatA", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userToken:" + userToken + "   userType:" + userType);
+
+                return datas;
+            }
+        });
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Reservation implements Comparable<Reservation> {
 
     private String expectedTime;
     private String payPrice;
-    private String payMethod;
+    private String payOption;
     private String payName;
     private String payDate;
     private long milliDate;
@@ -22,14 +22,14 @@ public class Reservation implements Comparable<Reservation> {
     public Reservation() {
     }
 
-    public Reservation(String address, String date, String phone, String area, String expectedTime, String payPrice, String payMethod, String payName, String payDate) {
+    public Reservation(String address, String date, String phone, String area, String expectedTime, String payPrice, String payOption, String payName, String payDate) {
         this.address = address;
         this.date = date;
         this.phone = phone;
         this.area = area;
         this.expectedTime = expectedTime;
         this.payPrice = payPrice;
-        this.payMethod = payMethod;
+        this.payOption = payOption;
         this.payName = payName;
         this.payDate = payDate;
     }
@@ -82,12 +82,12 @@ public class Reservation implements Comparable<Reservation> {
         this.payPrice = payPrice;
     }
 
-    public String getPayMethod() {
-        return payMethod;
+    public String getPayOption() {
+        return payOption;
     }
 
-    public void setPayMethod(String payMethod) {
-        this.payMethod = payMethod;
+    public void setPayOption(String payOption) {
+        this.payOption = payOption;
     }
 
     public String getPayName() {
