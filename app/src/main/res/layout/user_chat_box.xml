@@ -2,14 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
     android:paddingRight="8dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_margin="4dp"
+        android:layout_marginTop="4dp"
         android:orientation="horizontal">
 
         <TextView
@@ -30,7 +31,7 @@
             android:maxWidth="240dp"
             android:padding="8dp"
             android:text="1341541sjdfjiojnsfklnsdfklndsklfnskdlnfklsdnfklnsdfklnsdklfnskdl6"
-            android:textColor="@color/gray6"
+            android:textColor="@color/gray5"
             android:textSize="14sp" />
 
     </LinearLayout>

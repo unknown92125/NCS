@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#222222</color>
-    <color name="colorPrimaryDark">#111111</color>
-    <color name="colorAccent">#329ea2</color>
+    <color name="colorPrimaryDark">#222222</color>
+    <color name="colorAccent">#259493</color>
 
     <color name="textColor">#222222</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="white_trans">#77FFFFFF</color>
     <color name="white2">#F1F1F1</color>
 
     <color name="gray1">#A7A7A7</color>
@@ -14,6 +15,7 @@
     <color name="gray3">#535353</color>
     <color name="gray4">#3D3D3D</color>
     <color name="gray5">#333333</color>
+    <color name="gray5_trans">#77333333</color>
     <color name="gray6">#222222</color>
 
     <color name="red">#AA0000</color>
@@ -24,7 +26,8 @@
 
     <color name="black">#000000</color>
 
-
+    <color name="bluegreen">#259493</color>
+    <color name="bluegreen_trans">#77259493</color>
     //dark
     <color name="bluegreen1">#00787d</color>
     <color name="bluegreen2">#00868b</color>

@@ -3,108 +3,234 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blue_background2"
     tools:context=".SignInActivity">
 
-    <ImageView
-        android:id="@+id/iv"
+    <TextView
+        android:id="@+id/tv_sign_in_title"
         android:layout_width="match_parent"
-        android:layout_height="152dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/start" />
+        android:layout_height="144dp"
+        android:gravity="center"
+        android:shadowColor="@color/black"
+        android:shadowDx="3.0"
+        android:shadowDy="3.0"
+        android:shadowRadius="3.0"
+        android:text="Sign In"
+        android:textColor="@color/white"
+        android:textSize="64dp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/et_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="40dp"
+        android:layout_below="@id/tv_sign_in_title"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:hint="@string/id"
         android:imeOptions="actionNext"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:lines="1"
-        android:maxLength="16" />
+        android:maxLength="16"
+        android:padding="16dp"
+        android:textColor="@color/gray5" />
 
     <EditText
         android:id="@+id/et_pw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_id"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="32dp"
         android:hint="@string/password"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:lines="1"
-        android:maxLength="20" />
-
-    <Button
-        android:id="@+id/bt_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_find_pw"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
-        android:background="@color/gray4"
-        android:text="@string/login"
-        android:textColor="@color/white" />
+        android:maxLength="16"
+        android:padding="16dp"
+        android:textColor="@color/gray5" />
 
     <TextView
         android:id="@+id/tv_find_pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_pw"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/find_password" />
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/find_password"
+        android:textColor="@color/gray5" />
+
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_find_pw"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/black_rounded_box"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
 
     <Button
         android:id="@+id/bt_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="32dp"
-        android:background="@color/gray4"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bluegreen_rounded_box"
         android:text="@string/sign_up"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/bt_google_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bt_login"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp" />
-
-
-    <!--    <Button-->
-    <!--        android:id="@+id/bt_google_logout"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@id/bt_google_login"-->
-    <!--        android:text="log out" />-->
+        android:layout_above="@id/bt_kakao_login"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="8dp" />
 
     <com.kakao.usermgmt.LoginButton
         android:id="@+id/bt_kakao_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bt_google_login"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp" />
-
-    <!--    <Button-->
-    <!--        android:id="@+id/bt_kakao_logout"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@id/bt_kakao_login"-->
-    <!--        android:text="log out" />-->
+        android:layout_above="@id/bt_sign_up"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="8dp" />
 
 </RelativeLayout>
+
+
+    <!--    <?xml version="1.0" encoding="utf-8"?>-->
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@drawable/aqua_background"-->
+    <!--tools:context=".SignInActivity">-->
+
+    <!--<ImageView-->
+    <!--    android:id="@+id/iv"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="152dp"-->
+    <!--    android:scaleType="centerCrop"-->
+    <!--    android:src="@drawable/start"-->
+    <!--    android:visibility="gone" />-->
+
+    <!--<TextView-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:shadowColor="@color/black"-->
+    <!--    android:shadowDx="5.0"-->
+    <!--    android:shadowDy="5.0"-->
+    <!--    android:shadowRadius="5.0"-->
+    <!--    android:text="SIGN IN"-->
+    <!--    android:gravity="center"-->
+    <!--    android:textColor="@color/white"-->
+    <!--    android:textSize="64dp" />-->
+
+    <!--<EditText-->
+    <!--    android:id="@+id/et_id"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_below="@id/iv"-->
+    <!--    android:layout_marginStart="40dp"-->
+    <!--    android:layout_marginTop="24dp"-->
+    <!--    android:layout_marginEnd="40dp"-->
+    <!--    android:hint="@string/id"-->
+    <!--    android:imeOptions="actionNext"-->
+    <!--    android:inputType="text"-->
+    <!--    android:lines="1"-->
+    <!--    android:maxLength="16" />-->
+
+    <!--<EditText-->
+    <!--    android:id="@+id/et_pw"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_below="@id/et_id"-->
+    <!--    android:layout_marginStart="40dp"-->
+    <!--    android:layout_marginTop="24dp"-->
+    <!--    android:layout_marginEnd="40dp"-->
+    <!--    android:hint="@string/password"-->
+    <!--    android:imeOptions="actionDone"-->
+    <!--    android:inputType="textPassword"-->
+    <!--    android:lines="1"-->
+    <!--    android:maxLength="20" />-->
+
+    <!--<Button-->
+    <!--    android:id="@+id/bt_login"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_below="@id/tv_find_pw"-->
+    <!--    android:layout_marginStart="40dp"-->
+    <!--    android:layout_marginTop="16dp"-->
+    <!--    android:layout_marginEnd="40dp"-->
+    <!--    android:background="@color/gray4"-->
+    <!--    android:text="@string/login"-->
+    <!--    android:textColor="@color/white" />-->
+
+    <!--<TextView-->
+    <!--    android:id="@+id/tv_find_pw"-->
+    <!--    android:layout_width="wrap_content"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_below="@id/et_pw"-->
+    <!--    android:layout_alignParentEnd="true"-->
+    <!--    android:layout_marginTop="8dp"-->
+    <!--    android:layout_marginEnd="40dp"-->
+    <!--    android:text="@string/find_password" />-->
+
+    <!--<Button-->
+    <!--    android:id="@+id/bt_sign_up"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_alignParentBottom="true"-->
+    <!--    android:layout_marginStart="40dp"-->
+    <!--    android:layout_marginEnd="40dp"-->
+    <!--    android:layout_marginBottom="32dp"-->
+    <!--    android:background="@color/gray4"-->
+    <!--    android:text="@string/sign_up"-->
+    <!--    android:textColor="@color/white" />-->
+
+    <!--<com.google.android.gms.common.SignInButton-->
+    <!--    android:id="@+id/bt_google_login"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_below="@id/bt_login"-->
+    <!--    android:layout_marginStart="40dp"-->
+    <!--    android:layout_marginTop="16dp"-->
+    <!--    android:layout_marginEnd="40dp" />-->
+
+
+    <!--&lt;!&ndash;    <Button&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:id="@+id/bt_google_logout"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_below="@id/bt_google_login"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:text="log out" />&ndash;&gt;-->
+
+    <!--<com.kakao.usermgmt.LoginButton-->
+    <!--    android:id="@+id/bt_kakao_login"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_below="@id/bt_google_login"-->
+    <!--    android:layout_marginStart="40dp"-->
+    <!--    android:layout_marginTop="16dp"-->
+    <!--    android:layout_marginEnd="40dp" />-->
+
+    <!--&lt;!&ndash;    <Button&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:id="@+id/bt_kakao_logout"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_below="@id/bt_kakao_login"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:text="log out" />&ndash;&gt;-->
+
+    <!--</RelativeLayout>-->

@@ -54,6 +54,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.sign_up));
+
         etID = findViewById(R.id.et_id);
         etPW = findViewById(R.id.et_pw);
         etPW2 = findViewById(R.id.et_pw2);

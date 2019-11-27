@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,7 +36,6 @@ public class ReservationFragment extends Fragment {
     private Reservation reservation;
     private ArrayList<Reservation> arrListRV = new ArrayList<>();
     private ManagerAdapter managerAdapter;
-    private ManagerAdapter.VHolder vHolder;
 
     public ReservationFragment() {
     }
@@ -93,14 +94,14 @@ public class ReservationFragment extends Fragment {
             LayoutInflater inflater = getLayoutInflater();
             View itemView = inflater.inflate(R.layout.reservation_rv, parent, false);
 
-            vHolder = new VHolder(itemView);
+            VHolder vHolder = new VHolder(itemView);
 
             return vHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            vHolder = (VHolder) holder;
+            final VHolder vHolder = (VHolder) holder;
             reservation = arrListRV.get(position);
 
             vHolder.tvDate.setText(reservation.getDate());
@@ -136,19 +137,25 @@ public class ReservationFragment extends Fragment {
                 e.printStackTrace();
             }
 
-
+            final Animation animation=new AlphaAnimation(0,1);
+            animation.setDuration(1000);
             vHolder.rlList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (vHolder.rlData.getVisibility() == View.VISIBLE) {
+
                         vHolder.rlData.setVisibility(View.GONE);
                         vHolder.ivArrow.setImageResource(R.drawable.ic_arrow_down_black);
                     } else {
                         vHolder.rlData.setVisibility(View.VISIBLE);
+//                        vHolder.rlData.setAnimation(animation);
                         vHolder.ivArrow.setImageResource(R.drawable.ic_arrow_up_black);
+
+
                     }
                 }
             });
+
 
         }
 
