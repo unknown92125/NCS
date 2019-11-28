@@ -6,9 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +33,7 @@ public class ReservationFragment extends Fragment {
     private Reservation reservation;
     private ArrayList<Reservation> arrListRV = new ArrayList<>();
     private ManagerAdapter managerAdapter;
+    private RelativeLayout rlProgress;
 
     public ReservationFragment() {
     }
@@ -44,6 +42,8 @@ public class ReservationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reservation, container, false);
+
+        rlProgress=view.findViewById(R.id.rl_progress);
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_manager_reservation);
         managerAdapter = new ManagerAdapter();
@@ -56,6 +56,7 @@ public class ReservationFragment extends Fragment {
         reservationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                rlProgress.setVisibility(View.VISIBLE);
 
                 arrListRV.clear();
                 managerAdapter.notifyDataSetChanged();
@@ -75,6 +76,7 @@ public class ReservationFragment extends Fragment {
                 Collections.sort(arrListRV);
                 Collections.reverse(arrListRV);
 
+                rlProgress.setVisibility(View.GONE);
             }
 
             @Override
@@ -105,7 +107,6 @@ public class ReservationFragment extends Fragment {
             reservation = arrListRV.get(position);
 
             vHolder.tvDate.setText(reservation.getDate());
-//            vHolder.tvDateList.setText(reservation.getDate());
             vHolder.tvAddress.setText(reservation.getAddress());
             vHolder.tvArea.setText(reservation.getArea());
             vHolder.tvExpectedTime.setText(reservation.getExpectedTime());
@@ -137,8 +138,8 @@ public class ReservationFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            final Animation animation=new AlphaAnimation(0,1);
-            animation.setDuration(1000);
+//            final Animation animation=new AlphaAnimation(0,1);
+//            animation.setDuration(1000);
             vHolder.rlList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -185,7 +186,6 @@ public class ReservationFragment extends Fragment {
                 rlData = itemView.findViewById(R.id.rl_data);
                 rlList = itemView.findViewById(R.id.rl_list);
                 rlPayName = itemView.findViewById(R.id.rl_pay_name);
-//                tvDateList = itemView.findViewById(R.id.tv_date_list);
                 ivArrow = itemView.findViewById(R.id.iv_arrow);
                 ivNew = itemView.findViewById(R.id.iv_new);
 

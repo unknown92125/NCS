@@ -9,6 +9,8 @@
         <!--        <item name="actionBarSize">?attr/actionBarSize</item>-->
         <!--                <item name="android:background">@color/white</item>-->
         <item name="titleTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/gray3</item>
+        <item name="android:fontFamily">@font/nanum_square_round_extra_bold</item>
 
     </style>
 
@@ -31,11 +33,15 @@
     </style>
 
 
-    <style name="NoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="MyNoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/gray5</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--        <item name="actionBarSize">?attr/actionBarSize</item>-->
+        <!--                <item name="android:background">@color/white</item>-->
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/gray3</item>
+        <item name="android:fontFamily">@font/nanum_square_round_extra_bold</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Dialog">

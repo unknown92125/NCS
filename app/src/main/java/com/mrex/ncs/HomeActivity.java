@@ -114,6 +114,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         userType = sf.getString("userType", "user");
         userToken = sf.getString("userToken", "0");
 
+        Log.e("HomeA","userUID"+userUID+"  userID"+userID+"  userPW"+userPW+"  userName"+userName+"  userType"+userType+"  userToken"+userToken);
+
         if (!isSignedIn) {
             Log.e("HomeA", "onResume: if (!isSignedIn)");
             tvName.setText("");

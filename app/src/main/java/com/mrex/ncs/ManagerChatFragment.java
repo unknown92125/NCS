@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,12 +29,12 @@ public class ManagerChatFragment extends Fragment {
 
     private ArrayList<MessageItem> arrListMessageItem = new ArrayList<>();
     private ArrayList<MessageItem> arrListLastMessage = new ArrayList<>();
+    private ArrayList<String> arrListUserName = new ArrayList<>();
     private ArrayList<String> arrListUID = new ArrayList<>();
-
-    private MessageItem messageItem;
     private String userChatName;
 
-    private RecyclerView recyclerView;
+    private MessageItem messageItem;
+
     private ManagerChatRecyclerAdapter managerChatRecyclerAdapter;
 
     public ManagerChatFragment() {
@@ -52,8 +53,10 @@ public class ManagerChatFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                arrListUserName.clear();
                 arrListLastMessage.clear();
                 arrListUID.clear();
+                managerChatRecyclerAdapter.notifyDataSetChanged();
 //                int pos = 0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     arrListMessageItem.clear();
@@ -61,13 +64,14 @@ public class ManagerChatFragment extends Fragment {
                     Log.e("MCF:ds", "getKey:" + ds.getKey() + "/getChildrenCount:" + ds.getChildrenCount() + "/getChildren:" + ds.getChildren());
                     for (DataSnapshot dds : ds.getChildren()) {
                         messageItem = dds.getValue(MessageItem.class);
-                        arrListMessageItem.add(messageItem);
-
-                        if (!messageItem.getName().equals("세상의 모든 청소")) {
-                            userChatName = messageItem.getName();
+                        if (!messageItem.getType().equals("manager")){
+                            userChatName=messageItem.getName();
                         }
+                        arrListMessageItem.add(messageItem);
                         Log.e("MCF:dds", "getName:" + messageItem.getName() + "/getMessage:" + messageItem.getMessage());
+
                     }
+                    arrListUserName.add(userChatName);
                     Collections.sort(arrListMessageItem);
                     Log.e("MCF:", "size:" + arrListMessageItem.size());
                     messageItem = arrListMessageItem.get(arrListMessageItem.size() - 1);
@@ -85,7 +89,7 @@ public class ManagerChatFragment extends Fragment {
             }
         });
 
-        recyclerView = view.findViewById(R.id.rv_manager_chat);
+        RecyclerView recyclerView = view.findViewById(R.id.rv_manager_chat);
         managerChatRecyclerAdapter = new ManagerChatRecyclerAdapter(arrListLastMessage);
         recyclerView.setAdapter(managerChatRecyclerAdapter);
 
@@ -115,6 +119,8 @@ public class ManagerChatFragment extends Fragment {
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
             VHolder vHolder = (VHolder) holder;
+            userChatName =arrListUserName.get(position);
+
             MessageItem messageItem = arrListLastMessage.get(position);
 
             vHolder.tvName.setText(userChatName);

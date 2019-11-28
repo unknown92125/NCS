@@ -74,7 +74,7 @@ public class MyDataFragment extends Fragment implements View.OnClickListener {
         editor.putString("userID", "0");
         editor.putString("userPW", "0");
         editor.putString("userName", "0");
-        editor.putString("userType", "0");
+        editor.putString("userType", "user");
         editor.putString("userToken", "0");
 
         editor.apply();
@@ -84,7 +84,7 @@ public class MyDataFragment extends Fragment implements View.OnClickListener {
         userID = "0";
         userPW = "0";
         userName = "0";
-        userType = "0";
+        userType = "user";
         userToken = "0";
 
         //////////////////////////////////////////////////////////////////////////////

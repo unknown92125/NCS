@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,12 +26,8 @@ import static com.mrex.ncs.U.userUID;
 
 public class MyReservationFragment extends Fragment {
 
-    private MyDataActivity myDataActivity;
-
-    private DatabaseReference reservationRef;
     private Reservation reservation;
     private ArrayList<Reservation> arrListRV = new ArrayList<>();
-    private RecyclerView recyclerView;
     private MyReservationAdapter myReservationAdapter;
 
     public MyReservationFragment() {
@@ -44,15 +38,13 @@ public class MyReservationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_reservation, container, false);
 
-        myDataActivity = (MyDataActivity) getActivity();
-
-        recyclerView = view.findViewById(R.id.rv_reservation);
+        RecyclerView recyclerView = view.findViewById(R.id.rv_reservation);
         myReservationAdapter = new MyReservationAdapter();
         recyclerView.setAdapter(myReservationAdapter);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
-        reservationRef = rootRef.child("reservations").child(userUID);
+        DatabaseReference reservationRef = rootRef.child("reservations").child(userUID);
 
         reservationRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,7 +78,7 @@ public class MyReservationFragment extends Fragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View itemView = inflater.inflate(R.layout.my_reservation_recycler_view, parent, false);
+            View itemView = inflater.inflate(R.layout.reservation_rv, parent, false);
 
             VHolder vHolder = new VHolder(itemView);
 
@@ -99,30 +91,31 @@ public class MyReservationFragment extends Fragment {
             reservation = arrListRV.get(position);
 
             vHolder.tvDate.setText(reservation.getDate());
-            vHolder.tvDateList.setText(reservation.getDate());
             vHolder.tvAddress.setText(reservation.getAddress());
             vHolder.tvArea.setText(reservation.getArea());
             vHolder.tvExpectedTime.setText(reservation.getExpectedTime());
             vHolder.tvPay.setText(reservation.getPayOption());
             vHolder.tvPayDate.setText(reservation.getPayDate());
             vHolder.tvPrice.setText(reservation.getPayPrice());
-//            vHolder.tvTime.setText(reservation.getTime());
             vHolder.tvPhone.setText(reservation.getPhone());
             vHolder.tvPayName.setText(reservation.getPayName());
-            if (reservation.getPayName().equals("noValue")) {
-                vHolder.llPayName.setVisibility(View.GONE);
+            if (reservation.getPayOption().equals("무통장입금")) {
+                vHolder.rlPayName.setVisibility(View.VISIBLE);
             } else {
-                vHolder.llPayName.setVisibility(View.VISIBLE);
+                vHolder.rlPayName.setVisibility(View.GONE);
             }
             vHolder.rlList.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     if (vHolder.rlData.getVisibility() == View.VISIBLE) {
+
                         vHolder.rlData.setVisibility(View.GONE);
                         vHolder.ivArrow.setImageResource(R.drawable.ic_arrow_down_black);
                     } else {
                         vHolder.rlData.setVisibility(View.VISIBLE);
                         vHolder.ivArrow.setImageResource(R.drawable.ic_arrow_up_black);
+
+
                     }
                 }
             });
@@ -136,16 +129,14 @@ public class MyReservationFragment extends Fragment {
 
         public class VHolder extends RecyclerView.ViewHolder {
 
-            private TextView tvDate, tvTime, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPay, tvPayDate, tvPhone, tvDateList, tvPayName;
-            private RelativeLayout rlData, rlList;
-            private LinearLayout llPayName;
+            private TextView tvDate, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPay, tvPayDate, tvPhone, tvPayName;
+            private RelativeLayout rlData, rlList, rlPayName;
             private ImageView ivArrow;
 
             public VHolder(@NonNull View itemView) {
                 super(itemView);
 
                 tvDate = itemView.findViewById(R.id.tv_date);
-                tvTime = itemView.findViewById(R.id.tv_time);
                 tvAddress = itemView.findViewById(R.id.tv_address);
                 tvArea = itemView.findViewById(R.id.tv_area);
                 tvExpectedTime = itemView.findViewById(R.id.tv_expected_time);
@@ -156,8 +147,7 @@ public class MyReservationFragment extends Fragment {
                 tvPayName = itemView.findViewById(R.id.tv_pay_name);
                 rlData = itemView.findViewById(R.id.rl_data);
                 rlList = itemView.findViewById(R.id.rl_list);
-                llPayName = itemView.findViewById(R.id.ll_pay_name);
-                tvDateList = itemView.findViewById(R.id.tv_date_list);
+                rlPayName = itemView.findViewById(R.id.rl_pay_name);
                 ivArrow = itemView.findViewById(R.id.iv_arrow);
 
             }

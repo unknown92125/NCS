@@ -3,9 +3,8 @@ package com.mrex.ncs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +17,8 @@ import com.android.volley.error.AuthFailureError;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -43,8 +44,8 @@ import static com.mrex.ncs.U.userUID;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnFocusChangeListener, View.OnClickListener {
 
-    private EditText etID, etPW, etPW2, etPhone, etVeriCode;
-    private TextView tvID, tvPW, tvPW2, tvPhone, tvVeriCode;
+    private TextInputEditText etID, etPW, etPW2, etPhone, etVeriCode;
+    private TextInputLayout tilID, tilPW, tilPW2, tilPhone, tilVeriCode;
     private String checkID, newID, newPW, phoneNum, verificationCode;
     private Boolean isDuplicateID = true, isRightPW = false, isSamePW = false, isRightPhone = false, isVerificated = false;
     private DatabaseReference idRef;
@@ -62,11 +63,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         etPW2 = findViewById(R.id.et_pw2);
         etPhone = findViewById(R.id.et_phone);
         etVeriCode = findViewById(R.id.et_verification);
-        tvID = findViewById(R.id.tv_id);
-        tvPW = findViewById(R.id.tv_pw);
-        tvPW2 = findViewById(R.id.tv_pw2);
-        tvPhone = findViewById(R.id.tv_phone);
-        tvVeriCode = findViewById(R.id.tv_verification);
+
+        tilID = findViewById(R.id.til_id);
+        tilPW = findViewById(R.id.til_pw);
+        tilPW2 = findViewById(R.id.til_pw2);
+        tilPhone = findViewById(R.id.til_phone);
+        tilVeriCode = findViewById(R.id.til_verification);
 
         etID.setOnFocusChangeListener(this);
         etPW.setOnFocusChangeListener(this);
@@ -87,6 +89,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             PhoneVerify();
         }
         if (i == R.id.bt_sign_up) {
+            etID.clearFocus();
+            etPW.clearFocus();
+            etPW2.clearFocus();
+            etPhone.clearFocus();
+            etVeriCode.clearFocus();
+
             signUp();
         }
 
@@ -94,8 +102,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
 
     private void checkDuplicateID() {
         if (etID.getText().toString().length() < 6 || etID.getText().toString().length() > 16) {
-            tvID.setText("영문 + 숫자 6 ~ 16자리");
-            tvID.setTextColor(getResources().getColor(R.color.red));
+            tilID.setErrorIconDrawable(R.drawable.ic_close_red);
+            tilID.setError("6~16자의 영문 소문자와 숫자만 사용 가능합니다");
             return;
         } else {
             newID = etID.getText().toString();
@@ -112,8 +120,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
                     if (dataSnapshot.getChildrenCount() == 0) {
                         Log.e("SignUpA", "if (dataSnapshot.getChildrenCount()==0) 사용가능한 아이디");
                         isDuplicateID = false;
-                        tvID.setText("사용가능한 아이디입니다");
-                        tvID.setTextColor(getResources().getColor(R.color.blue));
+                        tilID.setError(null);
+                        tilID.setErrorIconDrawable(null);
+
                     } else {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
@@ -125,14 +134,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
                                 if (checkID.equals(newID)) {
                                     Log.e("SignUpA", "중복된 아이디");
                                     isDuplicateID = true;
-                                    tvID.setText("중복된 아이디입니다");
-                                    tvID.setTextColor(getResources().getColor(R.color.red));
+                                    tilID.setErrorIconDrawable(R.drawable.ic_close_red);
+                                    tilID.setError("중복된 아이디입니다");
+
                                     return;
                                 } else {
                                     Log.e("SignUpA", "사용가능한 아이디");
                                     isDuplicateID = false;
-                                    tvID.setText("사용가능한 아이디입니다");
-                                    tvID.setTextColor(getResources().getColor(R.color.blue));
+                                    tilID.setError(null);
+                                    tilID.setErrorIconDrawable(null);
+
                                     return;
                                 }
                             }
@@ -152,19 +163,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
     private void checkPW() {
         if (etPW.getText().length() != 0) {
             if (etPW.getText().length() < 6 || etPW.getText().length() > 16) {
-                tvPW.setText(getString(R.string.password_text));
-                tvPW.setVisibility(View.VISIBLE);
-                tvPW.setTextColor(getResources().getColor(R.color.red));
+                tilPW.setErrorIconDrawable(R.drawable.ic_close_red);
+                tilPW.setError("6~16자의 영문 소문자와 숫자만 사용 가능합니다");
                 isRightPW = false;
             } else {
                 newPW = etPW.getText().toString();
-                tvPW.setVisibility(View.INVISIBLE);
+                tilPW.setError(null);
+                tilPW.setErrorIconDrawable(null);
                 isRightPW = true;
             }
         } else {
-            tvPW.setVisibility(View.VISIBLE);
-            tvPW.setText("비밀번호를 입력하세요");
-            tvPW.setTextColor(getResources().getColor(R.color.red));
+            tilPW.setErrorIconDrawable(R.drawable.ic_close_red);
+            tilPW.setError("비밀번호를 입력하세요");
             isRightPW = false;
         }
         Log.e("SignUpA", "isRightPW: " + isRightPW);
@@ -176,14 +186,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             String newPW2 = etPW2.getText().toString();
             Log.e("SignUpA", "newPW:" + newPW + "/newPW2:" + newPW2);
             if (newPW.equals(newPW2)) {
-                tvPW2.setText(getString(R.string.password_right));
-                tvPW2.setTextColor(getResources().getColor(R.color.blue));
-                tvPW2.setVisibility(View.VISIBLE);
+                tilPW2.setError(null);
+                tilPW2.setErrorIconDrawable(null);
                 isSamePW = true;
             } else {
-                tvPW2.setText(getString(R.string.password_wrong));
-                tvPW2.setTextColor(getResources().getColor(R.color.red));
-                tvPW2.setVisibility(View.VISIBLE);
+                tilPW2.setErrorIconDrawable(R.drawable.ic_close_red);
+                tilPW2.setError(getString(R.string.password_wrong));
                 isSamePW = false;
             }
         }
@@ -192,10 +200,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
 
     private void signUp() {
 
-        checkPW();
-        checkPW2();
-        checkPhone();
-        checkVerificationCode();
+//        checkDuplicateID();
+//        checkPW();
+//        checkPW2();
+//        checkPhone();
+//        checkVerificationCode();
 
         Log.e("SignUpA", "id:" + isDuplicateID + "  pw1:" + isRightPW + "  pw2:" + isSamePW + "  phone:" + isRightPhone + "  code:" + isVerificated);
 
@@ -261,23 +270,20 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
 
     private void checkVerificationCode() {
         if (etVeriCode.getText().toString().length() == 0) {
-            tvVeriCode.setText("인증번호를 입력하세요");
-            tvVeriCode.setTextColor(getResources().getColor(R.color.red));
-            tvVeriCode.setVisibility(View.VISIBLE);
+            tilVeriCode.setErrorIconDrawable(R.drawable.ic_close_red);
+            tilVeriCode.setError("인증번호를 입력하세요");
             isVerificated = false;
         } else {
             String checkCode = etVeriCode.getText().toString();
             Log.e("SignUpA", "checkCode: " + checkCode);
             Log.e("SignUpA", "verificationCode: " + verificationCode);
             if (checkCode.equals(verificationCode)) {
-                tvVeriCode.setText("인증번호가 일치합니다");
-                tvVeriCode.setTextColor(getResources().getColor(R.color.blue));
-                tvVeriCode.setVisibility(View.VISIBLE);
+                tilVeriCode.setError(null);
+                tilVeriCode.setErrorIconDrawable(null);
                 isVerificated = true;
             } else {
-                tvVeriCode.setText("인증번호가 일치하지 않습니다");
-                tvVeriCode.setTextColor(getResources().getColor(R.color.red));
-                tvVeriCode.setVisibility(View.VISIBLE);
+                tilVeriCode.setErrorIconDrawable(R.drawable.ic_close_red);
+                tilVeriCode.setError("인증번호가 일치하지 않습니다");
                 isVerificated = false;
             }
         }
@@ -288,18 +294,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         if (etPhone.getText().length() != 0) {
             phoneNum = etPhone.getText().toString();
             if (phoneNum.length() < 10 || phoneNum.length() > 11) {
-                tvPhone.setVisibility(View.VISIBLE);
-                tvPhone.setText("형식에 맞지 않는 번호입니다");
-                tvPhone.setTextColor(getResources().getColor(R.color.red));
+                tilPhone.setErrorIconDrawable(R.drawable.ic_close_red);
+                tilPhone.setError("형식에 맞지 않는 번호입니다");
                 isRightPhone = false;
             } else {
-                tvPhone.setVisibility(View.INVISIBLE);
+                tilPhone.setError(null);
+                tilPhone.setErrorIconDrawable(null);
                 isRightPhone = true;
             }
         } else {
-            tvPhone.setVisibility(View.VISIBLE);
-            tvPhone.setText("휴대폰번호를 입력하세요");
-            tvPhone.setTextColor(getResources().getColor(R.color.red));
+            tilPhone.setErrorIconDrawable(R.drawable.ic_close_red);
+            tilPhone.setError("휴대폰번호를 입력하세요");
             isRightPhone = false;
         }
         Log.e("SignUpA", "isRightPhone: " + isRightPhone);
@@ -355,9 +360,37 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             if (i == R.id.et_verification) {
                 checkVerificationCode();
             }
+        } else {
+            if (i == R.id.et_id) {
+                tilID.setError(null);
+                tilID.setErrorIconDrawable(null);
+            }
+            if (i == R.id.et_pw) {
+                tilPW.setError(null);
+                tilPW.setErrorIconDrawable(null);
+            }
+            if (i == R.id.et_pw2) {
+                tilPW2.setError(null);
+                tilPW2.setErrorIconDrawable(null);
+            }
+            if (i == R.id.et_phone) {
+                tilPhone.setError(null);
+                tilPhone.setErrorIconDrawable(null);
+            }
+            if (i == R.id.et_verification) {
+                tilVeriCode.setError(null);
+                tilVeriCode.setErrorIconDrawable(null);
+            }
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     //    private void checkDuplicateID() {
 //

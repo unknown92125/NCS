@@ -3,6 +3,8 @@ package com.mrex.ncs;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -48,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getToken();// -> loadUserData
 
-//        handler.sendEmptyMessageDelayed(0, 2000);
+
+        getToken();// -> loadUserData
 
 //        String key = getKeyHash();
 //        Log.e("MainA:", "KeyHash: " + key);
@@ -131,8 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
         editor.apply();
 
-        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-        finish();
+        handler.sendEmptyMessageDelayed(0, 2000);
+//        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+//        finish();
     }
 
     private void uploadToken() {
@@ -190,14 +193,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(@NonNull Message msg) {
-//            super.handleMessage(msg);
-//            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-//            finish();
-//        }
-//    };
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            finish();
+        }
+    };
 
 //    public String getKeyHash() {
 //        PackageInfo packageInfo = getPackageInfo(this, PackageManager.GET_SIGNATURES);

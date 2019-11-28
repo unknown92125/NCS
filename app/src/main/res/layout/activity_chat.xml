@@ -3,27 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".ChatActivity">
 
     <ListView
         android:id="@+id/list_view_chat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_marginBottom="8dp"
-        android:background="@color/white"
+        android:background="@color/bluegreen_trans5"
         android:clickable="false"
-        android:divider="@color/white2" />
+        android:divider="@color/white2"
+        android:paddingBottom="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
+        android:background="@color/white"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@color/white"
         android:orientation="horizontal"
+        android:padding="4dp"
         android:weightSum="10">
 
         <EditText

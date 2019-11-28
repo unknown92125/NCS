@@ -58,11 +58,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:visibility="gone"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="16dp"
-                    android:src="@drawable/ic_assignment_white" />
+                    android:src="@drawable/ic_assignment_white"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/iv_menu"
@@ -94,8 +94,8 @@
                     android:id="@+id/iv_navigation"
                     android:layout_width="match_parent"
                     android:layout_height="184dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/aqua_background" />
+                    android:background="@color/white"
+                    android:src="@drawable/ncs" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -113,6 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@id/iv_navigation"
+                    android:background="@color/white2"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

@@ -24,10 +24,9 @@
             <RelativeLayout
                 android:id="@+id/rl_list"
                 android:layout_width="match_parent"
-                android:layout_height="68dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp">
+                android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/iv_new"
@@ -36,28 +35,27 @@
                     android:layout_alignTop="@id/tv_date"
                     android:layout_alignBottom="@id/tv_date"
                     android:src="@drawable/ic_fiber_new_blue"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:layout_toRightOf="@id/iv_new"
                     android:padding="4dp"
                     android:text="11/22"
-                    android:textColor="@color/gray3"
+                    android:textColor="@color/gray2"
                     android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_date"
-                    android:paddingLeft="4dp"
-                    android:paddingTop="4dp"
+                    android:layout_toLeftOf="@id/iv_arrow"
+                    android:padding="4dp"
                     android:text="서울 대치동 123456 123"
-                    android:textColor="@color/gray5"
+                    android:textColor="@color/gray3"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

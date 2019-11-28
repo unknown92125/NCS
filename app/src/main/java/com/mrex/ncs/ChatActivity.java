@@ -117,6 +117,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     }
 
     public void sendMessage(View view) {
+        Log.e("ChatA", "sendMessage");
 
         message = et.getText().toString();
 
@@ -168,12 +169,12 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
         requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Log.e("ChatA", "onResponse:"+response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.e("ChatA", "onErrorResponse:"+error);
             }
         }) {
             @Override

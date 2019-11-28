@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#222222</color>
-    <color name="colorPrimaryDark">#222222</color>
+    <color name="colorPrimaryDark">#111111</color>
     <color name="colorAccent">#259493</color>
 
     <color name="textColor">#222222</color>
 
     <color name="white">#FFFFFF</color>
     <color name="white_trans">#77FFFFFF</color>
-    <color name="white2">#F1F1F1</color>
+    <color name="white2">#ECECEC</color>
 
     <color name="gray1">#A7A7A7</color>
     <color name="gray2">#777777</color>
@@ -19,6 +19,9 @@
     <color name="gray6">#222222</color>
 
     <color name="red">#AA0000</color>
+    <color name="red2">#C75450</color>
+
+    <color name="green">#86B951</color>
 
     <color name="blue">#1777C5</color>
     <color name="blue2">#D9FFFE</color>
@@ -27,7 +30,11 @@
     <color name="black">#000000</color>
 
     <color name="bluegreen">#259493</color>
-    <color name="bluegreen_trans">#77259493</color>
+    <color name="bluegreen_trans1">#CC259493</color>
+    <color name="bluegreen_trans2">#AA259493</color>
+    <color name="bluegreen_trans3">#77259493</color>
+    <color name="bluegreen_trans4">#55259493</color>
+    <color name="bluegreen_trans5">#22259493</color>
     //dark
     <color name="bluegreen1">#00787d</color>
     <color name="bluegreen2">#00868b</color>

@@ -29,6 +29,9 @@
     <string name="space_title">평수</string>
     <string name="menu_title">더보기</string>
     <string name="sign_in_title">로그인</string>
+    <string name="sign_in_title_en">Sign In</string>
+    <string name="sign_up_title">회원가입</string>
+    <string name="sign_up_title_en">Sign Up</string>
     <string name="chat_title">메신저</string>
 
     <string name="enter">확인</string>
@@ -48,8 +51,8 @@
     <string name="password_text">6 ~ 16자리</string>
     <string name="password2">비밀번호 재확인</string>
     <string name="password2_text">비밀번호를 한번더 입력하세요</string>
-    <string name="password_wrong">비밀번호가 다릅니다</string>
-    <string name="password_right">같은 비밀번호입니다</string>
+    <string name="password_wrong">비밀번호가 일치하지 않습니다</string>
+    <string name="password_right">비밀번호가 일치합니다</string>
 
     <string name="find_password">비밀번호 찾기</string>
 

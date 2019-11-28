@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +25,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,13 +57,14 @@ import static com.mrex.ncs.U.userToken;
 import static com.mrex.ncs.U.userType;
 import static com.mrex.ncs.U.userUID;
 
-public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignInActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     public static final int RC_SIGN_IN = 9001;
     public static final int RC_SIGN_UP = 9002;
 
     private String checkID, checkPW;
-    private EditText etID, etPW;
+    private TextInputEditText etID, etPW;
+    private TextInputLayout tilID, tilPW;
 
     private DatabaseReference idRef;
     private DatabaseReference userRef;
@@ -83,10 +85,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         etID = findViewById(R.id.et_id);
         etPW = findViewById(R.id.et_pw);
+        tilID = findViewById(R.id.til_id);
+        tilPW = findViewById(R.id.til_pw);
 
         findViewById(R.id.bt_google_login).setOnClickListener(this);
         findViewById(R.id.bt_sign_up).setOnClickListener(this);
         findViewById(R.id.bt_login).setOnClickListener(this);
+
+        etID.setOnFocusChangeListener(this);
+        etPW.setOnFocusChangeListener(this);
 
         /////////////////////// Google
         // Configure Google Sign In
@@ -139,6 +146,43 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        int i = v.getId();
+        if (hasFocus) {
+            if (i == R.id.et_id) {
+                tilID.setError(null);
+                tilID.setErrorIconDrawable(null);
+            }
+            if (i == R.id.et_pw) {
+                tilPW.setError(null);
+                tilPW.setErrorIconDrawable(null);
+            }
+        }
+//        else {
+//            if (i == R.id.et_id) {
+//                if (etID.getText().toString().length() == 0) {
+//                    tilID.setError("아이디를 입력하세요");
+//                    tilID.setErrorIconDrawable(R.drawable.ic_close_red);
+//                    return;
+//                } else {
+//                    tilID.setError(null);
+//                    tilID.setErrorIconDrawable(null);
+//                }
+//            }
+//            if (i == R.id.et_pw) {
+//                if (etPW.getText().toString().length() == 0) {
+//                    tilPW.setError("비밀번호를 입력하세요");
+//                    tilPW.setErrorIconDrawable(R.drawable.ic_close_red);
+//                    return;
+//                } else {
+//                    tilPW.setError(null);
+//                    tilPW.setErrorIconDrawable(null);
+//                }
+//            }
+//        }
+    }
+
+    @Override
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.bt_google_login) {
@@ -156,14 +200,17 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         Log.e("SignInA", "checkIDAndPW");
 
         if (etID.getText().toString().length() == 0) {
-            Toast.makeText(this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
+            tilID.setError("아이디를 입력하세요");
+            tilID.setErrorIconDrawable(R.drawable.ic_close_red);
             return;
         } else if (etPW.getText().toString().length() == 0) {
-            Toast.makeText(this, "비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
+            tilPW.setError("비밀번호를 입력하세요");
+            tilPW.setErrorIconDrawable(R.drawable.ic_close_red);
             return;
         } else if (etID.getText().toString().length() < 6 || etID.getText().toString().length() > 16 ||
                 etPW.getText().toString().length() < 6 || etPW.getText().toString().length() > 16) {
-            Toast.makeText(this, "아이디 또는 비밀번호가 틀립니다", Toast.LENGTH_SHORT).show();
+            tilID.setError("아이디 또는 비밀번호가 틀립니다");
+            tilID.setErrorIconDrawable(R.drawable.ic_close_red);
             return;
         }
 
@@ -203,7 +250,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             if (!userToken.equals(token)) {
                                 Log.e("SignInA", "checkIDAndPW: if(!userToken.equals(token))");
                                 userToken = token;
-                                Log.e("SignInA", userToken+"   "+token);
+                                Log.e("SignInA", userToken + "   " + token);
                                 userRef.child(userUID).child("token").setValue(userToken);
                                 uploadToken();
                                 saveUserDataSF();
@@ -220,7 +267,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 if (!isSignedIn) {
                     Log.e("SignInA", "wrong id or pw");
-                    Toast.makeText(SignInActivity.this, "아이디 또는 비밀번호가 틀립니다", Toast.LENGTH_SHORT).show();
+                    tilID.setError("아이디 또는 비밀번호가 틀립니다");
+                    tilID.setErrorIconDrawable(R.drawable.ic_close_red);
                 }
             }
 
@@ -451,6 +499,5 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }
