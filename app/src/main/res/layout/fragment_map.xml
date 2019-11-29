@@ -9,7 +9,8 @@
     <RelativeLayout
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/bt_next"/>
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab_my_location"
@@ -17,9 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_my_location"
-        app:fab_colorNormal="@color/gray5"
-        app:fab_colorPressed="@color/gray5"
-        app:fab_colorRipple="@color/gray4" />
+        app:fab_colorNormal="@color/bluegreen"
+        app:fab_colorPressed="@color/bluegreen"
+        app:fab_colorRipple="@color/white" />
 
     <TextView
         android:id="@+id/tv_address1"
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/iv_location"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/rounded_corner"
         android:padding="16dp"
         android:text="@string/default_address"
@@ -44,13 +45,13 @@
     <Button
         android:id="@+id/bt_next"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/gray5"
+        android:layout_margin="8dp"
+        android:background="@drawable/bluegreen_rounded_box"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
-        android:padding="8dp"
-        android:text="@string/enter"
+        android:text="@string/bt_enter"
         android:textColor="@color/white"
         android:textStyle="bold" />
 

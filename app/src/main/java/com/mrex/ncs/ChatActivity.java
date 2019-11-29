@@ -65,7 +65,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
         setContentView(R.layout.activity_chat);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.chat_title));
+        getSupportActionBar().setTitle(getString(R.string.ab_chat_title));
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 

@@ -9,8 +9,8 @@
         <!--        <item name="actionBarSize">?attr/actionBarSize</item>-->
         <!--                <item name="android:background">@color/white</item>-->
         <item name="titleTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/gray3</item>
-        <item name="android:fontFamily">@font/nanum_square_round_extra_bold</item>
+        <item name="android:textColorHint">@color/bluegreen_trans4</item>
+        <item name="android:fontFamily">@font/nanum_barun_gothic</item>
 
     </style>
 

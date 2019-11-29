@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white2"
-    android:orientation="vertical"
     tools:context=".AddressActivity">
 
     <RelativeLayout
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="280dp" />
+        android:layout_height="240dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="280dp">
+        android:layout_height="240dp">
 
         <ImageView
             android:id="@+id/iv_location"
@@ -26,153 +26,199 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_address1"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/map_view"
-        android:layout_marginBottom="2dp"
-        android:background="@color/white"
-        android:padding="16dp"
-        android:text="주소1"
-        android:textColor="@color/gray5"
-        android:textSize="16dp" />
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp">
 
-    <EditText
-        android:id="@+id/et_address2"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white2">
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray5"
+                android:padding="8dp"
+                android:text="@string/ab_address_title"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_address1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_address"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:padding="8dp"
+                android:text="@string/default_address" />
+
+            <EditText
+                android:id="@+id/et_address2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_address1"
+                android:background="@color/white"
+                android:hint="상세주소를 입력하세요"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLength="20"
+                android:padding="8dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_address1"
+        android:layout_below="@id/cv_address"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/white"
-        android:hint="상세 주소를 입력하세요"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:maxLength="20"
-        android:padding="16dp"
-        android:textColor="@color/gray5"
-        android:textSize="16dp" />
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray5"
+                android:padding="8dp"
+                android:text="@string/ab_area_title"
+                android:textColor="@color/white" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/et_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:gravity="center"
+                    android:hint="24"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:padding="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/et_area"
+                    android:layout_alignBottom="@id/et_area"
+                    android:layout_toRightOf="@id/et_area"
+                    android:gravity="center"
+                    android:text="평" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cv_area"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+
+        android:background="@color/white"
+        app:cardCornerRadius="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray5"
+                android:padding="8dp"
+                android:text="@string/phone_number_2"
+                android:textColor="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_phone"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_phone_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="010"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-" />
+
+                <EditText
+                    android:id="@+id/et_phone_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="1234"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-" />
+
+                <EditText
+                    android:id="@+id/et_phone_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="5678"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="4" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/bt_next"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/gray5"
+        android:layout_margin="8dp"
+        android:background="@drawable/bluegreen_rounded_box"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:onClick="next"
-        android:padding="8dp"
-        android:text="@string/enter"
+        android:text="@string/bt_enter"
         android:textColor="@color/white"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tv_floor"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/et_address2"
-        android:layout_marginTop="16dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="면적"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/ll_area"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/tv_floor"
-        android:layout_marginTop="2dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/et_area"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:hint="24"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            android:maxLength="4"
-            android:textColor="@color/gray5"
-            android:textSize="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="평" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_phone"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/ll_area"
-        android:layout_marginTop="16dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:text="연락처"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/tv_phone"
-        android:layout_marginTop="2dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/et_phone_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="010"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            android:maxLength="3"
-            android:textColor="@color/gray5"
-            android:textSize="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-" />
-
-        <EditText
-            android:id="@+id/et_phone_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="0000"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            android:maxLength="4"
-            android:textColor="@color/gray5"
-            android:textSize="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-" />
-
-        <EditText
-            android:id="@+id/et_phone_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="0000"
-            android:imeOptions="actionDone"
-            android:inputType="number"
-            android:maxLength="4"
-            android:textColor="@color/gray5"
-            android:textSize="16dp" />
-
-    </LinearLayout>
-
 
 </RelativeLayout>

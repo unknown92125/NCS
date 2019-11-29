@@ -31,10 +31,10 @@
 
     <color name="bluegreen">#259493</color>
     <color name="bluegreen_trans1">#CC259493</color>
-    <color name="bluegreen_trans2">#AA259493</color>
-    <color name="bluegreen_trans3">#77259493</color>
-    <color name="bluegreen_trans4">#55259493</color>
-    <color name="bluegreen_trans5">#22259493</color>
+    <color name="bluegreen_trans2">#88259493</color>
+    <color name="bluegreen_trans3">#55259493</color>
+    <color name="bluegreen_trans4">#33259493</color>
+    <color name="bluegreen_trans5">#11259493</color>
     //dark
     <color name="bluegreen1">#00787d</color>
     <color name="bluegreen2">#00868b</color>

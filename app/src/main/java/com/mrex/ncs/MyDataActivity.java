@@ -26,7 +26,7 @@ public class MyDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_data);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.home_title));
+        getSupportActionBar().setTitle(getString(R.string.ab_home_title));
 
         tabLayout = findViewById(R.id.layout_tab);
         viewPager = findViewById(R.id.vp);

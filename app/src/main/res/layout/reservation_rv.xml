@@ -25,6 +25,7 @@
                 android:id="@+id/rl_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@color/white"
                 android:padding="8dp">
 
@@ -42,10 +43,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/iv_new"
-                    android:padding="4dp"
+                    android:padding="6dp"
                     android:text="11/22"
                     android:textColor="@color/gray2"
-                    android:textSize="16dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_address"
@@ -54,10 +55,9 @@
                     android:layout_below="@id/tv_date"
                     android:layout_toLeftOf="@id/iv_arrow"
                     android:padding="4dp"
-                    android:text="서울 대치동 123456 123"
+                    android:text="@string/default_address"
                     android:textColor="@color/gray3"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/iv_arrow"
@@ -102,6 +102,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="4dp"
                         android:layout_toRightOf="@id/iv_phone"
+                        android:autoLink="phone"
                         android:gravity="center_vertical" />
 
                     <ImageView

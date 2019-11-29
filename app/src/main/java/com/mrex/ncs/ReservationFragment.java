@@ -1,6 +1,8 @@
 package com.mrex.ncs;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,7 +45,7 @@ public class ReservationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reservation, container, false);
 
-        rlProgress=view.findViewById(R.id.rl_progress);
+        rlProgress = view.findViewById(R.id.rl_progress);
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_manager_reservation);
         managerAdapter = new ManagerAdapter();
@@ -129,17 +131,18 @@ public class ReservationFragment extends Fragment {
                 newDate = new SimpleDateFormat("yyyy/M/d (E) a h:mm", Locale.getDefault()).parse(reservation.getPayDate());
                 calendar.setTime(newDate);
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
-                if (nowDate.after(newDate)) {
+                newDate = calendar.getTime();
+                if (nowDate.before(newDate)) {
                     vHolder.ivNew.setVisibility(View.VISIBLE);
+                    vHolder.rlList.setBackgroundColor(getResources().getColor(R.color.bluegreen_trans5));
                 } else {
                     vHolder.ivNew.setVisibility(View.GONE);
+                    vHolder.rlList.setBackgroundColor(getResources().getColor(R.color.white));
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-//            final Animation animation=new AlphaAnimation(0,1);
-//            animation.setDuration(1000);
             vHolder.rlList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -149,14 +152,22 @@ public class ReservationFragment extends Fragment {
                         vHolder.ivArrow.setImageResource(R.drawable.ic_arrow_down_black);
                     } else {
                         vHolder.rlData.setVisibility(View.VISIBLE);
-//                        vHolder.rlData.setAnimation(animation);
                         vHolder.ivArrow.setImageResource(R.drawable.ic_arrow_up_black);
-
-
                     }
                 }
             });
 
+//            //autolink로 대체
+//            vHolder.tvPhone.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                        String phoneNum = arrListRV.get(vHolder.getLayoutPosition()).getPhone();
+//                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+//                        callIntent.setData(Uri.parse("tel:" + phoneNum));
+//                        startActivity(callIntent);
+//
+//                }
+//            });
 
         }
 
@@ -189,19 +200,7 @@ public class ReservationFragment extends Fragment {
                 ivArrow = itemView.findViewById(R.id.iv_arrow);
                 ivNew = itemView.findViewById(R.id.iv_new);
 
-//                itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        int position = getLayoutPosition();
-//
-//                        if (position == 0) {
-//
-//                        }
-//                    }
-//                });
             }
         }
-
     }
-
 }

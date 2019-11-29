@@ -36,7 +36,7 @@ public class AddressActivity extends AppCompatActivity {
         setContentView(R.layout.activity_address);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.address_title));
+        getSupportActionBar().setTitle(getString(R.string.ab_address_title));
 
         mapViewContainer = findViewById(R.id.map_view);
         etArea = findViewById(R.id.et_area);

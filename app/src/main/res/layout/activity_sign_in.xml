@@ -49,8 +49,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="32dp"
         app:errorEnabled="true"
-        app:errorTextColor="@color/red2"
->
+        app:errorTextColor="@color/red2">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_pw"
@@ -77,7 +76,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="12sp"
-        android:text="@string/find_password"
+        android:text="@string/bt_find_password"
         android:textColor="@color/gray5" />
 
     <Button
@@ -110,19 +109,19 @@
         android:id="@+id/bt_google_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bt_kakao_login"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_below="@id/bt_login"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="32dp" />
 
     <com.kakao.usermgmt.LoginButton
         android:id="@+id/bt_kakao_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bt_sign_up"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_below="@id/bt_google_login"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="32dp" />
 
 </RelativeLayout>
 

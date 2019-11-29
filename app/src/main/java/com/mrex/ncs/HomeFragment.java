@@ -82,20 +82,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             startActivity(new Intent(homeActivity, HomeFirstActivity.class));
         }
         if (i == R.id.cv_2) {
-
+            startActivity(new Intent(homeActivity, HomeSecondActivity.class));
         }
         if (i == R.id.cv_3) {
-
+            startActivity(new Intent(homeActivity, HomeThirdActivity.class));
         }
         if (i == R.id.cv_4) {
-
+            startActivity(new Intent(homeActivity, HomeFourthActivity.class));
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        handler.postDelayed(runnable, 3000);
+        handler.postDelayed(runnable, 2000);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.calendar_title));
+        getSupportActionBar().setTitle(getString(R.string.ab_calendar_title));
 
         CalendarView calendarView = findViewById(R.id.calendar_view);
         TimePicker timePicker = findViewById(R.id.tp);

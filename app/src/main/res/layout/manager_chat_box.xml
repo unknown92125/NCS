@@ -17,11 +17,16 @@
             android:id="@+id/tv_manager_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoLink="all"
             android:background="@drawable/manager_chat_box"
+            android:clickable="true"
+            android:focusable="true"
+            android:longClickable="true"
             android:maxWidth="240dp"
             android:padding="8dp"
             android:text="13415416"
             android:textColor="@color/gray4"
+            android:textIsSelectable="true"
             android:textSize="14sp" />
 
         <TextView

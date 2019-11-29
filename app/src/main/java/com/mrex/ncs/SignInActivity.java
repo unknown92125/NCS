@@ -81,7 +81,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_in);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.sign_in_title));
+        getSupportActionBar().setTitle(getString(R.string.ab_sign_in_title));
 
         etID = findViewById(R.id.et_id);
         etPW = findViewById(R.id.et_pw);

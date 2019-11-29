@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_home);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.home_title));
+        getSupportActionBar().setTitle(getString(R.string.ab_home_title));
 
         getLocationPermission();
 
@@ -145,7 +145,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("HomeA", "onResume: if (isSignedIn)");
 
                         if (goTo.equals("chat")) {
-                            getSupportActionBar().setTitle(getString(R.string.chat_title));
+                            getSupportActionBar().setTitle(getString(R.string.ab_chat_title));
 
                             ivHome.setImageResource(R.drawable.ic_home_white);
                             ivChat.setImageResource(R.drawable.ic_chat_bubble_blue);
@@ -174,16 +174,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 isNewFM = false;
 
                             }
+
                         } else if (goTo.equals("reservation")) {
                             getSupportActionBar().setTitle(getString(R.string.reservation_list));
 
-                            ivHome.setImageResource(R.drawable.ic_home_white);
-                            ivChat.setImageResource(R.drawable.ic_home_white);
-                            ivReservation.setImageResource(R.drawable.ic_chat_bubble_blue);
-                            ivMenu.setImageResource(R.drawable.ic_menu_white);
-
                             if (userType.equals("manager")) {
                                 Log.e("HomeA", "onResume: if (userType.equals(\"manager\"))");
+                                ivHome.setImageResource(R.drawable.ic_home_white);
+                                ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
+                                ivReservation.setImageResource(R.drawable.ic_assignment_blue);
+                                ivMenu.setImageResource(R.drawable.ic_menu_white);
+
                                 fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.layout_fragments, new ReservationFragment());
                                 fragmentTransaction.commit();
@@ -246,7 +247,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         int i = view.getId();
 
         if (i == R.id.iv_home) {
-            getSupportActionBar().setTitle(getString(R.string.home_title));
+            getSupportActionBar().setTitle(getString(R.string.ab_home_title));
             ivHome.setImageResource(R.drawable.ic_home_blue);
             ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
             ivReservation.setImageResource(R.drawable.ic_assignment_white);
@@ -256,7 +257,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             fragmentTransaction.commit();
         }
         if (i == R.id.iv_chat) {
-            getSupportActionBar().setTitle(getString(R.string.chat_title));
+            getSupportActionBar().setTitle(getString(R.string.ab_chat_title));
             ivHome.setImageResource(R.drawable.ic_home_white);
             ivChat.setImageResource(R.drawable.ic_chat_bubble_blue);
             ivReservation.setImageResource(R.drawable.ic_assignment_white);
@@ -292,7 +293,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         if (i == R.id.iv_menu) {
-            getSupportActionBar().setTitle(getString(R.string.menu_title));
+            getSupportActionBar().setTitle(getString(R.string.ab_menu_title));
             ivHome.setImageResource(R.drawable.ic_home_white);
             ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
             ivReservation.setImageResource(R.drawable.ic_assignment_white);

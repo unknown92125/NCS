@@ -21,7 +21,8 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         app:errorEnabled="true"
-        app:errorTextColor="@color/red2">
+        app:errorTextColor="@color/red2"
+        app:helperText="6~16자의 영문 소문자와 숫자">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_id"
@@ -129,7 +130,7 @@
         android:layout_alignBottom="@id/til_phone"
         android:layout_marginTop="8dp"
         android:layout_marginRight="32dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="22dp"
         android:layout_toRightOf="@id/til_phone"
         android:background="@drawable/black_rounded_box"
         android:text="인증번호 받기"

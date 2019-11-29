@@ -13,8 +13,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/bluegreen_trans5"
-        android:clickable="false"
+        android:listSelector="@android:color/transparent"
         android:divider="@color/white2"
+        android:clickable="true"
+        android:focusable="true"
         android:paddingBottom="8dp" />
 
     <LinearLayout

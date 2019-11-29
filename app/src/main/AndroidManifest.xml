@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -43,7 +42,13 @@
             android:name=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ReservationActivity"
+            android:name=".HomeFourthActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HomeThirdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HomeSecondActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".HomeFirstActivity"

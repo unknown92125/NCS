@@ -18,7 +18,7 @@ public class HomeFirstActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_home_first);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.home_first_title));
+        getSupportActionBar().setTitle(getString(R.string.home_1_1));
 
         findViewById(R.id.bt_reservation).setOnClickListener(this);
 

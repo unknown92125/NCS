@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/bt_login"
-        android:text="@string/find_password"
+        android:text="@string/bt_find_password"
         android:layout_marginTop="24dp"
         android:layout_centerHorizontal="true"/>
 

@@ -136,15 +136,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
                                     isDuplicateID = true;
                                     tilID.setErrorIconDrawable(R.drawable.ic_close_red);
                                     tilID.setError("중복된 아이디입니다");
-
                                     return;
+
                                 } else {
                                     Log.e("SignUpA", "사용가능한 아이디");
                                     isDuplicateID = false;
                                     tilID.setError(null);
                                     tilID.setErrorIconDrawable(null);
 
-                                    return;
                                 }
                             }
                         }
@@ -196,6 +195,26 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             }
         }
         Log.e("SignUpA", "isSamePW: " + isSamePW);
+    }
+
+    private void checkPhone() {
+        if (etPhone.getText().length() != 0) {
+            phoneNum = etPhone.getText().toString();
+            if (!phoneNum.startsWith("01") || phoneNum.length() < 10 || phoneNum.length() > 11) {
+                tilPhone.setErrorIconDrawable(R.drawable.ic_close_red);
+                tilPhone.setError("형식에 맞지 않는 번호입니다");
+                isRightPhone = false;
+            } else {
+                tilPhone.setError(null);
+                tilPhone.setErrorIconDrawable(null);
+                isRightPhone = true;
+            }
+        } else {
+            tilPhone.setErrorIconDrawable(R.drawable.ic_close_red);
+            tilPhone.setError("휴대폰번호를 입력하세요");
+            isRightPhone = false;
+        }
+        Log.e("SignUpA", "isRightPhone: " + isRightPhone);
     }
 
     private void signUp() {
@@ -290,26 +309,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         Log.e("SignUpA", "isVerificated: " + isVerificated);
     }
 
-    private void checkPhone() {
-        if (etPhone.getText().length() != 0) {
-            phoneNum = etPhone.getText().toString();
-            if (phoneNum.length() < 10 || phoneNum.length() > 11) {
-                tilPhone.setErrorIconDrawable(R.drawable.ic_close_red);
-                tilPhone.setError("형식에 맞지 않는 번호입니다");
-                isRightPhone = false;
-            } else {
-                tilPhone.setError(null);
-                tilPhone.setErrorIconDrawable(null);
-                isRightPhone = true;
-            }
-        } else {
-            tilPhone.setErrorIconDrawable(R.drawable.ic_close_red);
-            tilPhone.setError("휴대폰번호를 입력하세요");
-            isRightPhone = false;
-        }
-        Log.e("SignUpA", "isRightPhone: " + isRightPhone);
-    }
-
     private void PhoneVerify() {
         checkPhone();
         if (!isRightPhone) {
@@ -362,6 +361,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             }
         } else {
             if (i == R.id.et_id) {
+                tilID.setHelperText(null);
                 tilID.setError(null);
                 tilID.setErrorIconDrawable(null);
             }
