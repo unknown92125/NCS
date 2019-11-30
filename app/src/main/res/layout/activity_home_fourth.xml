@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
-        android:layout_height="176dp"
+        android:layout_height="182dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/pager_img_1" />
@@ -22,7 +22,6 @@
         android:layout_below="@id/iv"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
         app:cardCornerRadius="8dp">
 
         <LinearLayout
@@ -50,18 +49,40 @@
 
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/bt_reservation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="8dp"
-        android:background="@drawable/bluegreen_rounded_box"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:gravity="center"
-        android:text="@string/bt_reservation"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/bt_chat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bluegreen_rounded_box"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="메신저연결"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bt_call"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bluegreen_rounded_box"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="전화연결"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </RelativeLayout>

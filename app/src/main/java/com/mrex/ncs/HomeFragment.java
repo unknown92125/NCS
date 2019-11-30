@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
+    public static String cleanType;
+
     private HomeActivity homeActivity;
 
     private ArrayList<Integer> arrListImg = new ArrayList<>();
@@ -80,9 +82,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         int i = v.getId();
         if (i == R.id.cv_1) {
             startActivity(new Intent(homeActivity, HomeFirstActivity.class));
+            cleanType="이사청소";
         }
         if (i == R.id.cv_2) {
             startActivity(new Intent(homeActivity, HomeSecondActivity.class));
+            cleanType="입주청소";
         }
         if (i == R.id.cv_3) {
             startActivity(new Intent(homeActivity, HomeThirdActivity.class));

@@ -12,6 +12,33 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bt_next"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bt_next">
+
+        <TextView
+            android:id="@+id/tv_address1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/iv_location"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/rounded_corner"
+            android:padding="16dp"
+            android:text="@string/default_address"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_location"
+            android:layout_width="40dp"
+            android:layout_height="68dp"
+            android:layout_centerInParent="true"
+            android:paddingBottom="28dp"
+            android:src="@drawable/ic_location" />
+
+    </RelativeLayout>
+
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab_my_location"
         android:layout_width="wrap_content"
@@ -21,26 +48,6 @@
         app:fab_colorNormal="@color/bluegreen"
         app:fab_colorPressed="@color/bluegreen"
         app:fab_colorRipple="@color/white" />
-
-    <TextView
-        android:id="@+id/tv_address1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/iv_location"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/rounded_corner"
-        android:padding="16dp"
-        android:text="@string/default_address"
-        android:textColor="@color/white" />
-
-    <ImageView
-        android:id="@+id/iv_location"
-        android:layout_width="40dp"
-        android:layout_height="68dp"
-        android:layout_centerInParent="true"
-        android:paddingBottom="28dp"
-        android:src="@drawable/ic_location" />
 
     <Button
         android:id="@+id/bt_next"

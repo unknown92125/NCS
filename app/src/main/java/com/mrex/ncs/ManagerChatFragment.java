@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,9 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ManagerChatFragment extends Fragment {
+import static com.mrex.ncs.HomeActivity.selectedUID;
 
-    public static String selectedUID;
+public class ManagerChatFragment extends Fragment {
 
     private ArrayList<MessageItem> arrListMessageItem = new ArrayList<>();
     private ArrayList<MessageItem> arrListLastMessage = new ArrayList<>();
@@ -64,8 +63,8 @@ public class ManagerChatFragment extends Fragment {
                     Log.e("MCF:ds", "getKey:" + ds.getKey() + "/getChildrenCount:" + ds.getChildrenCount() + "/getChildren:" + ds.getChildren());
                     for (DataSnapshot dds : ds.getChildren()) {
                         messageItem = dds.getValue(MessageItem.class);
-                        if (!messageItem.getType().equals("manager")){
-                            userChatName=messageItem.getName();
+                        if (!messageItem.getType().equals("manager")) {
+                            userChatName = messageItem.getName();
                         }
                         arrListMessageItem.add(messageItem);
                         Log.e("MCF:dds", "getName:" + messageItem.getName() + "/getMessage:" + messageItem.getMessage());
@@ -119,7 +118,7 @@ public class ManagerChatFragment extends Fragment {
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
             VHolder vHolder = (VHolder) holder;
-            userChatName =arrListUserName.get(position);
+            userChatName = arrListUserName.get(position);
 
             MessageItem messageItem = arrListLastMessage.get(position);
 

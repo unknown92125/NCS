@@ -25,8 +25,8 @@
                 android:id="@+id/rl_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:padding="8dp">
 
                 <ImageView
@@ -79,9 +79,55 @@
                 android:visibility="gone">
 
                 <RelativeLayout
+                    android:id="@+id/rl_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="16dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/iv_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_person" />
+
+                    <TextView
+                        android:id="@+id/tv_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@id/iv_user"
+                        android:gravity="center_vertical" />
+
+                    <TextView
+                        android:id="@+id/tv_chat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/bluegreen_rounded_box"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="메신저연결"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/rl_phone"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
+                    android:layout_below="@id/rl_user"
                     android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"
@@ -116,6 +162,22 @@
                         android:id="@+id/tv_area"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toLeftOf="@id/tv_slash"
+                        android:gravity="center_vertical" />
+
+                    <TextView
+                        android:id="@+id/tv_slash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@id/tv_clean_type"
+                        android:gravity="center_vertical"
+                        android:text=" / " />
+
+                    <TextView
+                        android:id="@+id/tv_clean_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="4dp"
                         android:gravity="center_vertical" />
@@ -123,35 +185,10 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rl_expected"
-                    android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:layout_below="@id/rl_phone"
-                    android:layout_marginBottom="1dp"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/expected_time" />
-
-                    <TextView
-                        android:id="@+id/tv_expected_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/rl_price"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
-                    android:layout_below="@id/rl_expected"
+                    android:layout_below="@id/rl_phone"
                     android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"

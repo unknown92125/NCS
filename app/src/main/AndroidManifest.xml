@@ -16,7 +16,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustResize|adjustPan">
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".UserReservationActivity"></activity>
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".ChatActivity" />
         <activity android:name=".ManagerActivity" />
         <activity android:name=".MyDataActivity" />
         <activity android:name=".SignInActivity" />

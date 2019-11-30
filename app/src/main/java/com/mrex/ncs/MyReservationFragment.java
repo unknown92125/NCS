@@ -93,7 +93,7 @@ public class MyReservationFragment extends Fragment {
             vHolder.tvDate.setText(reservation.getDate());
             vHolder.tvAddress.setText(reservation.getAddress());
             vHolder.tvArea.setText(reservation.getArea());
-            vHolder.tvExpectedTime.setText(reservation.getExpectedTime());
+            vHolder.tvCleanType.setText(reservation.getCleanType());
             vHolder.tvPay.setText(reservation.getPayOption());
             vHolder.tvPayDate.setText(reservation.getPayDate());
             vHolder.tvPrice.setText(reservation.getPayPrice());
@@ -129,7 +129,7 @@ public class MyReservationFragment extends Fragment {
 
         public class VHolder extends RecyclerView.ViewHolder {
 
-            private TextView tvDate, tvAddress, tvArea, tvExpectedTime, tvPrice, tvPay, tvPayDate, tvPhone, tvPayName;
+            private TextView tvDate, tvAddress, tvArea, tvCleanType, tvPrice, tvPay, tvPayDate, tvPhone, tvPayName;
             private RelativeLayout rlData, rlList, rlPayName;
             private ImageView ivArrow;
 
@@ -139,7 +139,7 @@ public class MyReservationFragment extends Fragment {
                 tvDate = itemView.findViewById(R.id.tv_date);
                 tvAddress = itemView.findViewById(R.id.tv_address);
                 tvArea = itemView.findViewById(R.id.tv_area);
-                tvExpectedTime = itemView.findViewById(R.id.tv_expected_time);
+                tvCleanType = itemView.findViewById(R.id.tv_clean_type);
                 tvPrice = itemView.findViewById(R.id.tv_price);
                 tvPay = itemView.findViewById(R.id.tv_pay_option);
                 tvPayDate = itemView.findViewById(R.id.tv_pay_date);

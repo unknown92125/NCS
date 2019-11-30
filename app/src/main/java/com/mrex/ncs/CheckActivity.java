@@ -33,11 +33,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.mrex.ncs.U.userName;
 import static com.mrex.ncs.U.userUID;
 
 public class CheckActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String date, address, expectedTime, payPrice, payOption, payDate, phone;
+    private String date, address, payPrice, cleanType, payOption, payDate, phone;
     private String payName = "0";
     private int area;
     private EditText etPayName;
@@ -60,7 +61,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         TextView tvDate = findViewById(R.id.tv_date);
         TextView tvAddress = findViewById(R.id.tv_address);
         TextView tvArea = findViewById(R.id.tv_area);
-        TextView tvExpectedTime = findViewById(R.id.tv_expected_time);
+        TextView tvCleanType = findViewById(R.id.tv_clean_type);
         TextView tvPrice = findViewById(R.id.tv_price);
         TextView tvPhone = findViewById(R.id.tv_phone);
         RadioGroup radioGroup = findViewById(R.id.rg);
@@ -71,16 +72,12 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         address = AddressActivity.fullAddress;
         area = AddressActivity.area;
         phone = AddressActivity.phone;
+        cleanType = HomeFragment.cleanType;
 
         tvPhone.setText(phone);
 
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
-
-        int hour = (area * 10) / 60;
-        String minute = (area * 10) % 60 + "";
-        expectedTime = hour + "시간 " + minute + "분";
-        tvExpectedTime.setText(expectedTime);
 
         int price = area * 1000;
         if (price < 20000) {
@@ -137,7 +134,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         DatabaseReference rootRef = firebaseDatabase.getReference();
         DatabaseReference reservationRef = rootRef.child("reservations").child(userUID).push();
 
-        Reservation reservation = new Reservation(address, date, phone, area + "평", expectedTime, payPrice, payOption, payName, payDate);
+        Reservation reservation = new Reservation(userUID, userName, address, date, phone, area + "평", cleanType, payPrice, payOption, payName, payDate);
         reservationRef.setValue(reservation);
 
         Toast.makeText(this, "예약이 완료되었습니다", Toast.LENGTH_SHORT).show();

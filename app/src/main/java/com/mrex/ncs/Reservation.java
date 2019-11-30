@@ -7,31 +7,49 @@ import java.util.Locale;
 
 public class Reservation implements Comparable<Reservation> {
 
+    private String uid;
+    private String name;
     private String address;
     private String date;
     private String phone;
     private String area;
-
-    private String expectedTime;
+    private String cleanType;
     private String payPrice;
     private String payOption;
     private String payName;
     private String payDate;
-    private long milliDate;
 
     public Reservation() {
     }
 
-    public Reservation(String address, String date, String phone, String area, String expectedTime, String payPrice, String payOption, String payName, String payDate) {
+    public Reservation(String uid, String name, String address, String date, String phone, String area, String cleanType, String payPrice, String payOption, String payName, String payDate) {
+        this.uid = uid;
+        this.name = name;
         this.address = address;
         this.date = date;
         this.phone = phone;
         this.area = area;
-        this.expectedTime = expectedTime;
+        this.cleanType = cleanType;
         this.payPrice = payPrice;
         this.payOption = payOption;
         this.payName = payName;
         this.payDate = payDate;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -66,12 +84,12 @@ public class Reservation implements Comparable<Reservation> {
         this.area = area;
     }
 
-    public String getExpectedTime() {
-        return expectedTime;
+    public String getCleanType() {
+        return cleanType;
     }
 
-    public void setExpectedTime(String expectedTime) {
-        this.expectedTime = expectedTime;
+    public void setCleanType(String cleanType) {
+        this.cleanType = cleanType;
     }
 
     public String getPayPrice() {
@@ -104,14 +122,6 @@ public class Reservation implements Comparable<Reservation> {
 
     public void setPayDate(String payDate) {
         this.payDate = payDate;
-    }
-
-    public long getMilliDate() {
-        return milliDate;
-    }
-
-    public void setMilliDate(long milliDate) {
-        this.milliDate = milliDate;
     }
 
     @Override

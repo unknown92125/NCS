@@ -126,7 +126,6 @@
         android:id="@+id/bt_get_verification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/til_phone"
         android:layout_alignBottom="@id/til_phone"
         android:layout_marginTop="8dp"
         android:layout_marginRight="32dp"

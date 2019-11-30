@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.mrex.ncs.FMService.isChatForeground;
-import static com.mrex.ncs.ManagerChatFragment.selectedUID;
+import static com.mrex.ncs.HomeActivity.selectedUID;
 import static com.mrex.ncs.U.userName;
 import static com.mrex.ncs.U.userType;
 import static com.mrex.ncs.U.userUID;
@@ -94,7 +96,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
                 Log.e("ChatA", " if (getIntent().getExtras() != null)");
                 Intent intent = getIntent();
                 chatUID = intent.getStringExtra("chatUID");
-                Log.e("ChatA", "chatUID: "+chatUID);
+                Log.e("ChatA", "chatUID: " + chatUID);
             }
         }
 
@@ -148,6 +150,30 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int i = item.getItemId();
+
+        if (i == android.R.id.home) {
+            onBackPressed();
+        }
+
+        if (i == R.id.menu_reservation) {
+            startActivity(new Intent(this, UserReservationActivity.class));
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.chat_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         isChatForeground = true;
@@ -169,12 +195,12 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
         requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("ChatA", "onResponse:"+response);
+                Log.e("ChatA", "onResponse:" + response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("ChatA", "onErrorResponse:"+error);
+                Log.e("ChatA", "onErrorResponse:" + error);
             }
         }) {
             @Override
@@ -303,14 +329,6 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
             return itemView;
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -1,10 +1,8 @@
 package com.mrex.ncs;
 
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,62 +29,61 @@ import java.util.Locale;
 
 import static com.mrex.ncs.HomeActivity.selectedUID;
 
-public class ReservationFragment extends Fragment {
+public class UserReservationActivity extends AppCompatActivity {
 
     private Reservation reservation;
     private ArrayList<Reservation> arrListRV = new ArrayList<>();
-    private ManagerAdapter managerAdapter;
-
-    public ReservationFragment() {
-    }
+    private UserReservationAdapter userReservationAdapter;
+    private TextView tvEmpty;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_reservation, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_reservation);
 
-        RecyclerView recyclerView = view.findViewById(R.id.rv_manager_reservation);
-        managerAdapter = new ManagerAdapter();
-        recyclerView.setAdapter(managerAdapter);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.reservation_list));
+
+        tvEmpty = findViewById(R.id.tv_empty);
+
+        RecyclerView recyclerView = findViewById(R.id.rv_reservation);
+        userReservationAdapter = new UserReservationAdapter();
+        recyclerView.setAdapter(userReservationAdapter);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference rootRef = firebaseDatabase.getReference();
-        DatabaseReference reservationRef = rootRef.child("reservations");
+        DatabaseReference reservationRef = rootRef.child("reservations").child(selectedUID);
 
         reservationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 arrListRV.clear();
-                managerAdapter.notifyDataSetChanged();
+                userReservationAdapter.notifyDataSetChanged();
                 int pos = 0;
-
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    for (DataSnapshot dds : ds.getChildren()) {
-                        reservation = dds.getValue(Reservation.class);
-                        Log.e("ReservationF", reservation.getDate() + "");
+                    reservation = ds.getValue(Reservation.class);
+                    arrListRV.add(reservation);
+                    userReservationAdapter.notifyItemInserted(pos);
+                    pos++;
 
-                        arrListRV.add(reservation);
-                        managerAdapter.notifyItemInserted(pos);
-                        pos++;
-                    }
                 }
-
                 Collections.sort(arrListRV);
                 Collections.reverse(arrListRV);
-
+                if (arrListRV.size() == 0) {
+                    tvEmpty.setVisibility(View.VISIBLE);
+                } else {
+                    tvEmpty.setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
-        return view;
     }
 
-    public class ManagerAdapter extends RecyclerView.Adapter {
+    public class UserReservationAdapter extends RecyclerView.Adapter {
 
         @NonNull
         @Override
@@ -104,6 +101,7 @@ public class ReservationFragment extends Fragment {
             final VHolder vHolder = (VHolder) holder;
             reservation = arrListRV.get(position);
 
+            vHolder.tvChat.setVisibility(View.GONE);
             vHolder.rlUser.setVisibility(View.VISIBLE);
             vHolder.tvUser.setText(reservation.getName());
             vHolder.tvDate.setText(reservation.getDate());
@@ -155,27 +153,6 @@ public class ReservationFragment extends Fragment {
                 }
             });
 
-            vHolder.tvChat.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Reservation r = arrListRV.get(vHolder.getLayoutPosition());
-                    selectedUID = r.getUid();
-                    startActivity(new Intent(getActivity(), ChatActivity.class));
-                }
-            });
-
-//            //autolink로 대체
-//            vHolder.tvPhone.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                        String phoneNum = arrListRV.get(vHolder.getLayoutPosition()).getPhone();
-//                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
-//                        callIntent.setData(Uri.parse("tel:" + phoneNum));
-//                        startActivity(callIntent);
-//
-//                }
-//            });
-
         }
 
         @Override
@@ -212,5 +189,18 @@ public class ReservationFragment extends Fragment {
 
             }
         }
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int i = item.getItemId();
+
+        if (i == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

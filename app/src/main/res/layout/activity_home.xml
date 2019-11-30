@@ -65,7 +65,7 @@
                     android:visibility="gone" />
 
                 <ImageView
-                    android:id="@+id/iv_menu"
+                    android:id="@+id/iv_info"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -73,7 +73,7 @@
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="14dp"
-                    android:src="@drawable/ic_menu_white" />
+                    android:src="@drawable/ic_phone_white" />
 
             </LinearLayout>
 

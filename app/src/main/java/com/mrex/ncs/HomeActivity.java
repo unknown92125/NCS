@@ -1,6 +1,8 @@
 package com.mrex.ncs;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -38,7 +40,9 @@ import static com.mrex.ncs.U.userUID;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static String selectedUID;
     static Boolean isLocationPermissionGranted;
+    static Boolean isGoToChat = false;
     final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 10;
 
     private FragmentManager fragmentManager;
@@ -48,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView navigationView;
     private ArrayList<DrawerList> arrListDrawer = new ArrayList<>();
     private TextView tvName;
-    private ImageView ivHome, ivChat, ivMenu, ivReservation;
+    public ImageView ivHome, ivChat, ivMenu, ivReservation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         tvName = findViewById(R.id.tv_name);
         ivHome = findViewById(R.id.iv_home);
         ivChat = findViewById(R.id.iv_chat);
-        ivMenu = findViewById(R.id.iv_menu);
+        ivMenu = findViewById(R.id.iv_info);
         ivReservation = findViewById(R.id.iv_reservation);
 
         arrListDrawer.add(new DrawerList(R.drawable.ic_person, "내 정보"));
@@ -114,7 +118,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         userType = sf.getString("userType", "user");
         userToken = sf.getString("userToken", "0");
 
-        Log.e("HomeA","userUID"+userUID+"  userID"+userID+"  userPW"+userPW+"  userName"+userName+"  userType"+userType+"  userToken"+userToken);
+        Log.e("HomeA", "userUID" + userUID + "  userID" + userID + "  userPW" + userPW + "  userName" + userName + "  userType" + userType + "  userToken" + userToken);
 
         if (!isSignedIn) {
             Log.e("HomeA", "onResume: if (!isSignedIn)");
@@ -127,6 +131,31 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 ivReservation.setVisibility(View.VISIBLE);
             } else {
                 ivReservation.setVisibility(View.GONE);
+            }
+        }
+
+        if (isGoToChat) {
+            isGoToChat = false;
+            getSupportActionBar().setTitle(getString(R.string.ab_chat_title));
+            ivHome.setImageResource(R.drawable.ic_home_white);
+            ivChat.setImageResource(R.drawable.ic_chat_bubble_blue);
+            ivReservation.setImageResource(R.drawable.ic_assignment_white);
+            ivMenu.setImageResource(R.drawable.ic_phone_white);
+
+            if (!isSignedIn) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.layout_fragments, new ChatSignInFragment());
+                fragmentTransaction.commit();
+
+            } else if (userType.equals("manager")) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.layout_fragments, new ManagerChatFragment());
+                fragmentTransaction.commit();
+
+            } else {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.layout_fragments, new ChatFragment());
+                fragmentTransaction.commit();
             }
         }
 
@@ -251,7 +280,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             ivHome.setImageResource(R.drawable.ic_home_blue);
             ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
             ivReservation.setImageResource(R.drawable.ic_assignment_white);
-            ivMenu.setImageResource(R.drawable.ic_menu_white);
+            ivMenu.setImageResource(R.drawable.ic_phone_white);
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.layout_fragments, new HomeFragment());
             fragmentTransaction.commit();
@@ -261,7 +290,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             ivHome.setImageResource(R.drawable.ic_home_white);
             ivChat.setImageResource(R.drawable.ic_chat_bubble_blue);
             ivReservation.setImageResource(R.drawable.ic_assignment_white);
-            ivMenu.setImageResource(R.drawable.ic_menu_white);
+            ivMenu.setImageResource(R.drawable.ic_phone_white);
 
             if (!isSignedIn) {
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -283,7 +312,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             ivHome.setImageResource(R.drawable.ic_home_white);
             ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
             ivReservation.setImageResource(R.drawable.ic_assignment_blue);
-            ivMenu.setImageResource(R.drawable.ic_menu_white);
+            ivMenu.setImageResource(R.drawable.ic_phone_white);
 
             if (userType.equals("manager")) {
                 getSupportActionBar().setTitle(getString(R.string.reservation_list));
@@ -292,19 +321,37 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 fragmentTransaction.commit();
             }
         }
-        if (i == R.id.iv_menu) {
-            getSupportActionBar().setTitle(getString(R.string.ab_menu_title));
+        if (i == R.id.iv_info) {
+            getSupportActionBar().setTitle(getString(R.string.ab_info_title));
             ivHome.setImageResource(R.drawable.ic_home_white);
             ivChat.setImageResource(R.drawable.ic_chat_bubble_white);
             ivReservation.setImageResource(R.drawable.ic_assignment_white);
-            ivMenu.setImageResource(R.drawable.ic_menu_blue);
+            ivMenu.setImageResource(R.drawable.ic_phone_blue);
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.layout_fragments, new MenuFragment());
+            fragmentTransaction.replace(R.id.layout_fragments, new InfoFragment());
             fragmentTransaction.commit();
         }
 
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+        builder.setMessage("확인 버튼을 누르면 종료됩니다");
+        builder.create().show();
+    }
 
     public class DrawerList {
         int image;

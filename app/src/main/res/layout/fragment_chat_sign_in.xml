@@ -5,15 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".ChatSignInFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/need_sign_in"
+        android:layout_above="@id/bt_sign_in"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="12sp"/>
+
     <Button
         android:id="@+id/bt_sign_in"
-        android:layout_width="160dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/rounded_corner_white"
+        android:background="@drawable/bluegreen_rounded_box"
         android:text="@string/ab_sign_in_title"
         android:textStyle="bold"
         android:padding="8dp"
-        android:textColor="@color/gray5" />
+        android:textColor="@color/white" />
 
 </RelativeLayout>
