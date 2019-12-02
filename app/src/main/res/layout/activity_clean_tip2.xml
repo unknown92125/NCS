@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white2"
+    tools:context=".CleanTip2Activity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="182dp"
+                android:layout_marginBottom="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/clean_tip_2" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/gray5"
+                        android:padding="8dp"
+                        android:text="주방 찌든때 제거하는 방법"
+                        android:textColor="@color/white" />
+
+
+                    <FrameLayout
+                        android:id="@+id/youtube_container"
+                        android:layout_width="match_parent"
+                        android:layout_margin="8dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="세탁용 과탄산소다"
+                        android:textColor="@color/bluegreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingMultiplier="1.3"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="물에 탄 과탄산소다는 기름과 단단히 결합하는 성질이 있어, 찌든 때를 눌어붙은 표면에서 효과적으로 분리합니다.\n따라서 기름때가 타들어 붙기 쉬운 오븐 내부뿐 아니라 환풍기 필터 청소에도 대단히 좋습니다.\n더운물 채운 양동이에 과탄산소다 두세 큰술을 타서 싹싹 청소해보세요.\n힘들여 박박 문지르지 않아도 찌든 때가 슬슬 밀려 나오는 진귀한 풍경을 보게 됩니다.\n꼭 고무장갑을 끼고 작업하시길 바랍니다.\n소다 트릭은 기름때가 심하게 낀 장소나 식기세척기에 들어가지 않는 각종 주방용품 세척에 적용 가능합니다.\n단, 알루미늄 재질엔 사용하지 마세요."
+                        android:textColor="@color/gray3" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="베이킹페이퍼"
+                        android:textColor="@color/bluegreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingMultiplier="1.3"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="찬장 선반 등에 베이킹페이퍼를 깔고 컵, 그릇 등을 진열하면 미끄럼 방지와 동시에 고된 청소 걱정을 덜 수 있습니다.\n나중에 더러워지면 간단히 종이만 갈아 깔면 되니까요.\n베이킹페이퍼 대신 신문을 깔아도 좋습니다.\n단, 습기 먹은 신문지는 쭈글거릴 수 있으니 유의하시길."
+                        android:textColor="@color/gray3" />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

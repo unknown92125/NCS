@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white2"
+    tools:context=".CleanTip1Activity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="182dp"
+                android:layout_marginBottom="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/clean_tip_1" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/gray5"
+                        android:padding="8dp"
+                        android:text="쉽고 간단한 타일 청소하는 방법"
+                        android:textColor="@color/white" />
+
+
+                    <FrameLayout
+                        android:id="@+id/youtube_container"
+                        android:layout_width="match_parent"
+                        android:layout_margin="8dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="치약"
+                        android:textColor="@color/bluegreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingMultiplier="1.3"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="조그마한 땟자국을 지울 땐 흰색 치약이 좋습니다.\n낡은 칫솔로 부드럽게 문질러 때를 제거하세요.\n실리콘 이음새는 물로 씻어 마무리합니다.\n일반 세척액과 비교했을 때, 치약에 함유된 연마제 입자가 더 고와서 표면을 덜 상하게 합니다.\n다만, 적게나마 손상이 발생하므로 실리콘 이음새엔 이따금 쓰는 정도로 제한합니다."
+                        android:textColor="@color/gray3" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="식초와 구연산"
+                        android:textColor="@color/bluegreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingMultiplier="1.3"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="희멀건 석회 찌꺼기가 자주 끼는 욕실엔 식초만큼 좋은 세제가 없습니다.\n단, 산 성분이 대리석이나 실리콘 표면에 손상을 가할 수 있고, 오염이 심한 부위에 쓰면 곰팡이 번식이 일어나기 쉽다는 두 가지 단점이 있어 주의를 요합니다.\n실리콘 이음새엔 식초 대신 구연산을 써서 청소하세요.\n액상이나 가루.\n어느 쪽을 써도 무방합니다.\n분무기에 넣고 물과 섞어 쓰면 편리합니다. 문질러 닦은 뒤 물로 씻어내세요."
+                        android:textColor="@color/gray3" />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -4,6 +4,8 @@
     <string name="kakao_app_key">9605646964010fce1ec857cacb46d08b</string>
     <string name="kakao_rest_key">0f1893776abf2a59938fbb2df9c478c2</string>
 
+    <string name="youtube_api_key">AIzaSyA3jnBUpemCWniNiaL-tIf7B-ZcC84CDe8</string>
+
     //////////////////////////////////////////
 
     <string name="app_name_kr">세상의 모든 청소</string>
