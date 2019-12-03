@@ -1,13 +1,15 @@
 package com.mrex.ncs;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -38,6 +40,7 @@ import static com.mrex.ncs.MainActivity.token;
 import static com.mrex.ncs.U.userID;
 import static com.mrex.ncs.U.userName;
 import static com.mrex.ncs.U.userPW;
+import static com.mrex.ncs.U.userPhone;
 import static com.mrex.ncs.U.userToken;
 import static com.mrex.ncs.U.userType;
 import static com.mrex.ncs.U.userUID;
@@ -245,7 +248,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             DatabaseReference rootRef = firebaseDatabase.getReference();
             idRef = rootRef.child("users").child(userUID);
 
-            User newUser = new User(userUID, userID, userPW, userName, userType, userToken);
+            User newUser = new User(userUID, userID, userPW, userName, phoneNum, userType, userToken);
             idRef.setValue(newUser);
             uploadToken();
 
@@ -299,6 +302,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             if (checkCode.equals(verificationCode)) {
                 tilVeriCode.setError(null);
                 tilVeriCode.setErrorIconDrawable(null);
+                tilVeriCode.setHelperText("인증번호가 일치합니다");
                 isVerificated = true;
             } else {
                 tilVeriCode.setErrorIconDrawable(R.drawable.ic_close_red);
@@ -314,6 +318,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         if (!isRightPhone) {
             return;
         }
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+        builder.setMessage("인증번호가 발송되었습니다")
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .create()
+                .show();
+
         String phoneNumKR = "+82" + phoneNum;
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -324,7 +338,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
                                            PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                         // The corresponding whitelisted code above should be used to complete sign-in.
                         Log.e("SignUpA", "onCodeSent");
-                        Toast.makeText(SignUpActivity.this, "인증번호가 발송되었습니다", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -380,6 +393,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             if (i == R.id.et_verification) {
                 tilVeriCode.setError(null);
                 tilVeriCode.setErrorIconDrawable(null);
+                tilVeriCode.setHelperText(null);
             }
         }
     }
@@ -391,43 +405,5 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //    private void checkDuplicateID() {
-//
-//        String serverUrl = "http://ncservices.dothome.co.kr/checkDuplicateID.php";
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        requestQueue.add(new StringRequest(Request.Method.POST, serverUrl, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                if (response.equals("possible")) {
-//                    isDuplicateID = false;
-//                } else {
-//                    isDuplicateID = true;
-//                }
-//                Log.e("SignUpA", "isDuplicateID:" + isDuplicateID);
-//                Log.e("SignUpA", "checkDuplicateID:requestQueue onResponse:" + response);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.e("SignUpA", "checkDuplicateID:requestQueue onErrorResponse" + error);
-//            }
-//        }) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//
-//                HashMap<String, String> datas = new HashMap<>();
-//
-//                datas.put("userID", userID);
-//
-//                Log.e("SignUpA:", "checkDuplicateID:" + "userID:" + userID);
-//
-//                return datas;
-//            }
-//        });
-//
-//    }
-
 
 }

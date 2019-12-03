@@ -6,6 +6,7 @@ public class U {
             userID = "0",
             userPW = "0",
             userName = "0",
+            userPhone = "0",
             userType = "user",
             userToken = "0";
     public static Boolean isSignedIn = false;

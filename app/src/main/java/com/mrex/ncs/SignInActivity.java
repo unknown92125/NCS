@@ -91,6 +91,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.bt_google_login).setOnClickListener(this);
         findViewById(R.id.bt_sign_up).setOnClickListener(this);
         findViewById(R.id.bt_login).setOnClickListener(this);
+        findViewById(R.id.tv_find_pw).setOnClickListener(this);
 
         etID.setOnFocusChangeListener(this);
         etPW.setOnFocusChangeListener(this);
@@ -158,28 +159,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 tilPW.setErrorIconDrawable(null);
             }
         }
-//        else {
-//            if (i == R.id.et_id) {
-//                if (etID.getText().toString().length() == 0) {
-//                    tilID.setError("아이디를 입력하세요");
-//                    tilID.setErrorIconDrawable(R.drawable.ic_close_red);
-//                    return;
-//                } else {
-//                    tilID.setError(null);
-//                    tilID.setErrorIconDrawable(null);
-//                }
-//            }
-//            if (i == R.id.et_pw) {
-//                if (etPW.getText().toString().length() == 0) {
-//                    tilPW.setError("비밀번호를 입력하세요");
-//                    tilPW.setErrorIconDrawable(R.drawable.ic_close_red);
-//                    return;
-//                } else {
-//                    tilPW.setError(null);
-//                    tilPW.setErrorIconDrawable(null);
-//                }
-//            }
-//        }
+
     }
 
     @Override
@@ -193,6 +173,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
         if (i == R.id.bt_login) {
             checkIDAndPW();
+        }
+        if (i == R.id.tv_find_pw) {
+            startActivity(new Intent(this, PasswordActivity.class));
         }
     }
 
@@ -321,7 +304,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     if (token != null) {
                         userToken = token;
                     }
-                    User newUser = new User(userUID, userID, userPW, userName, userType, userToken);
+                    User newUser = new User(userUID, userID, userPW, userName, "0", userType, userToken);
                     idRef.setValue(newUser);
                     isSignedIn = true;
 
@@ -405,7 +388,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             userUID = user.getUid();
-                            userName = user.getDisplayName();
+                            userName = "g" + userUID.substring(userUID.length() - 8);
                             Log.e("SignInA", "id:" + userUID + "  name:" + userName);
 
                             loadUserData();
@@ -477,7 +460,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     Log.e("SignInA", "카카오로그인:requestMe:onSuccess");
 
                     userUID = result.getId() + "";
-                    userName = result.getProperties().get("nickname");
+                    userName = "k" + userUID.substring(userUID.length() - 8);
+                    Log.e("SignInA", "userName : " + userName);
 
                     loadUserData();
                 }

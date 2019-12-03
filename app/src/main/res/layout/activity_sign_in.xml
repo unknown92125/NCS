@@ -74,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/til_pw"
         android:layout_alignParentRight="true"
+        android:clickable="true"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="12sp"
         android:text="@string/bt_find_password"
@@ -87,6 +88,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/black_rounded_box"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/login"
         android:textColor="@color/white"
         android:textStyle="bold" />
@@ -101,6 +103,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/bluegreen_rounded_box"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/sign_up"
         android:textColor="@color/white"
         android:textStyle="bold" />
