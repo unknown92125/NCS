@@ -146,6 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
+                    android:drawableLeft="@drawable/kakao_payment_icon_yellow_small"
                     android:text="카카오페이" />
 
                 <RadioButton

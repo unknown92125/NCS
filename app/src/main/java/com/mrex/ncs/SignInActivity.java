@@ -61,6 +61,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     public static final int RC_SIGN_IN = 9001;
     public static final int RC_SIGN_UP = 9002;
+    public static final int RC_CHANGE_PW = 9003;
 
     private String checkID, checkPW;
     private TextInputEditText etID, etPW;
@@ -122,6 +123,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
 
+        if (requestCode == RC_CHANGE_PW){
+            //비밀번호 변경
+            if (resultCode == RESULT_OK){
+                Toast.makeText(this, "비밀번호가 변경되었습니다", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         // 구글 //////////////////////////////
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -175,7 +183,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             checkIDAndPW();
         }
         if (i == R.id.tv_find_pw) {
-            startActivity(new Intent(this, PasswordActivity.class));
+            startActivityForResult(new Intent(this, PasswordActivity.class), RC_CHANGE_PW);
         }
     }
 
@@ -226,8 +234,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         userToken = user.getToken();
                         isSignedIn = true;
 
-                        Intent intentFromHome = getIntent();
-                        setResult(RESULT_OK, intentFromHome);
+                        setResult(RESULT_OK);
 
                         if (token != null) {
                             if (!userToken.equals(token)) {
@@ -282,8 +289,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     userToken = user.getToken();
                     isSignedIn = true;
 
-                    Intent intentFromHome = getIntent();
-                    setResult(RESULT_OK, intentFromHome);
+                    setResult(RESULT_OK);
 
                     if (token != null) {
                         if (!userToken.equals(token)) {
@@ -308,8 +314,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     idRef.setValue(newUser);
                     isSignedIn = true;
 
-                    Intent intentFromHome = getIntent();
-                    setResult(RESULT_OK, intentFromHome);
+                    setResult(RESULT_OK);
 
                     uploadToken();
                     saveUserDataSF();

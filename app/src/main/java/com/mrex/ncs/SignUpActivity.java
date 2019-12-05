@@ -1,12 +1,10 @@
 package com.mrex.ncs;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -40,7 +38,6 @@ import static com.mrex.ncs.MainActivity.token;
 import static com.mrex.ncs.U.userID;
 import static com.mrex.ncs.U.userName;
 import static com.mrex.ncs.U.userPW;
-import static com.mrex.ncs.U.userPhone;
 import static com.mrex.ncs.U.userToken;
 import static com.mrex.ncs.U.userType;
 import static com.mrex.ncs.U.userUID;
@@ -252,8 +249,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnFocusCha
             idRef.setValue(newUser);
             uploadToken();
 
-            Intent intentFromSignIn = getIntent();
-            setResult(RESULT_OK, intentFromSignIn);
+            setResult(RESULT_OK);
 
             finish();
         }

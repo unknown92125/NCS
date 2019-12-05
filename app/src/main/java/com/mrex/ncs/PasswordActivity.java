@@ -2,8 +2,12 @@ package com.mrex.ncs;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +32,7 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
     private TextInputLayout tilID, tilPW, tilPW2, tilVeriCode;
     private String checkID, uid, newPW, verificationCode, phone;
     private Boolean isRightID = false, isVerificated = false, isRightPW = false, isSamePW = false;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,8 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("비밀번호 변경");
+
+        progressBar = findViewById(R.id.progress_bar);
 
         etID = findViewById(R.id.et_id);
         etPW = findViewById(R.id.et_pw);
@@ -51,6 +58,23 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
         etPW.setOnFocusChangeListener(this);
         etPW2.setOnFocusChangeListener(this);
         etVeriCode.setOnFocusChangeListener(this);
+
+        etPW2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkPW2();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         findViewById(R.id.bt_check_id).setOnClickListener(this);
         findViewById(R.id.bt_check_code).setOnClickListener(this);
@@ -70,6 +94,7 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
             tilID.setErrorIconDrawable(R.drawable.ic_close_red);
             return;
         }
+        progressBar.setVisibility(View.VISIBLE);
 
         checkID = etID.getText().toString();
 
@@ -94,10 +119,13 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
                         isRightID = true;
                         break;
 
+                    } else {
+                        isRightID = false;
                     }
                 }
 
                 if (isRightID) {
+                    progressBar.setVisibility(View.GONE);
                     AlertDialog.Builder builder = new AlertDialog.Builder(PasswordActivity.this);
                     builder.setMessage("회원가입시 입력한 번호로 인증\n" + "( " + phone + " )")
                             .setPositiveButton("인증번호 받기", new DialogInterface.OnClickListener() {
@@ -115,6 +143,7 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
                             .create()
                             .show();
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     tilID.setErrorIconDrawable(R.drawable.ic_close_red);
                     tilID.setError("입력한 아이디를 찾을수 없습니다");
                 }
@@ -143,9 +172,18 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void changePassword() {
+        if (!isRightID || !isVerificated || !isRightPW || !isSamePW) {
+            Toast.makeText(this, "입력한 내용을 다시 확인해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference userRef = firebaseDatabase.getReference().child("users").child(uid);
         userRef.child("pw").setValue(newPW);
+
+//        Intent intentSignIn = getIntent();
+        setResult(RESULT_OK);
+
+        finish();
     }
 
     private void checkVerificationCode() {

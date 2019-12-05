@@ -15,20 +15,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.SkuDetails;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.error.AuthFailureError;
 import com.android.volley.error.VolleyError;
+import com.android.volley.request.JsonObjectRequest;
 import com.android.volley.request.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -38,6 +38,8 @@ import static com.mrex.ncs.U.userUID;
 
 public class CheckActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static String KAKAO_HOST = "https://kapi.kakao.com";
+
     private String date, address, payPrice, cleanType, payOption, payDate, phone;
     private String payName = "0";
     private int area;
@@ -45,10 +47,6 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
 
     private LinearLayout llPayName;
     private SimpleDateFormat sdfDate;
-
-    private BillingClient billingClient;
-    private SkuDetails skuDetails;
-    private String cleaningPay = "청소예약", cleaningPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,9 +120,13 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
                 }
                 payName = etPayName.getText().toString();
             }
-            payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
-            uploadReservationDB();
-            pushReservationFM();
+            if (payOption.equals("카카오페이")) {
+                kakaoPayReady();
+            }
+            //결제 테스트후 주석 제거
+//            payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
+//            uploadReservationDB();
+//            pushReservationFM();
         }
     }
 
@@ -181,95 +183,59 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-//    {
-//
-//
-//
-//    private void googlePayBilling() {
-//
-//        billingClient = BillingClient.newBuilder(this).setListener(this).build();
-//        billingClient.startConnection(new BillingClientStateListener() {
-//            @Override
-//            public void onBillingSetupFinished(BillingResult billingResult) {
-//                if (billingResult.getResponseCode() == OK) {
-//                    // The BillingClient is ready. You can query purchases here.
-//
-//                    List<String> skuList = new ArrayList<>();
-//                    skuList.add(cleaningPay);
-//                    SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-//                    params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
-//                    billingClient.querySkuDetailsAsync(params.build(),
-//                            new SkuDetailsResponseListener() {
-//                                @Override
-//                                public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
-//                                    // Process the result.
-//                                    if (billingResult.getResponseCode() == OK && skuDetailsList != null) {
-//                                        for (SkuDetails skuDetails : skuDetailsList) {
-//                                            String sku = skuDetails.getSku();
-//                                            String price = skuDetails.getPrice();
-//
-//                                            if (cleaningPay.equals(sku)) {
-//                                                cleaningPrice = price;
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            });
-//
-//                    // Retrieve a value for "skuDetails" by calling querySkuDetailsAsync().
-//                    BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-//                            .setSkuDetails(skuDetails)
-//                            .build();
-//                    BillingResult responseCode = billingClient.launchBillingFlow(CheckActivity.this, flowParams);
-//
-//                }
-//            }
-//
-//
-//            @Override
-//            public void onBillingServiceDisconnected() {
-//                // Try to restart the connection on the next request to
-//                // Google Play by calling the startConnection() method.
-//            }
-//        });
-//
-//
-//    }
-//
-//    void handlePurchase(Purchase purchase) {
-//        if (purchase.getPurchaseState() == PURCHASED) {
-//            // Grant entitlement to the user.
-//
-//            ConsumeParams consumeParams =
-//                    ConsumeParams.newBuilder()
-//                            .setPurchaseToken(purchase.getPurchaseToken())
-//                            .build();
-//            billingClient.consumeAsync(consumeParams, new ConsumeResponseListener() {
-//                @Override
-//                public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-//                    if (billingResult.getResponseCode() == OK) {
-//                        // Handle the success of the consume operation.
-//                        // For example, increase the number of coins inside the user's basket.
-//                    }
-//                }
-//            });
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
-//        if (billingResult.getResponseCode() == OK
-//                && purchases != null) {
-//            for (Purchase purchase : purchases) {
-//                handlePurchase(purchase);
-//            }
-//        } else if (billingResult.getResponseCode() == USER_CANCELED) {
-//            // Handle an error caused by a user cancelling the purchase flow.
-//        } else {
-//            // Handle any other error codes.
-//        }
-//    }
-//    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void kakaoPayReady() {
+        String addressUrl = KAKAO_HOST + "/v1/payment/ready";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, addressUrl, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("CheckA", "onResponse :" + response.toString());
+//                parsingAddress(response);
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("CheckA", "onErrorResp:" + error);
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map params = new HashMap();
+                params.put("Authorization", "KakaoAK " + "dea3ac879015f4932333c8fbb75520a8");
+//                params.put("Authorization", "KakaoAK " + getString(R.string.kakao_admin_key));
+                params.put("Content-Type", "application/json; charset=utf-8");
+//                params.put("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map params = new HashMap();
+                params.put("cid", "TC0ONETIME");
+                params.put("partner_order_id", "partner_order_id");
+                params.put("partner_user_id", "partner_user_id");
+                params.put("item_name", "청소예약");
+                params.put("quantity", "1");
+                params.put("total_amount", "22000");
+                params.put("tax_free_amount", "0");
+                params.put("approval_url", "https://developers.kakao.com/success");
+                params.put("cancel_url", "https://developers.kakao.com/cancel");
+                params.put("fail_url", "https://developers.kakao.com/fail");
+//                params.put("approval_url", "http://localhost:8080/kakaoPaySuccess");
+//                params.put("cancel_url", "http://localhost:8080/kakaoPayCancel");
+//                params.put("fail_url", "http://localhost:8080/kakaoPaySuccessFail");
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
+    }
 
 }
