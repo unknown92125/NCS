@@ -209,7 +209,11 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
                 HashMap<String, String> datas = new HashMap<>();
                 datas.put("userUID", chatUID);
                 datas.put("message", message);
-                datas.put("userName", userName);
+                if (userType.equals("user")){
+                    datas.put("userName", userName);
+                }else {
+                    datas.put("userName", "세상의 모든 청소");
+                }
 
 //                Log.e("ChatA", "uploadToken:" + "userUID:" + userUID + "   userID:" + userID + "   userPW:" + userPW + "   userName:" + userName + "   userToken:" + userToken + "   userType:" + userType);
 

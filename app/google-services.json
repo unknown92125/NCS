@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "669720549953-hj7ed0eeg0am6f0tgkm5a6t15odg776l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mrex.ncs",
+            "certificate_hash": "e2aae2fbcef66e95e5906892d96b52398dfea799"
+          }
+        },
+        {
+          "client_id": "669720549953-4nlo34ref3jes7qcahut3m7iot1so1cu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mrex.ncs",
+            "certificate_hash": "d9dd4dd99996cf47a44684655a064404b1f6eeed"
+          }
+        },
+        {
           "client_id": "669720549953-qdgk8ka5l7vgl5a01ft9v92aaljd1rek.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

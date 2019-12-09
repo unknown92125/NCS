@@ -46,6 +46,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -154,17 +155,17 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
                 payName = etPayName.getText().toString();
             }
             if (payOption.equals("카카오페이")) {
-                kakaoPayReady();
+//                kakaoPayReady();
             }
             if (payOption.equals("구글페이")) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    requestPayment();
+//                    requestPayment();
                 }
             }
             //결제 테스트후 결제완료시 실행
-//            payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
-//            uploadReservationDB();
-//            pushReservationFM();
+            payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
+            uploadReservationDB();
+            pushReservationFM();
         }
     }
 
@@ -222,6 +223,7 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
     }
 
     // 구글 /////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     private static JSONObject getBaseRequest() throws JSONException {
         return new JSONObject().put("apiVersion", 2).put("apiVersionMinor", 0);
@@ -501,6 +503,8 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
                     paymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE);
         }
     }
+
+
 
     // 카카오 /////////////////////////////////////////////////////////////////////////////////////////////////
 
