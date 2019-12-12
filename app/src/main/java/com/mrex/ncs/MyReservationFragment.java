@@ -120,6 +120,11 @@ public class MyReservationFragment extends Fragment {
                 }
             });
 
+            vHolder.rlPayDate.setVisibility(View.GONE);
+            vHolder.rlPayOption.setVisibility(View.GONE);
+            vHolder.rlPayPrice.setVisibility(View.GONE);
+
+
         }
 
         @Override
@@ -130,7 +135,7 @@ public class MyReservationFragment extends Fragment {
         public class VHolder extends RecyclerView.ViewHolder {
 
             private TextView tvDate, tvAddress, tvArea, tvCleanType, tvPrice, tvPay, tvPayDate, tvPhone, tvPayName;
-            private RelativeLayout rlData, rlList, rlPayName;
+            private RelativeLayout rlData, rlList, rlPayName, rlPayOption, rlPayDate, rlPayPrice;
             private ImageView ivArrow;
 
             public VHolder(@NonNull View itemView) {
@@ -149,6 +154,10 @@ public class MyReservationFragment extends Fragment {
                 rlList = itemView.findViewById(R.id.rl_list);
                 rlPayName = itemView.findViewById(R.id.rl_pay_name);
                 ivArrow = itemView.findViewById(R.id.iv_arrow);
+
+                rlPayDate = itemView.findViewById(R.id.rl_pay_date);
+                rlPayOption = itemView.findViewById(R.id.rl_pay_option);
+                rlPayPrice = itemView.findViewById(R.id.rl_price);
 
             }
         }

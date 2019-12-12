@@ -116,21 +116,24 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         tvAddress.setText(address);
         tvArea.setText(area + "평");
 
+        payPrice = "0";
+        payOption = "0";
+
         sdfDate = new SimpleDateFormat("yyyy/M/d (E) a h:mm", Locale.getDefault());
 
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rb = findViewById(checkedId);
-                payOption = rb.getText().toString();
-                if (checkedId == R.id.rb_pay) {
-                    llPayName.setVisibility(View.VISIBLE);
-                } else {
-                    llPayName.setVisibility(View.GONE);
-                }
-            }
-        });
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                RadioButton rb = findViewById(checkedId);
+//                payOption = rb.getText().toString();
+//                if (checkedId == R.id.rb_pay) {
+//                    llPayName.setVisibility(View.VISIBLE);
+//                } else {
+//                    llPayName.setVisibility(View.GONE);
+//                }
+//            }
+//        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             possiblyShowGooglePayButton();
@@ -147,21 +150,21 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.bt_next_check) {
-            if (payOption.equals("무통장입금")) {
-                if (etPayName.length() == 0) {
-                    Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                payName = etPayName.getText().toString();
-            }
-            if (payOption.equals("카카오페이")) {
-//                kakaoPayReady();
-            }
-            if (payOption.equals("구글페이")) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                    requestPayment();
-                }
-            }
+//            if (payOption.equals("무통장입금")) {
+//                if (etPayName.length() == 0) {
+//                    Toast.makeText(this, "입금자명을 입력해주세요", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                payName = etPayName.getText().toString();
+//            }
+//            if (payOption.equals("카카오페이")) {
+////                kakaoPayReady();
+//            }
+//            if (payOption.equals("구글페이")) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+////                    requestPayment();
+//                }
+//            }
             //결제 테스트후 결제완료시 실행
             payDate = sdfDate.format(Calendar.getInstance().getTimeInMillis());
             uploadReservationDB();
@@ -503,7 +506,6 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
                     paymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE);
         }
     }
-
 
 
     // 카카오 /////////////////////////////////////////////////////////////////////////////////////////////////

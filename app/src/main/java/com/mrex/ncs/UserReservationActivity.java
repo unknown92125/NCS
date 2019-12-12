@@ -69,11 +69,13 @@ public class UserReservationActivity extends AppCompatActivity {
                 }
                 Collections.sort(arrListRV);
                 Collections.reverse(arrListRV);
+
                 if (arrListRV.size() == 0) {
                     tvEmpty.setVisibility(View.VISIBLE);
                 } else {
                     tvEmpty.setVisibility(View.GONE);
                 }
+
             }
 
             @Override

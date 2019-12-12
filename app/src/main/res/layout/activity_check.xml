@@ -105,6 +105,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_price"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -133,6 +134,7 @@
             </LinearLayout>
 
             <RadioGroup
+                android:visibility="gone"
                 android:id="@+id/rg"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -207,7 +209,7 @@
         android:background="@drawable/bluegreen_rounded_box"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
-        android:text="@string/bt_enter"
+        android:text="예약하기"
         android:textColor="@color/white"
         android:textStyle="bold" />
 

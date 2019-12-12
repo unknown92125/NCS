@@ -16,20 +16,50 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustResize|adjustPan">
-        <activity android:name=".KakaoPayActivity"
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyNoActionBarTheme"></activity>
-        <activity android:name=".PasswordActivity" />
-        <activity android:name=".CleanTip2Activity" />
-        <activity android:name=".CleanTip1Activity" />
-        <activity android:name=".UserReservationActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".ManagerActivity" />
-        <activity android:name=".MyDataActivity" />
-        <activity android:name=".SignInActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".CheckActivity" />
-        <activity android:name=".CalendarActivity" />
+        <activity
+            android:name=".KakaoPayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyNoActionBarTheme" />
+        <activity
+            android:name=".PasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CleanTip2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CleanTip1Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserReservationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyDataActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CheckActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CalendarActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

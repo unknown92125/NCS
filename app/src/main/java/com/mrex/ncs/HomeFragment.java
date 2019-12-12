@@ -48,9 +48,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         ////////////////////////////////////////////////////
 
-        arrListImg.add(R.drawable.clean_tip_1);
-        arrListImg.add(R.drawable.clean_tip_2);
+        arrListImg.add(R.drawable.pager_img_1);
         arrListImg.add(R.drawable.pager_img_2);
+        arrListImg.add(R.drawable.pager_img_3);
 
         viewPager = view.findViewById(R.id.pager);
         pagerAdapter = new HomePagerAdapter(arrListImg, getLayoutInflater());
@@ -153,17 +153,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             iv.setImageResource(arrListImg.get(position));
             container.addView(viewPage);
 
-            iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (page == 0) {
-                        startActivity(new Intent(homeActivity, CleanTip1Activity.class));
-                    }
-                    if (page == 1) {
-                        startActivity(new Intent(homeActivity, CleanTip2Activity.class));
-                    }
-                }
-            });
+
+//            iv.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (page == 0) {
+//                        startActivity(new Intent(homeActivity, CleanTip1Activity.class));
+//                    }
+//                    if (page == 1) {
+//                        startActivity(new Intent(homeActivity, CleanTip2Activity.class));
+//                    }
+//                }
+//            });
 
             return viewPage;
         }

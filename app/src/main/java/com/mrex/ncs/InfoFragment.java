@@ -34,6 +34,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
 
         view.findViewById(R.id.bt_chat).setOnClickListener(this);
         view.findViewById(R.id.bt_call).setOnClickListener(this);
+        view.findViewById(R.id.bt_privacy_policy).setOnClickListener(this);
 
         return view;
     }
@@ -69,6 +70,9 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
             callIntent.setData(Uri.parse("tel:" + "010-2437-3056"));
             startActivity(callIntent);
+        }
+        if (i == R.id.bt_privacy_policy) {
+            startActivity(new Intent(homeActivity, PrivacyPolicyActivity.class));
         }
     }
 }
